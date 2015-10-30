@@ -9,8 +9,13 @@ public class Logger {
     private static final String OBJECT_PREFIX = "reference: ";
     private static final String STRING_PREFIX = "string: ";
 
-    private static int summ = 0;
+    private static int intSumm = 0;
     private static boolean intSetted = false;
+
+    public static void startLogging() {
+        intSetted = false;
+        intSumm = 0;
+    }
 
     /**
      * Logs input value with prefix {@value #PRIMITIVE_PREFIX}.
@@ -18,10 +23,10 @@ public class Logger {
      */
     public static void log(int message) {
         printInConsole(PRIMITIVE_PREFIX, message + "", "");
-        if(((long) message + summ) > Integer.MAX_VALUE) {
-            summ = Integer.MAX_VALUE;
+        if(((long) message + intSumm) > Integer.MAX_VALUE) {
+            intSumm = Integer.MAX_VALUE;
         } else {
-            summ += message;
+            intSumm += message;
         }
         intSetted = true;
     }
@@ -39,7 +44,7 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(boolean message) {
-        printSumm(summ);
+        printSumm(intSumm);
         printInConsole(PRIMITIVE_PREFIX, message + "", "");
     }
 
@@ -48,7 +53,7 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(char message) {
-        printSumm(summ);
+        printSumm(intSumm);
         printInConsole(CHAR_PREFIX, message + "", "");
     }
 
@@ -57,7 +62,7 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(String message) {
-        printSumm(summ);
+        printSumm(intSumm);
         printInConsole(STRING_PREFIX, message, "");
     }
 
@@ -66,15 +71,15 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(Object message) {
-        printSumm(summ);
+        printSumm(intSumm);
         printInConsole(OBJECT_PREFIX, message.toString(), "");
     }
 
     private static void printSumm(int s){
         if(intSetted) {
-            printInConsole("primitive: ",summ + "","");
+            printInConsole("primitive: ", intSumm + "","");
         }
-        summ = 0;
+        intSumm = 0;
         intSetted = false;
     }
 
