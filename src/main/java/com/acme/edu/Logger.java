@@ -1,10 +1,13 @@
 package com.acme.edu;
 
+import java.util.Arrays;
+
 /**
  * This class contains static methods to log values of different types.
  * You <b>MUST</b> call #stopLogging on the end of logging.
  */
 public class Logger {
+    private static final String PRIMITIVE_PREFIX = "primitive: ";
     private static int intSumm = 0;
     private static boolean intSummSetted = false;
 
@@ -66,7 +69,7 @@ public class Logger {
     public static void log(boolean message) {
         printSumm();
         printCurrString();
-        printInConsole("primitive: ", message + "");
+        printInConsole(PRIMITIVE_PREFIX, message + "");
     }
 
     /**
@@ -103,6 +106,14 @@ public class Logger {
         printInConsole("reference: ", message.toString());
     }
 
+    /**
+     * Logs input integer array.
+     * @param arr integer array for logging.
+     */
+    public static void log(int[] arr) {
+        printInConsole("primitives array: ", Arrays.toString(arr).replace("[","{").replace("]","}"));
+    }
+
     private static void printSumm() {
         printByteSumm();
         printIntSumm();
@@ -111,7 +122,7 @@ public class Logger {
 
     private static void printByteSumm() {
         if(byteSummSetted) {
-            printInConsole("primitive: ", byteSumm + "");
+            printInConsole(PRIMITIVE_PREFIX, byteSumm + "");
         }
         byteSumm = 0;
         byteSummSetted = false;
@@ -119,7 +130,7 @@ public class Logger {
 
     private static void printIntSumm() {
         if(intSummSetted) {
-            printInConsole("primitive: ", intSumm + "");
+            printInConsole(PRIMITIVE_PREFIX, intSumm + "");
         }
         intSumm = 0;
         intSummSetted = false;

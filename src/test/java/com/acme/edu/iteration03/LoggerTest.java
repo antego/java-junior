@@ -2,6 +2,7 @@ package com.acme.edu.iteration03;
 
 import com.acme.edu.Logger;
 import com.acme.edu.SysoutCaptureAndAssertionAbility;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,12 +12,15 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     //region given
     @Before
     public void setUpSystemOut() throws IOException {
+        resetOut();
         captureSysout();
     }
-    //endregion
 
-    /*
-    TODO: implement Logger solution to match specification as tests
+    @After
+    public void tearDown() {
+        resetOut();
+    }
+    //endregion
 
     @Test
     public void shouldLogIntegersArray() throws IOException {
@@ -31,6 +35,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
     }
 
+/*
     @Test
     public void shouldLogIntegersMatrix() throws IOException {
         //region when
