@@ -114,6 +114,19 @@ public class Logger {
         printInConsole("primitives array: ", Arrays.toString(arr).replace("[","{").replace("]","}"));
     }
 
+    /**
+     * Logs input integer matrix.
+     * @param mat integer matrix.
+     */
+    public static void log(int[][] mat) {
+        StringBuilder sb = new StringBuilder("{\n");
+        for(int[] arr : mat) {
+            sb.append(Arrays.toString(arr).replace("[", "{").replace("]", "}")).append("\n");
+        }
+        sb.append("}");
+        printInConsole("primitives array: ", sb.toString());
+    }
+
     private static void printSumm() {
         printByteSumm();
         printIntSumm();

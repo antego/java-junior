@@ -35,7 +35,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
     }
 
-/*
+
     @Test
     public void shouldLogIntegersMatrix() throws IOException {
         //region when
@@ -44,7 +44,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
         //region then
         assertSysoutEquals(
-            "primitives matrix: {\n" +
+            "primitives array: {\n" +
                 "{-1, 0, 1}\n" +
                 "{1, 2, 3}\n" +
                 "{-1, -2, -3}\n" +
@@ -53,6 +53,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
     }
 
+    /*
     @Test
     public void shouldLogIntegersMulitidimentionalArray() throws IOException {
         //region when
