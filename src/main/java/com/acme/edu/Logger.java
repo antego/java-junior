@@ -137,11 +137,21 @@ public class Logger {
         printInConsole("primitives multimatrix: ", Arrays.deepToString(multi).replace("[", "{\n").replace("]", "\n}"));
     }
 
+    /**
+     * Logs array of Strings.
+     * @param strings input {@code String} array.
+     */
+    public static void log(String... strings) {
+        for(String str : strings) {
+            printInConsole("", str);
+        }
+    }
+
+
     private static void printSumm() {
         printByteSumm();
         printIntSumm();
     }
-
 
     private static void printByteSumm() {
         if(byteSummSetted) {
