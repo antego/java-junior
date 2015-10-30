@@ -2,6 +2,7 @@ package com.acme.edu.iteration01;
 
 import com.acme.edu.Logger;
 import com.acme.edu.SysoutCaptureAndAssertionAbility;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -73,7 +74,6 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         assertSysoutContains("false");
         //endregion
     }
-/*
 
     @Test
     public void shouldLogString() throws IOException {
@@ -88,6 +88,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         assertSysoutContains("other str");
         //endregion
     }
+
     @Test
     public void shouldLogReference() throws IOException {
         //region when
@@ -100,5 +101,8 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
     }
 
-    */
+    @After
+    public void tearDown() {
+        resetOut();
+    }
 }
