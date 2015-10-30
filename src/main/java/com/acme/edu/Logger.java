@@ -5,6 +5,7 @@ import java.util.Arrays;
 /**
  * This class contains static methods to log values of different types.
  * You <b>MUST</b> call #stopLogging on the end of logging.
+ * @author Anton Egorov
  */
 public class Logger {
     private static final String PRIMITIVE_PREFIX = "primitive: ";
@@ -121,10 +122,19 @@ public class Logger {
     public static void log(int[][] mat) {
         StringBuilder sb = new StringBuilder("{\n");
         for(int[] arr : mat) {
+            //Array dumps
             sb.append(Arrays.toString(arr).replace("[", "{").replace("]", "}")).append("\n");
         }
         sb.append("}");
         printInConsole("primitives array: ", sb.toString());
+    }
+
+    /**
+     * Logs multidimensional array.
+     * @param multi input multidimensional array.
+     */
+    public static void log(Object[] multi) {
+        printInConsole("primitives multimatrix: ", Arrays.deepToString(multi).replace("[", "{\n").replace("]", "\n}"));
     }
 
     private static void printSumm() {
