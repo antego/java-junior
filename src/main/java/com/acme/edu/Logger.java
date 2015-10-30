@@ -2,13 +2,9 @@ package com.acme.edu;
 
 /**
  * This class contains static methods to log values of different types.
+ * You <b>MUST</b> call #stopLogging on the end of logging.
  */
 public class Logger {
-    private static final String PRIMITIVE_PREFIX = "primitive: ";
-    private static final String CHAR_PREFIX = "char: ";
-    private static final String OBJECT_PREFIX = "reference: ";
-    private static final String STRING_PREFIX = "string: ";
-
     private static int intSumm = 0;
     private static boolean intSummSetted = false;
 
@@ -18,6 +14,10 @@ public class Logger {
     private static String currentString = "";
     private static int sameStringsCount = 0;
 
+    /**
+     * Method to stop logging and flush buffers for {@code int}, {@code byte} and {@code String}.
+     * You <b>MUST</b> call this method on the end of logging.
+     */
     public static void stopLogging() {
         printSumm();
         printCurrString();
@@ -30,7 +30,7 @@ public class Logger {
     }
 
     /**
-     * Logs input value with prefix {@value #PRIMITIVE_PREFIX}.
+     * Logs sum of {@code integer} values.
      * @param message value for logging.
      */
     public static void log(int message) {
@@ -45,7 +45,7 @@ public class Logger {
     }
 
     /**
-     * Logs input value with prefix {@value #PRIMITIVE_PREFIX}.
+     * Logs sum of {@code byte } values.
      * @param message value for logging.
      */
     public static void log(byte message) {
@@ -60,27 +60,27 @@ public class Logger {
     }
 
     /**
-     * Logs input value with prefix {@value #PRIMITIVE_PREFIX}.
+     * Logs {@code boolean} value.
      * @param message value for logging.
      */
     public static void log(boolean message) {
         printSumm();
         printCurrString();
-        printInConsole("", message + "", "");
+        printInConsole("primitive: ", message + "");
     }
 
     /**
-     * Logs input value with prefix {@value #CHAR_PREFIX}.
+     * Logs {@code char} value.
      * @param message value for logging.
      */
     public static void log(char message) {
         printSumm();
         printCurrString();
-        printInConsole("", message + "", "");
+        printInConsole("char: ", message + "");
     }
 
     /**
-     * Logs input value with prefix {@value #STRING_PREFIX}.
+     * Logs {@code String} message.
      * @param message value for logging.
      */
     public static void log(String message) {
@@ -95,12 +95,12 @@ public class Logger {
     }
 
     /**
-     * Logs input {@code Object.toString()} with prefix {@value #OBJECT_PREFIX}.
+     * Logs input {@code Object.toString()}.
      * @param message value for logging.
      */
     public static void log(Object message) {
         printSumm();
-        printInConsole("", message.toString(), "");
+        printInConsole("reference: ", message.toString());
     }
 
     private static void printSumm() {
@@ -111,7 +111,7 @@ public class Logger {
 
     private static void printByteSumm() {
         if(byteSummSetted) {
-            printInConsole("", byteSumm + "","");
+            printInConsole("primitive: ", byteSumm + "");
         }
         byteSumm = 0;
         byteSummSetted = false;
@@ -119,7 +119,7 @@ public class Logger {
 
     private static void printIntSumm() {
         if(intSummSetted) {
-            printInConsole("", intSumm + "","");
+            printInConsole("primitive: ", intSumm + "");
         }
         intSumm = 0;
         intSummSetted = false;
@@ -127,15 +127,15 @@ public class Logger {
 
     private static void printCurrString() {
         if(sameStringsCount == 1) {
-            printInConsole("", currentString,"");
+            printInConsole("string: ", currentString);
         } else if(sameStringsCount > 1) {
-            printInConsole("", currentString + " (x" + sameStringsCount + ")", "");
+            printInConsole("string: ", currentString + " (x" + sameStringsCount + ")");
         }
         currentString = "";
         sameStringsCount = 0;
     }
 
-    private static void printInConsole(String prefix, String message, String postfix) {
-        System.out.println(prefix + message + postfix);
+    private static void printInConsole(String prefix, String message) {
+        System.out.println(prefix + message);
     }
 }
