@@ -147,6 +147,17 @@ public class Logger {
         }
     }
 
+    /**
+     * Logs sum of four int values.
+     * @param i1 input value.
+     * @param i2 input value.
+     * @param i3 input value.
+     * @param i4 input value.
+     */
+    public static void log(int i1, int i2, int i3, int i4) {
+    //Can't do this with varargs or array because it breaks log(int[]) testcase
+        printInConsole("", i1 + i2 + i3 + i4 + "");
+    }
 
     private static void printSumm() {
         printByteSumm();
