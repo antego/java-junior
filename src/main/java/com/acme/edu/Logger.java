@@ -41,7 +41,7 @@ public class Logger {
         printCurrString();
         if(((long) message + intSumm) > Integer.MAX_VALUE) {
             printIntSumm();
-            intSumm = Integer.MAX_VALUE;
+            intSumm = message;
         } else {
             intSumm += message;
         }
