@@ -10,11 +10,23 @@ public class Logger {
     private static final String STRING_PREFIX = "string: ";
 
     private static int intSumm = 0;
-    private static boolean intSetted = false;
+    private static boolean intSummSetted = false;
 
-    public static void startLogging() {
-        intSetted = false;
+    private static byte byteSumm = 0;
+    private static boolean byteSummSetted = false;
+
+    private static String currentString = "";
+    private static int sameStringsCount = 0;
+
+    public static void stopLogging() {
+        printSumm();
+        printCurrString();
+        byteSummSetted = false;
+        byteSumm = 0;
+        intSummSetted = false;
         intSumm = 0;
+        currentString = "";
+        sameStringsCount = 0;
     }
 
     /**
@@ -22,30 +34,39 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(int message) {
-        printInConsole(PRIMITIVE_PREFIX, message + "", "");
+        printCurrString();
         if(((long) message + intSumm) > Integer.MAX_VALUE) {
+            printIntSumm();
             intSumm = Integer.MAX_VALUE;
         } else {
             intSumm += message;
         }
-        intSetted = true;
+        intSummSetted = true;
     }
 
-//    /**
-//     * Logs input value with prefix {@value #PRIMITIVE_PREFIX}.
-//     * @param message value for logging.
-//     */
-//    public static void log(byte message) {
-//        printInConsole(Logger.PRIMITIVE_PREFIX + message);
-//    }
+    /**
+     * Logs input value with prefix {@value #PRIMITIVE_PREFIX}.
+     * @param message value for logging.
+     */
+    public static void log(byte message) {
+        printCurrString();
+        if(((int) message + byteSumm) > Byte.MAX_VALUE) {
+            printByteSumm();
+            byteSumm = Byte.MAX_VALUE;
+        } else {
+            byteSumm += message;
+        }
+        byteSummSetted = true;
+    }
 
     /**
      * Logs input value with prefix {@value #PRIMITIVE_PREFIX}.
      * @param message value for logging.
      */
     public static void log(boolean message) {
-        printSumm(intSumm);
-        printInConsole(PRIMITIVE_PREFIX, message + "", "");
+        printSumm();
+        printCurrString();
+        printInConsole("", message + "", "");
     }
 
     /**
@@ -53,8 +74,9 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(char message) {
-        printSumm(intSumm);
-        printInConsole(CHAR_PREFIX, message + "", "");
+        printSumm();
+        printCurrString();
+        printInConsole("", message + "", "");
     }
 
     /**
@@ -62,8 +84,14 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(String message) {
-        printSumm(intSumm);
-        printInConsole(STRING_PREFIX, message, "");
+        printSumm();
+        if(message.equals(currentString)) {
+            sameStringsCount++;
+        } else {
+            printCurrString();
+            sameStringsCount = 1;
+            currentString = message;
+        }
     }
 
     /**
@@ -71,16 +99,40 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(Object message) {
-        printSumm(intSumm);
-        printInConsole(OBJECT_PREFIX, message.toString(), "");
+        printSumm();
+        printInConsole("", message.toString(), "");
     }
 
-    private static void printSumm(int s){
-        if(intSetted) {
-            printInConsole("primitive: ", intSumm + "","");
+    private static void printSumm() {
+        printByteSumm();
+        printIntSumm();
+    }
+
+
+    private static void printByteSumm() {
+        if(byteSummSetted) {
+            printInConsole("", byteSumm + "","");
+        }
+        byteSumm = 0;
+        byteSummSetted = false;
+    }
+
+    private static void printIntSumm() {
+        if(intSummSetted) {
+            printInConsole("", intSumm + "","");
         }
         intSumm = 0;
-        intSetted = false;
+        intSummSetted = false;
+    }
+
+    private static void printCurrString() {
+        if(sameStringsCount == 1) {
+            printInConsole("", currentString,"");
+        } else if(sameStringsCount > 1) {
+            printInConsole("", currentString + " (x" + sameStringsCount + ")", "");
+        }
+        currentString = "";
+        sameStringsCount = 0;
     }
 
     private static void printInConsole(String prefix, String message, String postfix) {

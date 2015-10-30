@@ -20,42 +20,46 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogInteger() throws IOException {
         //region when
+//        Logger.startLogging();
         Logger.log(1);
         Logger.log(0);
         Logger.log(-1);
+        Logger.stopLogging();
         //endregion
 
         //region then
-        assertSysoutContains("primitive: ");
-        assertSysoutEquals("primitive: 1" + SEP + "primitive: 0" + SEP + "primitive: -1" + SEP);
+//        assertSysoutContains("");
+        assertSysoutEquals("0\n");
         //endregion
     }
 
     @Test
     public void shouldLogByte() throws IOException {
         //region when
+//        Logger.startLogging();
         Logger.log((byte)1);
         Logger.log((byte)0);
         Logger.log((byte)-1);
+        Logger.stopLogging();
         //endregion
 
         //region then
-        assertSysoutContains("primitive: ");
-        assertSysoutContains("1");
+//        assertSysoutContains("primitive: ");
         assertSysoutContains("0");
-        assertSysoutContains("-1");
         //endregion
     }
 
     @Test
     public void shouldLogChar() throws IOException {
         //region when
+//        Logger.startLogging();
         Logger.log('a');
         Logger.log('b');
+        Logger.stopLogging();
         //endregion
 
         //region then
-        assertSysoutContains("char: ");
+//        assertSysoutContains("char: ");
         assertSysoutContains("a");
         assertSysoutContains("b");
         //endregion
@@ -64,12 +68,14 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogBoolean() throws IOException {
         //region when
+//        Logger.startLogging();
         Logger.log(true);
         Logger.log(false);
+        Logger.stopLogging();
         //endregion
 
         //region then
-        assertSysoutContains("primitive: ");
+//        assertSysoutContains("primitive: ");
         assertSysoutContains("true");
         assertSysoutContains("false");
         //endregion
@@ -78,12 +84,14 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogString() throws IOException {
         //region when
+//        Logger.startLogging();
         Logger.log("test string 1");
         Logger.log("other str");
+        Logger.stopLogging();
         //endregion
 
         //region then
-        assertSysoutContains("string: ");
+//        assertSysoutContains("string: ");
         assertSysoutContains("test string 1");
         assertSysoutContains("other str");
         //endregion
@@ -92,11 +100,13 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogReference() throws IOException {
         //region when
+//        Logger.startLogging();
         Logger.log(new Object());
+        Logger.stopLogging();
         //endregion
 
         //region then
-        assertSysoutContains("reference: ");
+//        assertSysoutContains("reference: ");
         assertSysoutContains("@");
         //endregion
     }
