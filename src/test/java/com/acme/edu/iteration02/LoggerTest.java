@@ -26,7 +26,6 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogSequentIntegersAsSum() throws IOException {
         //region when
-//        Logger.startLogging();
         Logger.log("str 1");
         Logger.log(1);
         Logger.log(2);
@@ -48,7 +47,6 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogCorrectlyIntegerOverflowWhenSequentIntegers() {
         //region when
-//        Logger.startLogging();
         Logger.log("str 1");
         Logger.log(10);
         Logger.log(Integer.MAX_VALUE);
@@ -71,7 +69,6 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogCorrectlyByteOverflowWhenSequentBytes() {
         //region when
-//        Logger.startLogging();
         Logger.log("str 1");
         Logger.log((byte)10);
         Logger.log(Byte.MAX_VALUE);

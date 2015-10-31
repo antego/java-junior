@@ -5,15 +5,14 @@ import java.util.Arrays;
 /**
  * This class contains static methods to log values of different types.
  * You <b>MUST</b> call #stopLogging on the end of logging.
- * @author Anton Egorov
  */
 public class Logger {
     private static final String PRIMITIVE_PREFIX = "primitive: ";
-    private static int intSumm = 0;
-    private static boolean intSummSetted = false;
+    private static int intSum = 0;
+    private static boolean intSumSetted = false;
 
-    private static byte byteSumm = 0;
-    private static boolean byteSummSetted = false;
+    private static byte byteSum = 0;
+    private static boolean byteSumSetted = false;
 
     private static String currentString = "";
     private static int sameStringsCount = 0;
@@ -23,73 +22,78 @@ public class Logger {
      * You <b>MUST</b> call this method on the end of logging.
      */
     public static void stopLogging() {
-        printSumm();
+        printSum();
         printCurrString();
-        byteSummSetted = false;
-        byteSumm = 0;
-        intSummSetted = false;
-        intSumm = 0;
+        byteSumSetted = false;
+        byteSum = 0;
+        intSumSetted = false;
+        intSum = 0;
         currentString = "";
         sameStringsCount = 0;
     }
 
     /**
      * Logs sum of {@code integer} values.
+     *
      * @param message value for logging.
      */
     public static void log(int message) {
         printCurrString();
-        if(((long) message + intSumm) > Integer.MAX_VALUE) {
-            printIntSumm();
-            intSumm = message;
+        if (((long) message + intSum) > Integer.MAX_VALUE) {
+            printIntSum();
+            intSum = message;
         } else {
-            intSumm += message;
+            intSum += message;
         }
-        intSummSetted = true;
+        intSumSetted = true;
     }
 
     /**
      * Logs sum of {@code byte } values.
+     *
      * @param message value for logging.
      */
     public static void log(byte message) {
         printCurrString();
-        if(((int) message + byteSumm) > Byte.MAX_VALUE) {
-            printByteSumm();
-            byteSumm = Byte.MAX_VALUE;
+        if (((int) message + byteSum) > Byte.MAX_VALUE) {
+            printByteSum();
+            byteSum = Byte.MAX_VALUE;
         } else {
-            byteSumm += message;
+            byteSum += message;
         }
-        byteSummSetted = true;
+        byteSumSetted = true;
     }
 
     /**
      * Logs {@code boolean} value.
+     *
      * @param message value for logging.
      */
     public static void log(boolean message) {
-        printSumm();
+        printSum();
         printCurrString();
         printInConsole(PRIMITIVE_PREFIX, message + "");
     }
 
     /**
      * Logs {@code char} value.
+     *
      * @param message value for logging.
      */
     public static void log(char message) {
-        printSumm();
+        printSum();
         printCurrString();
         printInConsole("char: ", message + "");
     }
 
     /**
      * Logs {@code String} message.
+     *
      * @param message value for logging.
      */
     public static void log(String message) {
-        printSumm();
-        if(message.equals(currentString)) {
+        printSum();
+        if (message.equals(currentString)) {
             sameStringsCount++;
         } else {
             printCurrString();
@@ -100,28 +104,31 @@ public class Logger {
 
     /**
      * Logs input {@code Object.toString()}.
+     *
      * @param message value for logging.
      */
     public static void log(Object message) {
-        printSumm();
+        printSum();
         printInConsole("reference: ", message.toString());
     }
 
     /**
      * Logs input integer array.
+     *
      * @param arr integer array for logging.
      */
     public static void log(int[] arr) {
-        printInConsole("primitives array: ", Arrays.toString(arr).replace("[","{").replace("]","}"));
+        printInConsole("primitives array: ", Arrays.toString(arr).replace("[", "{").replace("]", "}"));
     }
 
     /**
      * Logs input integer matrix.
+     *
      * @param mat integer matrix.
      */
     public static void log(int[][] mat) {
         StringBuilder sb = new StringBuilder("{\n");
-        for(int[] arr : mat) {
+        for (int[] arr : mat) {
             //Array dumps
             sb.append(Arrays.toString(arr).replace("[", "{").replace("]", "}")).append("\n");
         }
@@ -131,6 +138,7 @@ public class Logger {
 
     /**
      * Logs multidimensional array.
+     *
      * @param multi input multidimensional array.
      */
     public static void log(Object[] multi) {
@@ -139,51 +147,53 @@ public class Logger {
 
     /**
      * Logs array of Strings.
+     *
      * @param strings input {@code String} array.
      */
     public static void log(String... strings) {
-        for(String str : strings) {
+        for (String str : strings) {
             printInConsole("", str);
         }
     }
 
     /**
      * Logs sum of four int values.
+     *
      * @param i1 input value.
      * @param i2 input value.
      * @param i3 input value.
      * @param i4 input value.
      */
     public static void log(int i1, int i2, int i3, int i4) {
-    //Can't do this with varargs or array because it breaks log(int[]) testcase
+        //Can't do this with varargs or array because it breaks log(int[]) test
         printInConsole("", i1 + i2 + i3 + i4 + "");
     }
 
-    private static void printSumm() {
-        printByteSumm();
-        printIntSumm();
+    private static void printSum() {
+        printByteSum();
+        printIntSum();
     }
 
-    private static void printByteSumm() {
-        if(byteSummSetted) {
-            printInConsole(PRIMITIVE_PREFIX, byteSumm + "");
+    private static void printByteSum() {
+        if (byteSumSetted) {
+            printInConsole(PRIMITIVE_PREFIX, byteSum + "");
         }
-        byteSumm = 0;
-        byteSummSetted = false;
+        byteSum = 0;
+        byteSumSetted = false;
     }
 
-    private static void printIntSumm() {
-        if(intSummSetted) {
-            printInConsole(PRIMITIVE_PREFIX, intSumm + "");
+    private static void printIntSum() {
+        if (intSumSetted) {
+            printInConsole(PRIMITIVE_PREFIX, intSum + "");
         }
-        intSumm = 0;
-        intSummSetted = false;
+        intSum = 0;
+        intSumSetted = false;
     }
 
     private static void printCurrString() {
-        if(sameStringsCount == 1) {
+        if (sameStringsCount == 1) {
             printInConsole("string: ", currentString);
-        } else if(sameStringsCount > 1) {
+        } else if (sameStringsCount > 1) {
             printInConsole("string: ", currentString + " (x" + sameStringsCount + ")");
         }
         currentString = "";
