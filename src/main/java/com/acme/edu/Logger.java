@@ -96,12 +96,16 @@ public class Logger {
     }
 
     /**
-     * Logs input integer array.
+     * Logs sum of elements of input integer array.
      *
      * @param oneDimensionalIntArray integer array for logging.
      */
-    public static void log(int[] oneDimensionalIntArray) {
-        printInConsole("primitives array: ", Arrays.toString(oneDimensionalIntArray).replace("[", "{").replace("]", "}"));
+    public static void log(int... oneDimensionalIntArray) {
+        int sumOfIntegers = 0;
+        for (int arrayElement : oneDimensionalIntArray) {
+            sumOfIntegers += arrayElement;
+        }
+        printInConsole("primitives array: ", sumOfIntegers + "");
     }
 
     /**
@@ -138,19 +142,6 @@ public class Logger {
         for (String singleString : arrayOfStrings) {
             printInConsole("", singleString);
         }
-    }
-
-    /**
-     * Logs sum of four int values.
-     *
-     * @param i1 input value.
-     * @param i2 input value.
-     * @param i3 input value.
-     * @param i4 input value.
-     */
-    public static void log(int i1, int i2, int i3, int i4) {
-        //Can't do this with varargs or array because it breaks log(int[]) test
-        printInConsole("", i1 + i2 + i3 + i4 + "");
     }
 
     private static void logBoolAndChar(String prefix, String message) {
