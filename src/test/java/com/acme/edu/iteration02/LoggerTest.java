@@ -36,10 +36,10 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
         //region then
         assertSysoutEquals(
-                "string: str 1\n" +
-                "primitive: 3\n" +
-                "string: str 2\n" +
-                "primitive: 0\n"
+                "string: str 1" + Logger.SEP +
+                "primitive: 3" + Logger.SEP +
+                "string: str 2" + Logger.SEP +
+                "primitive: 0" + Logger.SEP
         );
         //endregion
     }
@@ -57,11 +57,11 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
         //region then
         assertSysoutEquals(
-                "string: str 1\n" +
-                        "primitive: 10\n" +
-                        "primitive: " + Integer.MAX_VALUE + "\n" +
-                        "string: str 2\n" +
-                        "primitive: 0\n"
+                "string: str 1" + Logger.SEP +
+                        "primitive: 10" + Logger.SEP +
+                        "primitive: " + Integer.MAX_VALUE + Logger.SEP +
+                        "string: str 2" + Logger.SEP +
+                        "primitive: 0" + Logger.SEP
         );
         //endregion
     }
@@ -79,11 +79,11 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
         //region then
         assertSysoutEquals(
-                "string: str 1\n" +
-                "primitive: 10\n" +
-                "primitive: " + Byte.MAX_VALUE + "\n" +
-                "string: str 2\n" +
-                "primitive: 0\n"
+                "string: str 1" + Logger.SEP +
+                "primitive: 10" + Logger.SEP +
+                "primitive: " + Byte.MAX_VALUE + Logger.SEP +
+                "string: str 2" + Logger.SEP +
+                "primitive: 0" + Logger.SEP
         );
         //endregion
     }
@@ -104,11 +104,11 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
         //region then
         assertSysoutEquals(
-            "string: str 1\n" +
-            "string: str 2 (x2)\n" +
-            "primitive: 0\n" +
-            "string: str 2\n" +
-            "string: str 3 (x3)\n"
+            "string: str 1" + Logger.SEP +
+            "string: str 2 (x2)" + Logger.SEP +
+            "primitive: 0" + Logger.SEP +
+            "string: str 2" + Logger.SEP +
+            "string: str 3 (x3)" + Logger.SEP
         );
         //endregion
     }

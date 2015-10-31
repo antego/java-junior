@@ -7,6 +7,10 @@ import java.util.Arrays;
  * You <b>MUST</b> call #stopLogging on the end of logging.
  */
 public class Logger {
+    /**
+     * Platform independent line separator.
+     */
+    public static final String SEP = System.lineSeparator();
     private static final String PRIMITIVE_PREFIX = "primitive: ";
     private static int intSum = 0;
     private static boolean intSumSetted = false;
@@ -104,10 +108,10 @@ public class Logger {
      * @param mat integer matrix.
      */
     public static void log(int[][] mat) {
-        StringBuilder sb = new StringBuilder("{\n");
+        StringBuilder sb = new StringBuilder("{" + SEP);
         for (int[] arr : mat) {
             //Array dumps
-            sb.append(Arrays.toString(arr).replace("[", "{").replace("]", "}")).append("\n");
+            sb.append(Arrays.toString(arr).replace("[", "{").replace("]", "}")).append(SEP);
         }
         sb.append("}");
         printInConsole("primitives array: ", sb.toString());
@@ -119,7 +123,7 @@ public class Logger {
      * @param multi input multidimensional array.
      */
     public static void log(Object[] multi) {
-        printInConsole("primitives multimatrix: ", Arrays.deepToString(multi).replace("[", "{\n").replace("]", "\n}"));
+        printInConsole("primitives multimatrix: ", Arrays.deepToString(multi).replace("[", "{" + SEP).replace("]", SEP + "}"));
     }
 
     /**
