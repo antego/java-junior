@@ -73,7 +73,9 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(String message) {
-        if(message == null) return;
+        if(message == null) {
+            return;
+        }
         printIntSum();
         if (message.equals(currentString)) {
             sameStringsCount++;
@@ -90,7 +92,9 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(Object message) {
-        if(message == null) return;
+        if(message == null) {
+            return;
+        }
         printIntSum();
         printInConsole("reference: ", message.toString());
     }
@@ -116,8 +120,12 @@ public class Logger {
     public static void log(int[][] integerMatrix) {
         StringBuilder stringBuilder = new StringBuilder("{" + SEP);
         for (int[] oneDimensionalIntArray : integerMatrix) {
-            //Array dumps
-            stringBuilder.append(Arrays.toString(oneDimensionalIntArray).replace("[", "{").replace("]", "}")).append(SEP);
+            stringBuilder.append("{");
+            for(int arrayElement : oneDimensionalIntArray) {
+                stringBuilder.append(arrayElement + ", ");
+            }
+            //Change last two symbols from comma and whitespace to bracket and newline
+            stringBuilder.replace(stringBuilder.length() - 2, stringBuilder.length(), "}" + SEP);
         }
         stringBuilder.append("}");
         printInConsole("primitives array: ", stringBuilder.toString());
@@ -138,7 +146,9 @@ public class Logger {
      * @param arrayOfStrings input {@code String} array.
      */
     public static void log(String... arrayOfStrings) {
-        if(arrayOfStrings == null) return;
+        if(arrayOfStrings == null) {
+            return;
+        }
         for (String singleString : arrayOfStrings) {
             printInConsole("", singleString);
         }
