@@ -73,6 +73,7 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(String message) {
+        if(message == null) return;
         printIntSum();
         if (message.equals(currentString)) {
             sameStringsCount++;
@@ -89,6 +90,7 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(Object message) {
+        if(message == null) return;
         printIntSum();
         printInConsole("reference: ", message.toString());
     }
@@ -129,11 +131,12 @@ public class Logger {
     /**
      * Logs array of Strings.
      *
-     * @param strings input {@code String} array.
+     * @param arrayOfStrings input {@code String} array.
      */
-    public static void log(String... strings) {
-        for (String str : strings) {
-            printInConsole("", str);
+    public static void log(String... arrayOfStrings) {
+        if(arrayOfStrings == null) return;
+        for (String singleString : arrayOfStrings) {
+            printInConsole("", singleString);
         }
     }
 
