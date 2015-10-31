@@ -146,9 +146,9 @@ public class Logger {
                     stringBuilder.append("{").append(SEP);
                     for (int intElement : plainIntArray) {
                         stringBuilder.append(intElement).append(", ");
-                        //Change last two symbols from comma and whitespace to newline
-                        stringBuilder.replace(stringBuilder.length() - 2, stringBuilder.length(),SEP);
                     }
+                    //Change last two symbols from comma and whitespace to newline
+                    stringBuilder.replace(stringBuilder.length() - 2, stringBuilder.length(),SEP);
                     stringBuilder.append("}").append(SEP);
                 }
                 stringBuilder.append("}").append(SEP);
