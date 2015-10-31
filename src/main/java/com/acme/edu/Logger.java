@@ -51,9 +51,7 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(boolean message) {
-        printIntSum();
-        printCurrString();
-        printInConsole(PRIMITIVE_PREFIX, message + "");
+        logBoolAndChar(PRIMITIVE_PREFIX, message + "");
     }
 
     /**
@@ -62,9 +60,7 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(char message) {
-        printIntSum();
-        printCurrString();
-        printInConsole("char: ", message + "");
+        logBoolAndChar("char: ", message + "");
     }
 
     /**
@@ -148,6 +144,12 @@ public class Logger {
     public static void log(int i1, int i2, int i3, int i4) {
         //Can't do this with varargs or array because it breaks log(int[]) test
         printInConsole("", i1 + i2 + i3 + i4 + "");
+    }
+
+    private static void logBoolAndChar(String prefix, String message) {
+        printIntSum();
+        printCurrString();
+        printInConsole(prefix, message);
     }
 
     //Method to log integer and byte values.
