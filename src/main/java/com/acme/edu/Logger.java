@@ -11,9 +11,6 @@ public class Logger {
     private static int intSum = 0;
     private static boolean intSumSetted = false;
 
-    private static byte byteSum = 0;
-    private static boolean byteSumSetted = false;
-
     private static String currentString = "";
     private static int sameStringsCount = 0;
 
@@ -22,10 +19,8 @@ public class Logger {
      * You <b>MUST</b> call this method on the end of logging.
      */
     public static void stopLogging() {
-        printSum();
+        printIntSum();
         printCurrString();
-        byteSumSetted = false;
-        byteSum = 0;
         intSumSetted = false;
         intSum = 0;
         currentString = "";
@@ -38,14 +33,7 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(int message) {
-        printCurrString();
-        if (((long) message + intSum) > Integer.MAX_VALUE) {
-            printIntSum();
-            intSum = message;
-        } else {
-            intSum += message;
-        }
-        intSumSetted = true;
+        printNumericValue(message, Integer.MAX_VALUE);
     }
 
     /**
@@ -54,14 +42,7 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(byte message) {
-        printCurrString();
-        if (((int) message + byteSum) > Byte.MAX_VALUE) {
-            printByteSum();
-            byteSum = Byte.MAX_VALUE;
-        } else {
-            byteSum += message;
-        }
-        byteSumSetted = true;
+        printNumericValue(message, Byte.MAX_VALUE);
     }
 
     /**
@@ -70,7 +51,7 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(boolean message) {
-        printSum();
+        printIntSum();
         printCurrString();
         printInConsole(PRIMITIVE_PREFIX, message + "");
     }
@@ -81,7 +62,7 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(char message) {
-        printSum();
+        printIntSum();
         printCurrString();
         printInConsole("char: ", message + "");
     }
@@ -92,7 +73,7 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(String message) {
-        printSum();
+        printIntSum();
         if (message.equals(currentString)) {
             sameStringsCount++;
         } else {
@@ -108,7 +89,7 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(Object message) {
-        printSum();
+        printIntSum();
         printInConsole("reference: ", message.toString());
     }
 
@@ -169,17 +150,17 @@ public class Logger {
         printInConsole("", i1 + i2 + i3 + i4 + "");
     }
 
-    private static void printSum() {
-        printByteSum();
-        printIntSum();
-    }
-
-    private static void printByteSum() {
-        if (byteSumSetted) {
-            printInConsole(PRIMITIVE_PREFIX, byteSum + "");
+    //Method to log integer and byte values.
+    //Main difference between types are MAX_VALUE which passes as argument to generic function
+    private static void printNumericValue(int message, int maxValue) {
+        printCurrString();
+        if (((long) message + intSum) > maxValue) {
+            printIntSum();
+            intSum = message;
+        } else {
+            intSum += message;
         }
-        byteSum = 0;
-        byteSumSetted = false;
+        intSumSetted = true;
     }
 
     private static void printIntSum() {
