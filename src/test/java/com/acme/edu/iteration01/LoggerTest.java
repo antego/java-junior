@@ -8,6 +8,8 @@ import org.junit.Test;
 
 import java.io.*;
 
+import static com.acme.edu.Logger.SEP;
+
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     //region given
     @Before
@@ -33,16 +35,16 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
         //region then
         assertSysoutContains("primitive: ");
-        assertSysoutEquals("primitive: 0" + Logger.SEP);
+        assertSysoutEquals("primitive: 0" + SEP);
         //endregion
     }
 
     @Test
     public void shouldLogByte() throws IOException {
         //region when
-        Logger.log((byte)1);
-        Logger.log((byte)0);
-        Logger.log((byte)-1);
+        Logger.log((byte) 1);
+        Logger.log((byte) 0);
+        Logger.log((byte) -1);
         Logger.stopLogging();
         //endregion
 

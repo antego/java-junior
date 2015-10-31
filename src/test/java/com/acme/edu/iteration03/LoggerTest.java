@@ -8,6 +8,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import static com.acme.edu.Logger.SEP;
+
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     //region given
     @Before
@@ -25,7 +27,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogIntegersArray() throws IOException {
         //region when
-        Logger.log(new int[] {-1, 0, 1});
+        Logger.log(new int[]{-1, 0, 1});
         Logger.stopLogging();
         //endregion
 
@@ -38,17 +40,17 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogIntegersMatrix() throws IOException {
         //region when
-        Logger.log(new int[][] {{-1, 0, 1}, {1, 2, 3}, {-1, -2, -3}});
+        Logger.log(new int[][]{{-1, 0, 1}, {1, 2, 3}, {-1, -2, -3}});
         Logger.stopLogging();
         //endregion
 
         //region then
         assertSysoutEquals(
-                "primitives array: {" + Logger.SEP +
-                        "{-1, 0, 1}" + Logger.SEP +
-                        "{1, 2, 3}" + Logger.SEP +
-                        "{-1, -2, -3}" + Logger.SEP +
-                        "}" + Logger.SEP
+                "primitives array: {" + SEP +
+                        "{-1, 0, 1}" + SEP +
+                        "{1, 2, 3}" + SEP +
+                        "{-1, -2, -3}" + SEP +
+                        "}" + SEP
         );
         //endregion
     }
@@ -57,17 +59,17 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogIntegersMulitidimentionalArray() throws IOException {
         //region when
-        Logger.log(new int[][][][] {{{{0}}}});
+        Logger.log(new int[][][][]{{{{0}}}});
         Logger.stopLogging();
         //endregion
 
         //region then
         assertSysoutEquals(
-                "primitives multimatrix: {" + Logger.SEP +
-                        "{" + Logger.SEP + "{" + Logger.SEP + "{" + Logger.SEP +
-                        "0" + Logger.SEP +
-                        "}" + Logger.SEP + "}" + Logger.SEP + "}" + Logger.SEP +
-                        "}" + Logger.SEP
+                "primitives multimatrix: {" + SEP +
+                        "{" + SEP + "{" + SEP + "{" + SEP +
+                        "0" + SEP +
+                        "}" + SEP + "}" + SEP + "}" + SEP +
+                        "}" + SEP
         );
         //endregion
     }
@@ -81,7 +83,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
 
         //region then
-        assertSysoutContains("str1" + Logger.SEP + "string 2" + Logger.SEP + "str 3");
+        assertSysoutContains("str1" + SEP + "string 2" + SEP + "str 3");
         //endregion
     }
 
