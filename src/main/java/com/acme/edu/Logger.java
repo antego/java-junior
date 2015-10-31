@@ -98,34 +98,34 @@ public class Logger {
     /**
      * Logs input integer array.
      *
-     * @param arr integer array for logging.
+     * @param oneDimensionalIntArray integer array for logging.
      */
-    public static void log(int[] arr) {
-        printInConsole("primitives array: ", Arrays.toString(arr).replace("[", "{").replace("]", "}"));
+    public static void log(int[] oneDimensionalIntArray) {
+        printInConsole("primitives array: ", Arrays.toString(oneDimensionalIntArray).replace("[", "{").replace("]", "}"));
     }
 
     /**
      * Logs input integer matrix.
      *
-     * @param mat integer matrix.
+     * @param integerMatrix integer matrix.
      */
-    public static void log(int[][] mat) {
-        StringBuilder sb = new StringBuilder("{" + SEP);
-        for (int[] arr : mat) {
+    public static void log(int[][] integerMatrix) {
+        StringBuilder stringBuilder = new StringBuilder("{" + SEP);
+        for (int[] oneDimensionalIntArray : integerMatrix) {
             //Array dumps
-            sb.append(Arrays.toString(arr).replace("[", "{").replace("]", "}")).append(SEP);
+            stringBuilder.append(Arrays.toString(oneDimensionalIntArray).replace("[", "{").replace("]", "}")).append(SEP);
         }
-        sb.append("}");
-        printInConsole("primitives array: ", sb.toString());
+        stringBuilder.append("}");
+        printInConsole("primitives array: ", stringBuilder.toString());
     }
 
     /**
      * Logs multidimensional array.
      *
-     * @param multi input multidimensional array.
+     * @param multiMatrix input multidimensional array.
      */
-    public static void log(Object[] multi) {
-        printInConsole("primitives multimatrix: ", Arrays.deepToString(multi).replace("[", "{" + SEP).replace("]", SEP + "}"));
+    public static void log(Object[] multiMatrix) {
+        printInConsole("primitives multimatrix: ", Arrays.deepToString(multiMatrix).replace("[", "{" + SEP).replace("]", SEP + "}"));
     }
 
     /**
