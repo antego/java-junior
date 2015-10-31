@@ -1,6 +1,5 @@
 package com.acme.edu;
 
-import java.util.Arrays;
 
 /**
  * This class contains static methods to log values of different types.
@@ -122,7 +121,7 @@ public class Logger {
         for (int[] oneDimensionalIntArray : integerMatrix) {
             stringBuilder.append("{");
             for(int arrayElement : oneDimensionalIntArray) {
-                stringBuilder.append(arrayElement + ", ");
+                stringBuilder.append(arrayElement).append(", ");
             }
             //Change last two symbols from comma and whitespace to bracket and newline
             stringBuilder.replace(stringBuilder.length() - 2, stringBuilder.length(), "}" + SEP);
@@ -132,12 +131,32 @@ public class Logger {
     }
 
     /**
-     * Logs multidimensional array.
+     * Logs four-dimensional int array.
      *
-     * @param multiMatrix input multidimensional array.
+     * @param fourDimensionalIntArray input four-dimensional array.
      */
-    public static void log(Object[] multiMatrix) {
-        printInConsole("primitives multimatrix: ", Arrays.deepToString(multiMatrix).replace("[", "{" + SEP).replace("]", SEP + "}"));
+    public static void log(int[][][][] fourDimensionalIntArray) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("{").append(SEP);
+        for (int[][][] threeDimensionalIntArray : fourDimensionalIntArray) {
+            stringBuilder.append("{").append(SEP);
+            for (int[][] twoDimensionalIntArray : threeDimensionalIntArray) {
+                stringBuilder.append("{").append(SEP);
+                for (int[] plainIntArray : twoDimensionalIntArray) {
+                    stringBuilder.append("{").append(SEP);
+                    for (int intElement : plainIntArray) {
+                        stringBuilder.append(intElement).append(", ");
+                        //Change last two symbols from comma and whitespace to newline
+                        stringBuilder.replace(stringBuilder.length() - 2, stringBuilder.length(),SEP);
+                    }
+                    stringBuilder.append("}").append(SEP);
+                }
+                stringBuilder.append("}").append(SEP);
+            }
+            stringBuilder.append("}").append(SEP);
+        }
+        stringBuilder.append("}");
+        printInConsole("primitives multimatrix: ", stringBuilder.toString());
     }
 
     /**
