@@ -66,8 +66,8 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //region then
         assertSysoutEquals(
                 "primitives multimatrix: {" + SEP +
-                        "{" + SEP + "{" + SEP + "{" + SEP +
-                        "0" + SEP +
+                        "{" + SEP + "{" + SEP + "{" +
+                        "0" +
                         "}" + SEP + "}" + SEP + "}" + SEP +
                         "}" + SEP
         );

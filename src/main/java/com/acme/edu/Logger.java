@@ -117,17 +117,7 @@ public class Logger {
      * @param integerMatrix integer matrix.
      */
     public static void log(int[][] integerMatrix) {
-        StringBuilder stringBuilder = new StringBuilder("{" + SEP);
-        for (int[] oneDimensionalIntArray : integerMatrix) {
-            stringBuilder.append("{");
-            for(int arrayElement : oneDimensionalIntArray) {
-                stringBuilder.append(arrayElement).append(", ");
-            }
-            //Change last two symbols from comma and whitespace to bracket and newline
-            stringBuilder.replace(stringBuilder.length() - 2, stringBuilder.length(), "}" + SEP);
-        }
-        stringBuilder.append("}");
-        printInConsole("primitives array: ", stringBuilder.toString());
+        printInConsole("primitives array: ", dumpTwoDimensionalArray(integerMatrix));
     }
 
     /**
@@ -141,17 +131,7 @@ public class Logger {
         for (int[][][] threeDimensionalIntArray : fourDimensionalIntArray) {
             stringBuilder.append("{").append(SEP);
             for (int[][] twoDimensionalIntArray : threeDimensionalIntArray) {
-                stringBuilder.append("{").append(SEP);
-                for (int[] plainIntArray : twoDimensionalIntArray) {
-                    stringBuilder.append("{").append(SEP);
-                    for (int intElement : plainIntArray) {
-                        stringBuilder.append(intElement).append(", ");
-                    }
-                    //Change last two symbols from comma and whitespace to newline
-                    stringBuilder.replace(stringBuilder.length() - 2, stringBuilder.length(),SEP);
-                    stringBuilder.append("}").append(SEP);
-                }
-                stringBuilder.append("}").append(SEP);
+                stringBuilder.append(dumpTwoDimensionalArray(twoDimensionalIntArray)).append(SEP);
             }
             stringBuilder.append("}").append(SEP);
         }
@@ -171,6 +151,20 @@ public class Logger {
         for (String singleString : arrayOfStrings) {
             printInConsole("", singleString);
         }
+    }
+
+    private static String dumpTwoDimensionalArray(int[][] twoDimensionalArray) {
+        StringBuilder stringBuilder = new StringBuilder("{" + SEP);
+        for (int[] oneDimensionalIntArray : twoDimensionalArray) {
+            stringBuilder.append("{");
+            for(int arrayElement : oneDimensionalIntArray) {
+                stringBuilder.append(arrayElement).append(", ");
+            }
+            //Change last two symbols from comma and whitespace to bracket and newline
+            stringBuilder.replace(stringBuilder.length() - 2, stringBuilder.length(), "}" + SEP);
+        }
+        stringBuilder.append("}");
+        return stringBuilder.toString();
     }
 
     private static void logBoolAndChar(String prefix, String message) {
