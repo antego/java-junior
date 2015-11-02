@@ -11,22 +11,22 @@ public class Logger {
      */
     public static final String SEP = System.lineSeparator();
     private static final String PRIMITIVE_PREFIX = "primitive: ";
-    private static int intSum = 0;
-    private static boolean intSumSetted = false;
+    private static String buffer = "0";
 
-    private static String currentString = "";
     private static int sameStringsCount = 0;
+
+    enum State {HAS_STRING, HAS_INT, NO_STRING_OR_INT}
+
+    static State state = State.NO_STRING_OR_INT;
 
     /**
      * Method to stop logging and flush buffers for {@code int}, {@code byte} and {@code String}.
      * You <b>MUST</b> call this method on the end of logging.
      */
     public static void stopLogging() {
-        printIntSum();
-        printCurrString();
-        intSumSetted = false;
-        intSum = 0;
-        currentString = "";
+        printState();
+        buffer = "0";
+        state = State.NO_STRING_OR_INT;
         sameStringsCount = 0;
     }
 
@@ -72,16 +72,16 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(String message) {
-        if(message == null) {
+        if (message == null) {
             return;
         }
-        printIntSum();
-        if (message.equals(currentString)) {
+        if (state == State.HAS_STRING && message.equals(buffer)) {
             sameStringsCount++;
         } else {
-            printCurrString();
+            printState();
+            state = State.HAS_STRING;
             sameStringsCount = 1;
-            currentString = message;
+            buffer = message;
         }
     }
 
@@ -91,10 +91,10 @@ public class Logger {
      * @param message value for logging.
      */
     public static void log(Object message) {
-        if(message == null) {
+        if (message == null) {
             return;
         }
-        printIntSum();
+        printState();
         printInConsole("reference: ", message.toString());
     }
 
@@ -145,7 +145,7 @@ public class Logger {
      * @param arrayOfStrings input {@code String} array.
      */
     public static void log(String... arrayOfStrings) {
-        if(arrayOfStrings == null) {
+        if (arrayOfStrings == null) {
             return;
         }
         for (String singleString : arrayOfStrings) {
@@ -153,11 +153,31 @@ public class Logger {
         }
     }
 
+    private static void printState() {
+        switch (state) {
+            case HAS_STRING:
+                if (sameStringsCount == 1) {
+                    printInConsole("string: ", buffer);
+                } else if (sameStringsCount > 1) {
+                    printInConsole("string: ", buffer + " (x" + sameStringsCount + ")");
+                }
+                buffer = "0";
+                sameStringsCount = 0;
+                state = State.NO_STRING_OR_INT;
+                break;
+            case HAS_INT:
+                printInConsole(PRIMITIVE_PREFIX, buffer);
+                buffer = "0";
+                state = State.NO_STRING_OR_INT;
+                break;
+        }
+    }
+
     private static String dumpTwoDimensionalArray(int[][] twoDimensionalArray) {
         StringBuilder stringBuilder = new StringBuilder("{" + SEP);
         for (int[] oneDimensionalIntArray : twoDimensionalArray) {
             stringBuilder.append("{");
-            for(int arrayElement : oneDimensionalIntArray) {
+            for (int arrayElement : oneDimensionalIntArray) {
                 stringBuilder.append(arrayElement).append(", ");
             }
             //Change last two symbols from comma and whitespace to bracket and newline
@@ -168,40 +188,22 @@ public class Logger {
     }
 
     private static void logBoolAndChar(String prefix, String message) {
-        printIntSum();
-        printCurrString();
+        printState();
         printInConsole(prefix, message);
     }
 
     //Method to log integer and byte values.
     //Main difference between types are MAX_VALUE which passes as argument to generic function
     private static void printNumericValue(int message, int maxValue) {
-        printCurrString();
-        if (((long) message + intSum) > maxValue) {
-            printIntSum();
-            intSum = message;
+        if (state != State.HAS_INT)
+            printState();
+        if (((long) message + Integer.parseInt(buffer)) > maxValue) {
+            printState();
+            buffer = message + "";
         } else {
-            intSum += message;
+            buffer = Integer.parseInt(buffer) + message + "";
         }
-        intSumSetted = true;
-    }
-
-    private static void printIntSum() {
-        if (intSumSetted) {
-            printInConsole(PRIMITIVE_PREFIX, intSum + "");
-        }
-        intSum = 0;
-        intSumSetted = false;
-    }
-
-    private static void printCurrString() {
-        if (sameStringsCount == 1) {
-            printInConsole("string: ", currentString);
-        } else if (sameStringsCount > 1) {
-            printInConsole("string: ", currentString + " (x" + sameStringsCount + ")");
-        }
-        currentString = "";
-        sameStringsCount = 0;
+        state = State.HAS_INT;
     }
 
     private static void printInConsole(String prefix, String message) {
