@@ -85,8 +85,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //region then
         assertSysoutEquals(
                 "string: str 1" + SEP +
-                "primitive: 10" + SEP +
-                "primitive: " + Byte.MAX_VALUE + SEP +
+                "primitive: 137" + SEP +
                 "string: str 2" + SEP +
                 "primitive: 0" + SEP
         );

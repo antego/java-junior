@@ -1,8 +1,18 @@
 package com.acme.edu;
 
-
+/**
+ * State interface represents state of the Logger.
+ */
 public interface State {
-    void processMessage(String message, MessageType messageType);
+    /**
+     * Processes message according to a current state.
+     *
+     * @param message message to log.
+     */
+    void processMessage(String message);
 
+    /**
+     * Must print and reset buffer if
+     */
     void flushBuffer();
 }

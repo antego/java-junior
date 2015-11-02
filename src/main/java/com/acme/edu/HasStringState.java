@@ -11,11 +11,7 @@ public class HasStringState implements State {
     }
 
     @Override
-    public void processMessage(String message, MessageType messageType) {
-//        if(messageType != MessageType.STRING) {
-//            flushBuffer();
-//            return;
-//        }
+    public void processMessage(String message) {
         if (message.equals(buffer)) {
             stringCount++;
         } else {

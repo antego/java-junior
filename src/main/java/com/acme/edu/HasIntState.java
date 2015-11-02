@@ -9,11 +9,12 @@ public class HasIntState implements State {
     }
 
     @Override
-    public void processMessage(String message, MessageType messageType) {
-        if (messageType == MessageType.INT) {
-            printNumericValue(Integer.parseInt(message), Integer.MAX_VALUE, printer);
+    public void processMessage(String message) {
+        if (((long) Integer.parseInt(message) + buffer) > Integer.MAX_VALUE) {
+            flushBuffer();
+            buffer = Integer.parseInt(message);
         } else {
-            printNumericValue(Byte.parseByte(message), Byte.MAX_VALUE, printer);
+            buffer += Integer.parseInt(message);
         }
     }
 
@@ -21,14 +22,5 @@ public class HasIntState implements State {
     public void flushBuffer() {
         printer.print(Logger.PRIMITIVE_PREFIX + buffer + "");
         buffer = 0;
-    }
-
-    private void printNumericValue(int message, int maxValue, Printer printer) {
-        if (((long) message + buffer) > maxValue) {
-            flushBuffer();
-            buffer = message;
-        } else {
-            buffer += message;
-        }
     }
 }

@@ -17,10 +17,8 @@ public class Logger {
     private final HasStringState hasStringState;
 
     private State state;
-    private Printer printer;
 
     public Logger(Printer printer) {
-        this.printer = printer;
         blankState = new BlankState(printer);
         hasIntState = new HasIntState(printer);
         hasStringState = new HasStringState(printer);
@@ -41,11 +39,11 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(int message) {
-        if(state != hasIntState) {
+        if (state != hasIntState) {
             state.flushBuffer();
         }
         state = hasIntState;
-        state.processMessage(message + "", MessageType.INT);
+        state.processMessage(message + "");
     }
 
     /**
@@ -54,11 +52,7 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(byte message) {
-        if(state != hasIntState) {
-            state.flushBuffer();
-        }
-        state = hasIntState;
-        state.processMessage(message + "", MessageType.BYTE);
+        log((int) message);
     }
 
     /**
@@ -85,11 +79,11 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(String message) {
-        if(state != hasStringState) {
+        if (state != hasStringState) {
             state.flushBuffer();
         }
         state = hasStringState;
-        state.processMessage(message, MessageType.STRING);
+        state.processMessage(message);
     }
 
     /**
@@ -101,11 +95,8 @@ public class Logger {
         if (message == null) {
             return;
         }
-        if (state != blankState) {
-            state.flushBuffer();
-            state = blankState;
-        }
-        printInConsole("reference: ", message.toString());
+        flushState();
+        state.processMessage("reference: " + message.toString());
     }
 
     /**
@@ -114,15 +105,12 @@ public class Logger {
      * @param oneDimensionalIntArray integer array for logging.
      */
     public void log(int... oneDimensionalIntArray) {
-        if (state != null) {
-            state.flushBuffer();
-            state = null;
-        }
+        flushState();
         int sumOfIntegers = 0;
         for (int arrayElement : oneDimensionalIntArray) {
             sumOfIntegers += arrayElement;
         }
-        printInConsole("primitives array: ", sumOfIntegers + "");
+        state.processMessage("primitives array: " + sumOfIntegers + "");
     }
 
     /**
@@ -131,11 +119,8 @@ public class Logger {
      * @param integerMatrix integer matrix.
      */
     public void log(int[][] integerMatrix) {
-        if (state != null) {
-            state.flushBuffer();
-            state = null;
-        }
-        printInConsole("primitives array: ", dumpTwoDimensionalArray(integerMatrix));
+        flushState();
+        state.processMessage("primitives array: " + dumpTwoDimensionalArray(integerMatrix));
     }
 
     /**
@@ -144,10 +129,7 @@ public class Logger {
      * @param fourDimensionalIntArray input four-dimensional array.
      */
     public void log(int[][][][] fourDimensionalIntArray) {
-        if (state != null) {
-            state.flushBuffer();
-            state = null;
-        }
+        flushState();
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("{").append(SEP);
         for (int[][][] threeDimensionalIntArray : fourDimensionalIntArray) {
@@ -158,7 +140,7 @@ public class Logger {
             stringBuilder.append("}").append(SEP);
         }
         stringBuilder.append("}");
-        printInConsole("primitives multimatrix: ", stringBuilder.toString());
+        state.processMessage("primitives multimatrix: " + stringBuilder.toString());
     }
 
     /**
@@ -170,34 +152,14 @@ public class Logger {
         if (arrayOfStrings == null) {
             return;
         }
-        if (state != null) {
-            state.flushBuffer();
-            state = null;
-        }
+        flushState();
         for (String singleString : arrayOfStrings) {
-            printInConsole("", singleString);
+            state.processMessage("" + singleString);
         }
     }
-//
-//    //Method to log integer and byte values.
-//    //Main difference between types are MAX_VALUE which passes as argument to generic function
-//    private static void printNumericValue(int message, int maxValue) {
-//        if (state != State.HAS_INT)
-//            flushBuffer();
-//        if (((long) message + (buffer.isEmpty() ? 0 : Integer.parseInt(buffer))) > maxValue) {
-//            flushBuffer();
-//            buffer = message + "";
-//        } else {
-//            buffer = (buffer.isEmpty() ? 0 : Integer.parseInt(buffer)) + message + "";
-//        }
-//        state = State.HAS_INT;
-//    }
 
     private String dumpTwoDimensionalArray(int[][] twoDimensionalArray) {
-        if (state != null) {
-            state.flushBuffer();
-            state = null;
-        }
+        flushState();
         StringBuilder stringBuilder = new StringBuilder("{" + SEP);
         for (int[] oneDimensionalIntArray : twoDimensionalArray) {
             stringBuilder.append("{");
@@ -212,14 +174,14 @@ public class Logger {
     }
 
     private void logBoolAndChar(String prefix, String message) {
+        flushState();
+        state.processMessage(prefix + message);
+    }
+
+    private void flushState() {
         if (state != blankState) {
             state.flushBuffer();
             state = blankState;
         }
-        printInConsole(prefix, message);
-    }
-
-    private static void printInConsole(String prefix, String message) {
-        System.out.println(prefix + message);
     }
 }

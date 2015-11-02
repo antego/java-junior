@@ -9,7 +9,7 @@ public class BlankState implements State {
     }
 
     @Override
-    public void processMessage(String message, MessageType messageType) {
+    public void processMessage(String message) {
         printer.print(message);
     }
 
