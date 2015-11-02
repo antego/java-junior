@@ -10,6 +10,10 @@ public class Logger {
      * Platform independent line separator.
      */
     public static final String SEP = System.lineSeparator();
+
+    /**
+     * Prefix for output formatting.
+     */
     public static final String PRIMITIVE_PREFIX = "primitive: ";
 
     private final BlankState blankState;
@@ -18,6 +22,11 @@ public class Logger {
 
     private State state;
 
+    /**
+     * Constructor creates new instance of Logger with specified printer object
+     *
+     * @param printer printer object that can print in various output channels.
+     */
     public Logger(Printer printer) {
         blankState = new BlankState(printer);
         hasIntState = new HasIntState(printer);

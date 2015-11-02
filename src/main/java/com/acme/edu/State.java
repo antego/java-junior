@@ -12,7 +12,7 @@ public interface State {
     void processMessage(String message);
 
     /**
-     * Must print and reset buffer if
+     * Must print and reset buffer if it present.
      */
     void flushBuffer();
 }
