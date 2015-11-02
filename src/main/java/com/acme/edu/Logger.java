@@ -10,24 +10,29 @@ public class Logger {
      * Platform independent line separator.
      */
     public static final String SEP = System.lineSeparator();
-    private static final String PRIMITIVE_PREFIX = "primitive: ";
-    private static String buffer = "0";
+    public static final String PRIMITIVE_PREFIX = "primitive: ";
 
-    private static int sameStringsCount = 0;
+    private final BlankState blankState;
+    private final HasIntState hasIntState;
+    private final HasStringState hasStringState;
 
-    enum State {HAS_STRING, HAS_INT, NO_STRING_OR_INT}
+    private State state;
+    private Printer printer;
 
-    static State state = State.NO_STRING_OR_INT;
+    public Logger(Printer printer) {
+        this.printer = printer;
+        blankState = new BlankState(printer);
+        hasIntState = new HasIntState(printer);
+        hasStringState = new HasStringState(printer);
+        state = blankState;
+    }
 
     /**
      * Method to stop logging and flush buffers for {@code int}, {@code byte} and {@code String}.
      * You <b>MUST</b> call this method on the end of logging.
      */
-    public static void stopLogging() {
-        printState();
-        buffer = "0";
-        state = State.NO_STRING_OR_INT;
-        sameStringsCount = 0;
+    public void stopLogging() {
+        state.flushBuffer();
     }
 
     /**
@@ -35,8 +40,12 @@ public class Logger {
      *
      * @param message value for logging.
      */
-    public static void log(int message) {
-        printNumericValue(message, Integer.MAX_VALUE);
+    public void log(int message) {
+        if(state != hasIntState) {
+            state.flushBuffer();
+        }
+        state = hasIntState;
+        state.processMessage(message + "", MessageType.INT);
     }
 
     /**
@@ -44,8 +53,12 @@ public class Logger {
      *
      * @param message value for logging.
      */
-    public static void log(byte message) {
-        printNumericValue(message, Byte.MAX_VALUE);
+    public void log(byte message) {
+        if(state != hasIntState) {
+            state.flushBuffer();
+        }
+        state = hasIntState;
+        state.processMessage(message + "", MessageType.BYTE);
     }
 
     /**
@@ -53,7 +66,11 @@ public class Logger {
      *
      * @param message value for logging.
      */
-    public static void log(boolean message) {
+    public void log(boolean message) {
+        if (state != null) {
+            state.flushBuffer();
+            state = null;
+        }
         logBoolAndChar(PRIMITIVE_PREFIX, message + "");
     }
 
@@ -62,7 +79,11 @@ public class Logger {
      *
      * @param message value for logging.
      */
-    public static void log(char message) {
+    public void log(char message) {
+        if (state != null) {
+            state.flushBuffer();
+            state = null;
+        }
         logBoolAndChar("char: ", message + "");
     }
 
@@ -71,18 +92,9 @@ public class Logger {
      *
      * @param message value for logging.
      */
-    public static void log(String message) {
-        if (message == null) {
-            return;
-        }
-        if (state == State.HAS_STRING && message.equals(buffer)) {
-            sameStringsCount++;
-        } else {
-            printState();
-            state = State.HAS_STRING;
-            sameStringsCount = 1;
-            buffer = message;
-        }
+    public void log(String message) {
+        state.processMessage(message, MessageType.STRING);
+        state = new HasStringState(printer);
     }
 
     /**
@@ -90,11 +102,14 @@ public class Logger {
      *
      * @param message value for logging.
      */
-    public static void log(Object message) {
+    public void log(Object message) {
         if (message == null) {
             return;
         }
-        printState();
+        if (state != null) {
+            state.flushBuffer();
+            state = null;
+        }
         printInConsole("reference: ", message.toString());
     }
 
@@ -103,7 +118,11 @@ public class Logger {
      *
      * @param oneDimensionalIntArray integer array for logging.
      */
-    public static void log(int... oneDimensionalIntArray) {
+    public void log(int... oneDimensionalIntArray) {
+        if (state != null) {
+            state.flushBuffer();
+            state = null;
+        }
         int sumOfIntegers = 0;
         for (int arrayElement : oneDimensionalIntArray) {
             sumOfIntegers += arrayElement;
@@ -116,7 +135,11 @@ public class Logger {
      *
      * @param integerMatrix integer matrix.
      */
-    public static void log(int[][] integerMatrix) {
+    public void log(int[][] integerMatrix) {
+        if (state != null) {
+            state.flushBuffer();
+            state = null;
+        }
         printInConsole("primitives array: ", dumpTwoDimensionalArray(integerMatrix));
     }
 
@@ -125,7 +148,11 @@ public class Logger {
      *
      * @param fourDimensionalIntArray input four-dimensional array.
      */
-    public static void log(int[][][][] fourDimensionalIntArray) {
+    public void log(int[][][][] fourDimensionalIntArray) {
+        if (state != null) {
+            state.flushBuffer();
+            state = null;
+        }
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("{").append(SEP);
         for (int[][][] threeDimensionalIntArray : fourDimensionalIntArray) {
@@ -144,36 +171,38 @@ public class Logger {
      *
      * @param arrayOfStrings input {@code String} array.
      */
-    public static void log(String... arrayOfStrings) {
+    public void log(String... arrayOfStrings) {
         if (arrayOfStrings == null) {
             return;
+        }
+        if (state != null) {
+            state.flushBuffer();
+            state = null;
         }
         for (String singleString : arrayOfStrings) {
             printInConsole("", singleString);
         }
     }
+//
+//    //Method to log integer and byte values.
+//    //Main difference between types are MAX_VALUE which passes as argument to generic function
+//    private static void printNumericValue(int message, int maxValue) {
+//        if (state != State.HAS_INT)
+//            flushBuffer();
+//        if (((long) message + (buffer.isEmpty() ? 0 : Integer.parseInt(buffer))) > maxValue) {
+//            flushBuffer();
+//            buffer = message + "";
+//        } else {
+//            buffer = (buffer.isEmpty() ? 0 : Integer.parseInt(buffer)) + message + "";
+//        }
+//        state = State.HAS_INT;
+//    }
 
-    private static void printState() {
-        switch (state) {
-            case HAS_STRING:
-                if (sameStringsCount == 1) {
-                    printInConsole("string: ", buffer);
-                } else if (sameStringsCount > 1) {
-                    printInConsole("string: ", buffer + " (x" + sameStringsCount + ")");
-                }
-                buffer = "0";
-                sameStringsCount = 0;
-                state = State.NO_STRING_OR_INT;
-                break;
-            case HAS_INT:
-                printInConsole(PRIMITIVE_PREFIX, buffer);
-                buffer = "0";
-                state = State.NO_STRING_OR_INT;
-                break;
+    private String dumpTwoDimensionalArray(int[][] twoDimensionalArray) {
+        if (state != null) {
+            state.flushBuffer();
+            state = null;
         }
-    }
-
-    private static String dumpTwoDimensionalArray(int[][] twoDimensionalArray) {
         StringBuilder stringBuilder = new StringBuilder("{" + SEP);
         for (int[] oneDimensionalIntArray : twoDimensionalArray) {
             stringBuilder.append("{");
@@ -188,22 +217,7 @@ public class Logger {
     }
 
     private static void logBoolAndChar(String prefix, String message) {
-        printState();
         printInConsole(prefix, message);
-    }
-
-    //Method to log integer and byte values.
-    //Main difference between types are MAX_VALUE which passes as argument to generic function
-    private static void printNumericValue(int message, int maxValue) {
-        if (state != State.HAS_INT)
-            printState();
-        if (((long) message + Integer.parseInt(buffer)) > maxValue) {
-            printState();
-            buffer = message + "";
-        } else {
-            buffer = Integer.parseInt(buffer) + message + "";
-        }
-        state = State.HAS_INT;
     }
 
     private static void printInConsole(String prefix, String message) {
