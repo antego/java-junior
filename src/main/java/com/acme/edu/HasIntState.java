@@ -10,10 +10,6 @@ public class HasIntState implements State {
 
     @Override
     public void processMessage(String message, MessageType messageType) {
-        if (messageType != MessageType.INT && messageType != MessageType.BYTE) {
-            flushBuffer();
-            return;
-        }
         if (messageType == MessageType.INT) {
             printNumericValue(Integer.parseInt(message), Integer.MAX_VALUE, printer);
         } else {
