@@ -57,7 +57,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
     }
 
-    @Test @Ignore
+    @Test
     public void shouldLogChar() throws IOException {
         //region when
         logger.log('a');
@@ -72,7 +72,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
     }
 
-    @Test @Ignore
+    @Test
     public void shouldLogBoolean() throws IOException {
         //region when
         logger.log(true);
@@ -87,7 +87,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
     }
 
-    @Test @Ignore
+    @Test
     public void shouldLogString() throws IOException {
         //region when
         logger.log("test string 1");
@@ -102,7 +102,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
     }
 
-    @Test @Ignore
+    @Test
     public void shouldLogReference() throws IOException {
         //region when
         logger.log(new Object());

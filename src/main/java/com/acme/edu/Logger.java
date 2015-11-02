@@ -67,10 +67,6 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(boolean message) {
-        if (state != null) {
-            state.flushBuffer();
-            state = null;
-        }
         logBoolAndChar(PRIMITIVE_PREFIX, message + "");
     }
 
@@ -80,10 +76,6 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(char message) {
-        if (state != null) {
-            state.flushBuffer();
-            state = null;
-        }
         logBoolAndChar("char: ", message + "");
     }
 
@@ -93,8 +85,11 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(String message) {
+        if(state != hasStringState) {
+            state.flushBuffer();
+        }
+        state = hasStringState;
         state.processMessage(message, MessageType.STRING);
-        state = new HasStringState(printer);
     }
 
     /**
@@ -106,9 +101,9 @@ public class Logger {
         if (message == null) {
             return;
         }
-        if (state != null) {
+        if (state != blankState) {
             state.flushBuffer();
-            state = null;
+            state = blankState;
         }
         printInConsole("reference: ", message.toString());
     }
@@ -216,7 +211,11 @@ public class Logger {
         return stringBuilder.toString();
     }
 
-    private static void logBoolAndChar(String prefix, String message) {
+    private void logBoolAndChar(String prefix, String message) {
+        if (state != blankState) {
+            state.flushBuffer();
+            state = blankState;
+        }
         printInConsole(prefix, message);
     }
 

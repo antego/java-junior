@@ -13,7 +13,7 @@ public class HasStringState implements State {
     @Override
     public void processMessage(String message, MessageType messageType) {
         if(messageType != MessageType.STRING) {
-            printer.print(buffer);
+            flushBuffer();
             return;
         }
         if(message.equals(buffer)) {
@@ -26,7 +26,11 @@ public class HasStringState implements State {
 
     @Override
     public void flushBuffer() {
-        printer.print("string: " + buffer + " (x" + stringCount + ")");
+        if(stringCount == 1) {
+            printer.print("string: " + buffer);
+        } else {
+            printer.print("string: " + buffer + " (x" + stringCount + ")");
+        }
         stringCount = 0;
         buffer = null;
     }
