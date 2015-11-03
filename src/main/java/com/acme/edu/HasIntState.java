@@ -6,6 +6,7 @@ package com.acme.edu;
 public class HasIntState implements State {
     private int buffer;
     private Printer printer;
+    private Decorator decorator;
 
     /**
      * Creates new instance of {@code HasIntState} with specified printer.
@@ -23,21 +24,14 @@ public class HasIntState implements State {
      * @param message message to log.
      */
     @Override
-    public void processMessage(String message) {
+    public void processMessage(String message, Decorator decorator) {
+        this.decorator = decorator;
         if (((long) Integer.parseInt(message) + buffer) > Integer.MAX_VALUE) {
             flushBuffer();
             buffer = Integer.parseInt(message);
         } else {
             buffer += Integer.parseInt(message);
         }
-    }
-
-    /**
-     * Method flushes the message buffer. Must be called when non-int or byte message comes.
-     */
-    public void flushBuffer() {
-        printer.print(Logger.PRIMITIVE_PREFIX + buffer + "");
-        buffer = 0;
     }
 
     @Override
@@ -55,5 +49,10 @@ public class HasIntState implements State {
     public HasStringState giveMeHasStringState() {
         flushBuffer();
         return new HasStringState(printer);
+    }
+
+    private void flushBuffer() {
+        printer.print(decorator.decorateMessage(buffer + ""));
+        buffer = 0;
     }
 }

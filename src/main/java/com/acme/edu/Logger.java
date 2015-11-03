@@ -11,20 +11,17 @@ public class Logger {
      */
     public static final String SEP = System.lineSeparator();
 
-    /**
-     * Prefix for output formatting.
-     */
-    public static final String PRIMITIVE_PREFIX = "primitive: ";
-
     private State state;
+    private DecoratorFactory decorators;
 
     /**
      * Constructor creates new instance of Logger with specified printer object
      *
      * @param state printer object that can print in various output channels.
      */
-    public Logger(State state) {
+    public Logger(State state, DecoratorFactory decorators) {
         this.state = state;
+        this.decorators = decorators;
     }
 
     /**
@@ -42,7 +39,7 @@ public class Logger {
      */
     public void log(int message) {
         state = state.giveMeHasIntState();
-        state.processMessage(message + "");
+        state.processMessage(message + "", decorators.getIntDecorator());
     }
 
     /**
@@ -60,7 +57,8 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(boolean message) {
-        logBoolAndChar(PRIMITIVE_PREFIX, message + "");
+        state = state.giveMeBlankState();
+        state.processMessage(message + "", decorators.getBoolDecorator());
     }
 
     /**
@@ -69,7 +67,8 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(char message) {
-        logBoolAndChar("char: ", message + "");
+        state = state.giveMeBlankState();
+        state.processMessage(message + "", decorators.getCharDecorator());
     }
 
     /**
@@ -79,7 +78,7 @@ public class Logger {
      */
     public void log(String message) {
         state = state.giveMeHasStringState();
-        state.processMessage(message);
+        state.processMessage(message, decorators.getStringDecorator());
     }
 
     /**
@@ -92,7 +91,7 @@ public class Logger {
             return;
         }
         state = state.giveMeBlankState();
-        state.processMessage("reference: " + message.toString());
+        state.processMessage(message.toString(), decorators.getObjectDecorator());
     }
 
     /**
@@ -106,7 +105,7 @@ public class Logger {
         for (int arrayElement : oneDimensionalIntArray) {
             sumOfIntegers += arrayElement;
         }
-        state.processMessage("primitives array: " + sumOfIntegers + "");
+        state.processMessage(sumOfIntegers + "", decorators.getIntArrayDecorator());
     }
 
     /**
@@ -116,7 +115,7 @@ public class Logger {
      */
     public void log(int[][] integerMatrix) {
         state = state.giveMeBlankState();
-        state.processMessage("primitives array: " + dumpTwoDimensionalArray(integerMatrix));
+        state.processMessage(dumpTwoDimensionalArray(integerMatrix), decorators.getIntTwoDimensionalArrayDecorator());
     }
 
     /**
@@ -136,7 +135,7 @@ public class Logger {
             stringBuilder.append("}").append(SEP);
         }
         stringBuilder.append("}");
-        state.processMessage("primitives multimatrix: " + stringBuilder.toString());
+        state.processMessage(stringBuilder.toString(), decorators.getIntFourDimensionalArrayDecorator());
     }
 
     /**
@@ -150,7 +149,7 @@ public class Logger {
         }
         state = state.giveMeBlankState();
         for (String singleString : arrayOfStrings) {
-            state.processMessage("" + singleString);
+            state.processMessage("" + singleString, decorators.getDummyDecorator());
         }
     }
 
@@ -166,10 +165,5 @@ public class Logger {
         }
         stringBuilder.append("}");
         return stringBuilder.toString();
-    }
-
-    private void logBoolAndChar(String prefix, String message) {
-        state = state.giveMeBlankState();
-        state.processMessage(prefix + message);
     }
 }

@@ -1,9 +1,6 @@
 package com.acme.edu.iteration03;
 
-import com.acme.edu.BlankState;
-import com.acme.edu.Logger;
-import com.acme.edu.SerialPrinter;
-import com.acme.edu.SysoutCaptureAndAssertionAbility;
+import com.acme.edu.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -12,9 +9,10 @@ import org.junit.Test;
 import java.io.IOException;
 
 import static com.acme.edu.Logger.SEP;
+
 @Ignore
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
-    Logger logger = new Logger(new BlankState(new SerialPrinter()));
+    Logger logger = new Logger(new BlankState(new SerialPrinter()), new Decorators());
 
     //region given
     @Before
@@ -51,7 +49,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
         //region then
         assertSysoutEquals(
-                "primitives array: {" + SEP +
+                "primitives matrix: {" + SEP +
                         "{-1, 0, 1}" + SEP +
                         "{1, 2, 3}" + SEP +
                         "{-1, -2, -3}" + SEP +

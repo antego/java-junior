@@ -6,11 +6,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mockito;
+
 import static org.mockito.Mockito.*;
 
 
 public class LoggerTest {
     State state;
+    DecoratorFactory decorators;
     Logger logger;
 
     @Before
@@ -19,7 +22,8 @@ public class LoggerTest {
         when(state.giveMeHasIntState()).thenReturn(state);
         when(state.giveMeHasStringState()).thenReturn(state);
         when(state.giveMeBlankState()).thenReturn(state);
-        logger = new Logger(state);
+        decorators = new Decorators();
+        logger = new Logger(state, decorators);
     }
 
     @Test
@@ -30,7 +34,7 @@ public class LoggerTest {
         //endregion
 
         //region then
-        verify(state).processMessage("1");
+        verify(state).processMessage("1", decorators.getIntDecorator());
         //endregion
     }
 
@@ -42,7 +46,7 @@ public class LoggerTest {
         //endregion
 
         //region then
-        verify(state).processMessage("String");
+        verify(state).processMessage("String", decorators.getStringDecorator());
         //endregion
     }
 
@@ -54,7 +58,7 @@ public class LoggerTest {
         //endregion
 
         //region then
-        verify(state).processMessage("primitives array: {" + Logger.SEP + "{0}" + Logger.SEP + "}");
+        verify(state).processMessage("{" + Logger.SEP + "{0}" + Logger.SEP + "}", decorators.getIntTwoDimensionalArrayDecorator());
         //endregion
     }
 }

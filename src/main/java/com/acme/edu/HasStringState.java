@@ -7,6 +7,7 @@ public class HasStringState implements State {
     private String buffer;
     private int stringCount;
     private Printer printer;
+    private Decorator decorator;
 
     /**
      * Creates new instance of {@code HasStringState} with specified printer.
@@ -24,7 +25,8 @@ public class HasStringState implements State {
      * @param message message to log.
      */
     @Override
-    public void processMessage(String message) {
+    public void processMessage(String message, Decorator decorator) {
+        this.decorator = decorator;
         if (message.equals(buffer)) {
             stringCount++;
         } else {
@@ -32,22 +34,6 @@ public class HasStringState implements State {
             buffer = message;
             stringCount = 1;
         }
-    }
-
-    /**
-     * Method flushes the message buffer. Must be called when non-String message comes.
-     */
-    public void flushBuffer() {
-        if (stringCount == 0) {
-            return;
-        }
-        if (stringCount == 1) {
-            printer.print("string: " + buffer);
-        } else {
-            printer.print("string: " + buffer + " (x" + stringCount + ")");
-        }
-        stringCount = 0;
-        buffer = null;
     }
 
     @Override
@@ -60,6 +46,19 @@ public class HasStringState implements State {
     public HasIntState giveMeHasIntState() {
         flushBuffer();
         return new HasIntState(printer);
+    }
+
+    private void flushBuffer() {
+        if (stringCount == 0) {
+            return;
+        }
+        if (stringCount == 1) {
+            printer.print(decorator.decorateMessage(buffer));
+        } else {
+            printer.print(decorator.decorateMessage(buffer + " (x" + stringCount + ")"));
+        }
+        stringCount = 0;
+        buffer = null;
     }
 
     @Override

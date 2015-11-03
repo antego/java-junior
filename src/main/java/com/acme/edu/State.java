@@ -9,7 +9,7 @@ public interface State {
      *
      * @param message message to log.
      */
-    void processMessage(String message);
+    void processMessage(String message, Decorator decorator);
 
     /**
      * Returns BlankState and flushes the buffer if needed.

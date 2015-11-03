@@ -26,9 +26,9 @@ public class StatesTest {
         //endregion
 
         //region when
-        hasIntState.processMessage("1");
-        hasIntState.processMessage("1");
-        hasIntState.flushBuffer();
+        hasIntState.processMessage("1", s -> "primitive: " + s);
+        hasIntState.processMessage("1", s -> "primitive: " + s);
+        hasIntState.giveMeBlankState();
         //endregion
 
         verify(printer).print("primitive: 2");
@@ -41,9 +41,9 @@ public class StatesTest {
         //endregion
 
         //region when
-        hasStringState.processMessage("testString");
-        hasStringState.processMessage("testString");
-        hasStringState.flushBuffer();
+        hasStringState.processMessage("testString", s -> "string: " + s);
+        hasStringState.processMessage("testString", s -> "string: " + s);
+        hasStringState.giveMeBlankState();
         //endregion
 
         verify(printer).print("string: testString (x2)");
@@ -56,7 +56,7 @@ public class StatesTest {
         //endregion
 
         //region when
-        blankState.processMessage("char: f");
+        blankState.processMessage("f", s -> "char: " + s);
         blankState.giveMeBlankState();
         //endregion
 
