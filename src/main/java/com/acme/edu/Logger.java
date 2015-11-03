@@ -24,7 +24,7 @@ public class Logger {
      * @param state printer object that can print in various output channels.
      */
     public Logger(State state) {
-        this.state = state.giveMeBlankState();
+        this.state = state;
     }
 
     /**

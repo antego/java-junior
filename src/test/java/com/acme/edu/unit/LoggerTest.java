@@ -7,18 +7,17 @@ import org.junit.Ignore;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
 
-@Ignore
+
 public class LoggerTest {
     @Test
     public void shouldPrintSumOfIntegers() {
         //region given
-        HasIntState state = mock(HasIntState.class);
-        when(state.giveMeHasIntState()).thenReturn(mock(HasIntState.class));
+        State state = mock(State.class);
+        when(state.giveMeHasIntState()).thenReturn(state);
         Logger logger = new Logger(state);
         //endregion
 
         //region when
-        logger.log(1);
         logger.log(1);
         logger.stopLogging();
         //endregion
@@ -30,12 +29,12 @@ public class LoggerTest {
     public void shouldPrintSumOfStrings() {
         //region given
         State state = mock(State.class);
+        when(state.giveMeHasStringState()).thenReturn(state);
         Logger logger = new Logger(state);
         //endregion
 
         //region when
         logger.log("String");
-        logger.log(1);
         logger.stopLogging();
         //endregion
 
@@ -46,8 +45,7 @@ public class LoggerTest {
     public void shouldPrintSumOf() {
         //region given
         State state = mock(State.class);
-        Printer printer = mock(Printer.class);
-        when(state.giveMeBlankState()).thenReturn(new BlankState(printer));
+        when(state.giveMeBlankState()).thenReturn(state);
         Logger logger = new Logger(state);
         //endregion
 
