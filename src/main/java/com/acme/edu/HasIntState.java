@@ -40,4 +40,21 @@ public class HasIntState implements State {
         printer.print(Logger.PRIMITIVE_PREFIX + buffer + "");
         buffer = 0;
     }
+
+    @Override
+    public BlankState giveMeBlankState() {
+        flushBuffer();
+        return new BlankState(printer);
+    }
+
+    @Override
+    public HasIntState giveMeHasIntState() {
+        return this;
+    }
+
+    @Override
+    public HasStringState giveMeHasStringState() {
+        flushBuffer();
+        return new HasStringState(printer);
+    }
 }

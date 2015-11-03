@@ -33,4 +33,19 @@ public class BlankState implements State {
     public void flushBuffer() {
         //Nothing to flush. Leaky abstraction.
     }
+
+    @Override
+    public BlankState giveMeBlankState() {
+        return this;
+    }
+
+    @Override
+    public HasIntState giveMeHasIntState() {
+        return new HasIntState(printer);
+    }
+
+    @Override
+    public HasStringState giveMeHasStringState() {
+        return new HasStringState(printer);
+    }
 }

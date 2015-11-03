@@ -15,4 +15,10 @@ public interface State {
      * Must print and reset buffer if it present.
      */
     void flushBuffer();
+
+    BlankState giveMeBlankState();
+
+    HasIntState giveMeHasIntState();
+
+    HasStringState giveMeHasStringState();
 }

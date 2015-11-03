@@ -51,4 +51,21 @@ public class HasStringState implements State {
         buffer = null;
     }
 
+    @Override
+    public BlankState giveMeBlankState() {
+        flushBuffer();
+        return new BlankState(printer);
+    }
+
+    @Override
+    public HasIntState giveMeHasIntState() {
+        flushBuffer();
+        return new HasIntState(printer);
+    }
+
+    @Override
+    public HasStringState giveMeHasStringState() {
+        return this;
+    }
+
 }
