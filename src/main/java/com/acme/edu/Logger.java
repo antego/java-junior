@@ -32,7 +32,7 @@ public class Logger {
      * You <b>MUST</b> call this method on the end of logging.
      */
     public void stopLogging() {
-        state.flushBuffer();
+        state.giveMeBlankState();
     }
 
     /**

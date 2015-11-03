@@ -37,7 +37,6 @@ public class HasStringState implements State {
     /**
      * Method flushes the message buffer. Must be called when non-String message comes.
      */
-    @Override
     public void flushBuffer() {
         if (stringCount == 0) {
             return;

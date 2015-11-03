@@ -57,7 +57,7 @@ public class StatesTest {
 
         //region when
         blankState.processMessage("char: f");
-        blankState.flushBuffer();
+        blankState.giveMeBlankState();
         //endregion
 
         verify(printer).print("char: f");

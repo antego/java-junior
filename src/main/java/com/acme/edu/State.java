@@ -12,13 +12,23 @@ public interface State {
     void processMessage(String message);
 
     /**
-     * Must print and reset buffer if it present.
+     * Returns BlankState and flushes the buffer if needed.
+     *
+     * @return BlankState state.
      */
-    void flushBuffer();
-
     State giveMeBlankState();
 
+    /**
+     * Returns HasIntState and flushes the buffer if needed.
+     *
+     * @return HasIntState state.
+     */
     State giveMeHasIntState();
 
+    /**
+     * Returns HasStringState and flushes the buffer if needed.
+     *
+     * @return HasStringState state.
+     */
     State giveMeHasStringState();
 }

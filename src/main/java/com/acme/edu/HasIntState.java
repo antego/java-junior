@@ -35,7 +35,6 @@ public class HasIntState implements State {
     /**
      * Method flushes the message buffer. Must be called when non-int or byte message comes.
      */
-    @Override
     public void flushBuffer() {
         printer.print(Logger.PRIMITIVE_PREFIX + buffer + "");
         buffer = 0;

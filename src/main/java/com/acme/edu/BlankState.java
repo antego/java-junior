@@ -26,14 +26,6 @@ public class BlankState implements State {
         printer.print(message);
     }
 
-    /**
-     * Method does nothing because of absence of buffer in this state.
-     */
-    @Override
-    public void flushBuffer() {
-        //Nothing to flush. Leaky abstraction.
-    }
-
     @Override
     public BlankState giveMeBlankState() {
         return this;
