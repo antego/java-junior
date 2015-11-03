@@ -16,9 +16,9 @@ public interface State {
      */
     void flushBuffer();
 
-    BlankState giveMeBlankState();
+    State giveMeBlankState();
 
-    HasIntState giveMeHasIntState();
+    State giveMeHasIntState();
 
-    HasStringState giveMeHasStringState();
+    State giveMeHasStringState();
 }

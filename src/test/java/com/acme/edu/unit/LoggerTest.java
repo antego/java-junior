@@ -1,10 +1,7 @@
 package com.acme.edu.unit;
 
 
-import com.acme.edu.BlankState;
-import com.acme.edu.Logger;
-import com.acme.edu.Printer;
-import com.acme.edu.State;
+import com.acme.edu.*;
 import org.junit.After;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -15,9 +12,8 @@ public class LoggerTest {
     @Test
     public void shouldPrintSumOfIntegers() {
         //region given
-        State state = mock(State.class);
-        Printer printer = mock(Printer.class);
-        when(state.giveMeBlankState()).thenReturn(new BlankState(printer));
+        HasIntState state = mock(HasIntState.class);
+        when(state.giveMeHasIntState()).thenReturn(mock(HasIntState.class));
         Logger logger = new Logger(state);
         //endregion
 
