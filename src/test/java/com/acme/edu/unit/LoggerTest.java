@@ -1,18 +1,24 @@
 package com.acme.edu.unit;
 
 
+import com.acme.edu.BlankState;
 import com.acme.edu.Logger;
 import com.acme.edu.Printer;
+import com.acme.edu.State;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
 
+@Ignore
 public class LoggerTest {
     @Test
     public void shouldPrintSumOfIntegers() {
         //region given
+        State state = mock(State.class);
         Printer printer = mock(Printer.class);
-        Logger logger = new Logger(printer);
+        when(state.giveMeBlankState()).thenReturn(new BlankState(printer));
+        Logger logger = new Logger(state);
         //endregion
 
         //region when
@@ -21,30 +27,32 @@ public class LoggerTest {
         logger.stopLogging();
         //endregion
 
-        verify(printer).print("primitive: 2");
+        verify(state).processMessage("1");
     }
 
     @Test
     public void shouldPrintSumOfStrings() {
         //region given
-        Printer printer = mock(Printer.class);
-        Logger logger = new Logger(printer);
+        State state = mock(State.class);
+        Logger logger = new Logger(state);
         //endregion
 
         //region when
-        logger.log("string");
-        logger.log("string");
+        logger.log("String");
+        logger.log(1);
         logger.stopLogging();
         //endregion
 
-        verify(printer).print("string: string (x2)");
+        verify(state).processMessage("String");
     }
 
     @Test
     public void shouldPrintSumOf() {
         //region given
+        State state = mock(State.class);
         Printer printer = mock(Printer.class);
-        Logger logger = new Logger(printer);
+        when(state.giveMeBlankState()).thenReturn(new BlankState(printer));
+        Logger logger = new Logger(state);
         //endregion
 
         //region when
@@ -52,6 +60,6 @@ public class LoggerTest {
         logger.stopLogging();
         //endregion
 
-        verify(printer).print("primitives array: {"+ Logger.SEP + "{0}" + Logger.SEP + "}");
+        verify(state).processMessage("primitives array: {" + Logger.SEP + "{0}" + Logger.SEP + "}");
     }
 }

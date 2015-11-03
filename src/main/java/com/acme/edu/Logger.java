@@ -21,10 +21,10 @@ public class Logger {
     /**
      * Constructor creates new instance of Logger with specified printer object
      *
-     * @param printer printer object that can print in various output channels.
+     * @param state printer object that can print in various output channels.
      */
-    public Logger(Printer printer) {
-        state = new BlankState(printer);
+    public Logger(State state) {
+        this.state = state.giveMeBlankState();
     }
 
     /**
