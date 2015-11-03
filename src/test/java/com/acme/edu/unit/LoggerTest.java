@@ -23,4 +23,20 @@ public class LoggerTest {
 
         verify(printer).print("primitive: 2");
     }
+
+    @Test
+    public void shouldPrintSumOfStrings() {
+        //region given
+        Printer printer = mock(Printer.class);
+        Logger logger = new Logger(printer);
+        //endregion
+
+        //region when
+        logger.log("string");
+        logger.log("string");
+        logger.stopLogging();
+        //endregion
+
+        verify(printer).print("string: string (x2)");
+    }
 }
