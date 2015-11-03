@@ -12,6 +12,7 @@ import java.io.*;
 
 import static com.acme.edu.Logger.SEP;
 
+@Ignore
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     Logger logger = new Logger(new SerialPrinter());
     //region given
