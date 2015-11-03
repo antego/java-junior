@@ -5,7 +5,6 @@ package com.acme.edu;
  */
 public class BlankState implements State {
     private Printer printer;
-    private Decorator decorator;
 
     /**
      * Creates new instance of {@code BlankState} with specified printer.
@@ -24,7 +23,6 @@ public class BlankState implements State {
      */
     @Override
     public void processMessage(String message, Decorator decorator) {
-        this.decorator = decorator;
         printer.print(decorator.decorateMessage(message));
     }
 
