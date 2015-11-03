@@ -39,4 +39,19 @@ public class LoggerTest {
 
         verify(printer).print("string: string (x2)");
     }
+
+    @Test
+    public void shouldPrintSumOf() {
+        //region given
+        Printer printer = mock(Printer.class);
+        Logger logger = new Logger(printer);
+        //endregion
+
+        //region when
+        logger.log(new int[][]{{0}});
+        logger.stopLogging();
+        //endregion
+
+        verify(printer).print("primitives array: {"+ Logger.SEP + "{0}" + Logger.SEP + "}");
+    }
 }
