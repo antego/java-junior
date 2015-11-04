@@ -38,15 +38,9 @@ public class LoggerTest {
     }
 
     @Test
-    public void shouldLogPrimitives() {
-        //region given
-        Object stubObject = null;
-        //endregion
-
+    public void shouldLogObject() {
         //region when
-
-        logger.log(true);
-        logger.log('c');
+        Object stubObject = null;
         //stubObject is null so there is no call to state.processMessage()
         logger.log(stubObject);
         stubObject = new Object();
@@ -54,10 +48,22 @@ public class LoggerTest {
         //endregion
 
         //region then
-        verify(state).processMessage("true", decorator);
-        verify(state).processMessage("c", decorator);
         verify(state).processMessage(stubObject.toString(), decorator);
         //endregion
+    }
+
+    @Test
+    public void shouldLogChar() {
+        logger.log('c');
+
+        verify(state).processMessage("c", decorator);
+    }
+
+    @Test
+    public void shouldLogBoolean() {
+        logger.log(true);
+
+        verify(state).processMessage("true", decorator);
     }
 
     @Test
