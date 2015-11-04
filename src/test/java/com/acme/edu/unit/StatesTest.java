@@ -70,7 +70,6 @@ public class StatesTest {
 
         //region when
         hasStringState.processMessage("testString", s -> "string: " + s);
-        hasStringState.processMessage("testString", s -> "string: " + s);
         hasStringState.giveMeBlankState();
 
         hasStringState.processMessage("testString22", s -> "string: " + s);
@@ -84,7 +83,7 @@ public class StatesTest {
         hasStringState.giveMeBlankState();
         //endregion
 
-        verify(printer).print("string: testString (x2)");
+        verify(printer).print("string: testString");
         verify(printer).print("string: testString22 (x2)");
         verify(printer).print("string: testString33 (x3)");
     }
