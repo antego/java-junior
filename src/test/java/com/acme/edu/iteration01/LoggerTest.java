@@ -1,7 +1,6 @@
 package com.acme.edu.iteration01;
 
 import com.acme.edu.*;
-import com.acme.edu.decorator.DefaultDecoratorFactory;
 import com.acme.edu.printer.SerialPrinter;
 import com.acme.edu.state.BlankState;
 import org.junit.After;
