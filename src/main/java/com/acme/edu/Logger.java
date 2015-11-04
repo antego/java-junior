@@ -1,6 +1,9 @@
 package com.acme.edu;
 
 
+import com.acme.edu.decorator.DecoratorFactory;
+import com.acme.edu.state.State;
+
 /**
  * This class contains static methods to log values of different types.
  * You <b>MUST</b> call #stopLogging on the end of logging.
@@ -29,7 +32,7 @@ public class Logger {
      * You <b>MUST</b> call this method on the end of logging.
      */
     public void stopLogging() {
-        state.giveMeBlankState();
+        state.getBlankState();
     }
 
     /**
@@ -38,7 +41,7 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(int message) {
-        state = state.giveMeHasIntState();
+        state = state.getIntState();
         state.processMessage(message + "", decorators.getIntDecorator());
     }
 
@@ -57,7 +60,7 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(boolean message) {
-        state = state.giveMeBlankState();
+        state = state.getBlankState();
         state.processMessage(message + "", decorators.getBoolDecorator());
     }
 
@@ -67,7 +70,7 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(char message) {
-        state = state.giveMeBlankState();
+        state = state.getBlankState();
         state.processMessage(message + "", decorators.getCharDecorator());
     }
 
@@ -77,7 +80,7 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(String message) {
-        state = state.giveMeHasStringState();
+        state = state.getStringState();
         state.processMessage(message, decorators.getStringDecorator());
     }
 
@@ -90,7 +93,7 @@ public class Logger {
         if (message == null) {
             return;
         }
-        state = state.giveMeBlankState();
+        state = state.getBlankState();
         state.processMessage(message.toString(), decorators.getObjectDecorator());
     }
 
@@ -100,7 +103,7 @@ public class Logger {
      * @param oneDimensionalIntArray integer array for logging.
      */
     public void log(int... oneDimensionalIntArray) {
-        state = state.giveMeBlankState();
+        state = state.getBlankState();
         int sumOfIntegers = 0;
         for (int arrayElement : oneDimensionalIntArray) {
             sumOfIntegers += arrayElement;
@@ -114,7 +117,7 @@ public class Logger {
      * @param integerMatrix integer matrix.
      */
     public void log(int[][] integerMatrix) {
-        state = state.giveMeBlankState();
+        state = state.getBlankState();
         state.processMessage(dumpTwoDimensionalArray(integerMatrix), decorators.getIntTwoDimensionalArrayDecorator());
     }
 
@@ -124,7 +127,7 @@ public class Logger {
      * @param fourDimensionalIntArray input four-dimensional array.
      */
     public void log(int[][][][] fourDimensionalIntArray) {
-        state = state.giveMeBlankState();
+        state = state.getBlankState();
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("{").append(SEP);
         for (int[][][] threeDimensionalIntArray : fourDimensionalIntArray) {
@@ -147,7 +150,7 @@ public class Logger {
         if (arrayOfStrings == null) {
             return;
         }
-        state = state.giveMeBlankState();
+        state = state.getBlankState();
         for (String singleString : arrayOfStrings) {
             state.processMessage("" + singleString, decorators.getDummyDecorator());
         }

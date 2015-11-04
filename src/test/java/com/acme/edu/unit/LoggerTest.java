@@ -2,12 +2,11 @@ package com.acme.edu.unit;
 
 
 import com.acme.edu.*;
-import org.junit.After;
+import com.acme.edu.decorator.Decorator;
+import com.acme.edu.decorator.DecoratorFactory;
+import com.acme.edu.state.State;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import static org.mockito.Mockito.*;
@@ -22,9 +21,9 @@ public class LoggerTest {
     @Before
     public void setUpTest() {
         state = mock(State.class);
-        when(state.giveMeHasIntState()).thenReturn(state);
-        when(state.giveMeHasStringState()).thenReturn(state);
-        when(state.giveMeBlankState()).thenReturn(state);
+        when(state.getIntState()).thenReturn(state);
+        when(state.getStringState()).thenReturn(state);
+        when(state.getBlankState()).thenReturn(state);
         decorator = mock(Decorator.class);
         //Factory stub that returns same Decorator instance for all calls to methods where return type is Decorator.
         decorators = mock(DecoratorFactory.class, (Answer) invocationOnMock -> {
@@ -132,6 +131,7 @@ public class LoggerTest {
     @Test
     public void shouldLogStringArray() {
         //region when
+        logger.log((String[]) null);
         logger.log("string1", "string2", "string3");
         logger.stopLogging();
         //endregion

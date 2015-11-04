@@ -1,6 +1,9 @@
 package com.acme.edu.iteration03;
 
 import com.acme.edu.*;
+import com.acme.edu.decorator.Decorators;
+import com.acme.edu.printer.SerialPrinter;
+import com.acme.edu.state.BlankState;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;

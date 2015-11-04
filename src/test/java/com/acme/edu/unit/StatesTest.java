@@ -1,6 +1,9 @@
 package com.acme.edu.unit;
 
-import com.acme.edu.*;
+import com.acme.edu.printer.Printer;
+import com.acme.edu.state.BlankState;
+import com.acme.edu.state.IntState;
+import com.acme.edu.state.StringState;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,22 +22,22 @@ public class StatesTest {
     @Test
     public void hasIntStateTest() {
         //region given
-        HasIntState hasIntState = new HasIntState(printer);
+        IntState intState = new IntState(printer);
         //endregion
 
         //region when
         //region CheckThatSumsAndFlushesOnChangeStates
-        hasIntState.processMessage("1", s -> "primitive: " + s);
-        hasIntState.processMessage("1", s -> "primitive: " + s);
-        hasIntState.giveMeBlankState();
+        intState.processMessage("1", s -> "primitive: " + s);
+        intState.processMessage("1", s -> "primitive: " + s);
+        intState.getBlankState();
 
-        hasIntState.processMessage("12", s -> "primitive: " + s);
-        hasIntState.giveMeHasStringState();
+        intState.processMessage("12", s -> "primitive: " + s);
+        intState.getStringState();
 
-        hasIntState.processMessage("5", s -> "primitive: " + s);
-        hasIntState.giveMeHasIntState(); //Call to giveMeHasIntState doesn't flush buffer
-        hasIntState.processMessage("5", s -> "primitive: " + s);
-        hasIntState.giveMeBlankState();
+        intState.processMessage("5", s -> "primitive: " + s);
+        intState.getIntState(); //Call to getIntState doesn't flush buffer
+        intState.processMessage("5", s -> "primitive: " + s);
+        intState.getBlankState();
         //endregion
         //endregion
 
@@ -49,13 +52,13 @@ public class StatesTest {
     @Test
     public void hasIntStateOverflowTest() {
         //region given
-        HasIntState hasIntState = new HasIntState(printer);
+        IntState intState = new IntState(printer);
         //endregion
 
         //region when
-        hasIntState.processMessage("10", s -> "primitive: " + s);
-        hasIntState.processMessage(Integer.MAX_VALUE + "", s -> "primitive: " + s);
-        hasIntState.giveMeBlankState();
+        intState.processMessage("10", s -> "primitive: " + s);
+        intState.processMessage(Integer.MAX_VALUE + "", s -> "primitive: " + s);
+        intState.getBlankState();
         //endregion
 
         verify(printer).print("primitive: 10");
@@ -65,22 +68,22 @@ public class StatesTest {
     @Test
     public void hasStringStateTest() {
         //region given
-        HasStringState hasStringState = new HasStringState(printer);
+        StringState StringState = new StringState(printer);
         //endregion
 
         //region when
-        hasStringState.processMessage("testString", s -> "string: " + s);
-        hasStringState.giveMeBlankState();
+        StringState.processMessage("testString", s -> "string: " + s);
+        StringState.getBlankState();
 
-        hasStringState.processMessage("testString22", s -> "string: " + s);
-        hasStringState.processMessage("testString22", s -> "string: " + s);
-        hasStringState.giveMeHasIntState();
+        StringState.processMessage("testString22", s -> "string: " + s);
+        StringState.processMessage("testString22", s -> "string: " + s);
+        StringState.getIntState();
 
-        hasStringState.processMessage("testString33", s -> "string: " + s);
-        hasStringState.processMessage("testString33", s -> "string: " + s);
-        hasStringState.giveMeHasStringState();
-        hasStringState.processMessage("testString33", s -> "string: " + s);
-        hasStringState.giveMeBlankState();
+        StringState.processMessage("testString33", s -> "string: " + s);
+        StringState.processMessage("testString33", s -> "string: " + s);
+        StringState.getStringState();
+        StringState.processMessage("testString33", s -> "string: " + s);
+        StringState.getBlankState();
         //endregion
 
         verify(printer).print("string: testString");
@@ -96,7 +99,7 @@ public class StatesTest {
 
         //region when
         blankState.processMessage("f", s -> "char: " + s);
-        blankState.giveMeBlankState();
+        blankState.getBlankState();
         //endregion
 
         verify(printer).print("char: f");

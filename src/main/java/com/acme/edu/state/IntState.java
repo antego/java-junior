@@ -1,20 +1,23 @@
-package com.acme.edu;
+package com.acme.edu.state;
+
+import com.acme.edu.printer.Printer;
+import com.acme.edu.decorator.Decorator;
 
 /**
  * State that Logger has if previous input message was byte or int.
  */
-public class HasIntState implements State {
+public class IntState implements State {
     private int buffer;
     private Printer printer;
     private Decorator decorator;
 
     /**
-     * Creates new instance of {@code HasIntState} with specified printer.
+     * Creates new instance of {@code IntState} with specified printer.
      *
      * @param printer Printer instance.
      * @see Printer#print(String)
      */
-    public HasIntState(Printer printer) {
+    public IntState(Printer printer) {
         this.printer = printer;
     }
 
@@ -35,20 +38,20 @@ public class HasIntState implements State {
     }
 
     @Override
-    public BlankState giveMeBlankState() {
+    public BlankState getBlankState() {
         flushBuffer();
         return new BlankState(printer);
     }
 
     @Override
-    public HasIntState giveMeHasIntState() {
+    public IntState getIntState() {
         return this;
     }
 
     @Override
-    public HasStringState giveMeHasStringState() {
+    public StringState getStringState() {
         flushBuffer();
-        return new HasStringState(printer);
+        return new StringState(printer);
     }
 
     private void flushBuffer() {

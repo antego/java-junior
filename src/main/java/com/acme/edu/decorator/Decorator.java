@@ -1,4 +1,4 @@
-package com.acme.edu;
+package com.acme.edu.decorator;
 
 /**
  * Decorator that decorates input message

@@ -1,4 +1,4 @@
-package com.acme.edu;
+package com.acme.edu.printer;
 
 /**
  * A printer that prints message to the specified destination.

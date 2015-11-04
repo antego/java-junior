@@ -1,4 +1,6 @@
-package com.acme.edu;
+package com.acme.edu.state;
+
+import com.acme.edu.decorator.Decorator;
 
 /**
  * State interface represents state of the Logger.
@@ -16,19 +18,19 @@ public interface State {
      *
      * @return BlankState state.
      */
-    State giveMeBlankState();
+    State getBlankState();
 
     /**
-     * Returns HasIntState and flushes the buffer if needed.
+     * Returns IntState and flushes the buffer if needed.
      *
-     * @return HasIntState state.
+     * @return IntState state.
      */
-    State giveMeHasIntState();
+    State getIntState();
 
     /**
-     * Returns HasStringState and flushes the buffer if needed.
+     * Returns StringState and flushes the buffer if needed.
      *
-     * @return HasStringState state.
+     * @return StringState state.
      */
-    State giveMeHasStringState();
+    State getStringState();
 }

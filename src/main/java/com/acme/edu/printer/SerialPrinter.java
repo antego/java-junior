@@ -1,4 +1,4 @@
-package com.acme.edu;
+package com.acme.edu.printer;
 
 /**
  * Printer to print logs in console

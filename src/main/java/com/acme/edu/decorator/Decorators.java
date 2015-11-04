@@ -1,17 +1,7 @@
-package com.acme.edu;
+package com.acme.edu.decorator;
 
 
 public class Decorators implements DecoratorFactory {
-    private static Decorator dummyDecorator = s -> s;
-    private static Decorator intDecorator = s -> "primitive: " + s;
-    private static Decorator stringDecorator = s -> "string: " + s;
-    private static Decorator charDecorator = s -> "char: " + s;
-    private static Decorator boolDecorator = s -> "primitive: " + s;
-    private static Decorator objectDecorator = s -> "reference: " + s;
-    private static Decorator intArrayDecorator = s -> "primitives array: " + s;
-    private static Decorator intTwoDimensionalArrayDecorator = s -> "primitives matrix: " + s;
-    private static Decorator intFourDimensionalArrayDecorator = s -> "primitives multimatrix: " + s;
-
     /**
      * Returns dummy decorator
      *
@@ -19,7 +9,7 @@ public class Decorators implements DecoratorFactory {
      */
     @Override
     public Decorator getDummyDecorator() {
-        return dummyDecorator;
+        return s -> s;
     }
 
     /**
@@ -29,7 +19,7 @@ public class Decorators implements DecoratorFactory {
      */
     @Override
     public Decorator getIntDecorator() {
-        return intDecorator;
+        return s -> "primitive: " + s;
     }
 
     /**
@@ -39,7 +29,7 @@ public class Decorators implements DecoratorFactory {
      */
     @Override
     public Decorator getStringDecorator() {
-        return stringDecorator;
+        return s -> "string: " + s;
     }
 
     /**
@@ -49,7 +39,7 @@ public class Decorators implements DecoratorFactory {
      */
     @Override
     public Decorator getCharDecorator() {
-        return charDecorator;
+        return s -> "char: " + s;
     }
 
     /**
@@ -59,7 +49,7 @@ public class Decorators implements DecoratorFactory {
      */
     @Override
     public Decorator getBoolDecorator() {
-        return boolDecorator;
+        return s -> "primitive: " + s;
     }
 
     /**
@@ -69,7 +59,7 @@ public class Decorators implements DecoratorFactory {
      */
     @Override
     public Decorator getObjectDecorator() {
-        return objectDecorator;
+        return s -> "reference: " + s;
     }
 
     /**
@@ -79,7 +69,7 @@ public class Decorators implements DecoratorFactory {
      */
     @Override
     public Decorator getIntArrayDecorator() {
-        return intArrayDecorator;
+        return s -> "primitives array: " + s;
     }
 
     /**
@@ -89,7 +79,7 @@ public class Decorators implements DecoratorFactory {
      */
     @Override
     public Decorator getIntTwoDimensionalArrayDecorator() {
-        return intTwoDimensionalArrayDecorator;
+        return s -> "primitives matrix: " + s;
     }
 
     /**
@@ -99,6 +89,6 @@ public class Decorators implements DecoratorFactory {
      */
     @Override
     public Decorator getIntFourDimensionalArrayDecorator() {
-        return intFourDimensionalArrayDecorator;
+        return s -> "primitives multimatrix: " + s;
     }
 }

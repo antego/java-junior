@@ -1,21 +1,24 @@
-package com.acme.edu;
+package com.acme.edu.state;
+
+import com.acme.edu.printer.Printer;
+import com.acme.edu.decorator.Decorator;
 
 /**
  * State that logger has if previous input message is of type string.
  */
-public class HasStringState implements State {
+public class StringState implements State {
     private String buffer;
     private int stringCount;
     private Printer printer;
     private Decorator decorator;
 
     /**
-     * Creates new instance of {@code HasStringState} with specified printer.
+     * Creates new instance of {@code IntState} with specified printer.
      *
      * @param printer Printer instance.
      * @see Printer#print(String)
      */
-    public HasStringState(Printer printer) {
+    public StringState(Printer printer) {
         this.printer = printer;
     }
 
@@ -37,15 +40,15 @@ public class HasStringState implements State {
     }
 
     @Override
-    public BlankState giveMeBlankState() {
+    public BlankState getBlankState() {
         flushBuffer();
         return new BlankState(printer);
     }
 
     @Override
-    public HasIntState giveMeHasIntState() {
+    public IntState getIntState() {
         flushBuffer();
-        return new HasIntState(printer);
+        return new IntState(printer);
     }
 
     private void flushBuffer() {
@@ -62,7 +65,7 @@ public class HasStringState implements State {
     }
 
     @Override
-    public HasStringState giveMeHasStringState() {
+    public StringState getStringState() {
         return this;
     }
 

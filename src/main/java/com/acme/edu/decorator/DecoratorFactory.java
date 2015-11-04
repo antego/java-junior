@@ -1,4 +1,4 @@
-package com.acme.edu;
+package com.acme.edu.decorator;
 
 /**
  * Factory of decorators for corresponding log() methods that must be passed to the Logger.
