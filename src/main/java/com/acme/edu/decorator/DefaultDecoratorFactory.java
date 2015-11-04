@@ -1,7 +1,7 @@
 package com.acme.edu.decorator;
 
 
-public class Decorators implements DecoratorFactory {
+public class DefaultDecoratorFactory implements DecoratorFactory {
     /**
      * Returns dummy decorator
      *
