@@ -1,7 +1,5 @@
 package com.acme.edu;
 
-
-import com.acme.edu.decorator.DecoratorFactory;
 import com.acme.edu.state.State;
 
 /**
@@ -15,16 +13,14 @@ public class Logger {
     public static final String SEP = System.lineSeparator();
 
     private State state;
-    private DecoratorFactory decorators;
 
     /**
      * Constructor creates new instance of Logger with specified printer object
      *
      * @param state printer object that can print in various output channels.
      */
-    public Logger(State state, DecoratorFactory decorators) {
+    public Logger(State state) {
         this.state = state;
-        this.decorators = decorators;
     }
 
     /**
@@ -42,7 +38,7 @@ public class Logger {
      */
     public void log(int message) {
         state = state.getIntState();
-        state.processMessage(message + "", decorators.getIntDecorator());
+        state.processMessage(message + "", "primitive: ");
     }
 
     /**
@@ -61,7 +57,7 @@ public class Logger {
      */
     public void log(boolean message) {
         state = state.getBlankState();
-        state.processMessage(message + "", decorators.getBoolDecorator());
+        state.processMessage(message + "", "primitive: ");
     }
 
     /**
@@ -71,7 +67,7 @@ public class Logger {
      */
     public void log(char message) {
         state = state.getBlankState();
-        state.processMessage(message + "", decorators.getCharDecorator());
+        state.processMessage(message + "", "char: ");
     }
 
     /**
@@ -81,7 +77,7 @@ public class Logger {
      */
     public void log(String message) {
         state = state.getStringState();
-        state.processMessage(message, decorators.getStringDecorator());
+        state.processMessage(message, "string: ");
     }
 
     /**
@@ -94,7 +90,7 @@ public class Logger {
             return;
         }
         state = state.getBlankState();
-        state.processMessage(message.toString(), decorators.getObjectDecorator());
+        state.processMessage(message.toString(), "reference: ");
     }
 
     /**
@@ -108,7 +104,7 @@ public class Logger {
         for (int arrayElement : oneDimensionalIntArray) {
             sumOfIntegers += arrayElement;
         }
-        state.processMessage(sumOfIntegers + "", decorators.getIntArrayDecorator());
+        state.processMessage(sumOfIntegers + "", "primitives array: ");
     }
 
     /**
@@ -118,7 +114,7 @@ public class Logger {
      */
     public void log(int[][] integerMatrix) {
         state = state.getBlankState();
-        state.processMessage(dumpTwoDimensionalArray(integerMatrix), decorators.getIntTwoDimensionalArrayDecorator());
+        state.processMessage(dumpTwoDimensionalArray(integerMatrix), "primitives matrix: ");
     }
 
     /**
@@ -138,7 +134,7 @@ public class Logger {
             stringBuilder.append("}").append(SEP);
         }
         stringBuilder.append("}");
-        state.processMessage(stringBuilder.toString(), decorators.getIntFourDimensionalArrayDecorator());
+        state.processMessage(stringBuilder.toString(), "primitives multimatrix: ");
     }
 
     /**
@@ -152,7 +148,7 @@ public class Logger {
         }
         state = state.getBlankState();
         for (String singleString : arrayOfStrings) {
-            state.processMessage("" + singleString, decorators.getDummyDecorator());
+            state.processMessage("" + singleString, "");
         }
     }
 

@@ -1,7 +1,6 @@
 package com.acme.edu.state;
 
 import com.acme.edu.printer.Printer;
-import com.acme.edu.decorator.Decorator;
 
 /**
  * State that logger has if previous input message is of type string.
@@ -10,7 +9,7 @@ public class StringState implements State {
     private String buffer;
     private int stringCount;
     private Printer printer;
-    private Decorator decorator;
+    private String prefix;
 
     /**
      * Creates new instance of {@code IntState} with specified printer.
@@ -28,8 +27,8 @@ public class StringState implements State {
      * @param message message to log.
      */
     @Override
-    public void processMessage(String message, Decorator decorator) {
-        this.decorator = decorator;
+    public void processMessage(String message, String prefix) {
+        this.prefix = prefix;
         if (message.equals(buffer)) {
             stringCount++;
         } else {
@@ -56,9 +55,9 @@ public class StringState implements State {
             return;
         }
         if (stringCount == 1) {
-            printer.print(decorator.decorateMessage(buffer));
+            printer.print(prefix + buffer);
         } else {
-            printer.print(decorator.decorateMessage(buffer + " (x" + stringCount + ")"));
+            printer.print(prefix + buffer + " (x" + stringCount + ")");
         }
         stringCount = 0;
         buffer = null;

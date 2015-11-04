@@ -2,21 +2,16 @@ package com.acme.edu.unit;
 
 
 import com.acme.edu.*;
-import com.acme.edu.decorator.Decorator;
-import com.acme.edu.decorator.DecoratorFactory;
 import com.acme.edu.state.State;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.stubbing.Answer;
 
 import static org.mockito.Mockito.*;
 
 
 public class LoggerTest {
     State state;
-    DecoratorFactory decorators;
     Logger logger;
-    Decorator decorator;
 
     @Before
     public void setUpTest() {
@@ -24,17 +19,7 @@ public class LoggerTest {
         when(state.getIntState()).thenReturn(state);
         when(state.getStringState()).thenReturn(state);
         when(state.getBlankState()).thenReturn(state);
-        decorator = mock(Decorator.class);
-        //Factory stub that returns same Decorator instance for all calls to methods where return type is Decorator.
-        decorators = mock(DecoratorFactory.class, (Answer) invocationOnMock -> {
-            if (Decorator.class.equals(invocationOnMock.getMethod().getReturnType())) {
-                return decorator;
-            } else {
-                return RETURNS_DEFAULTS.answer(invocationOnMock);
-            }
-        });
-
-        logger = new Logger(state, decorators);
+        logger = new Logger(state);
     }
 
     @Test
@@ -48,7 +33,7 @@ public class LoggerTest {
         //endregion
 
         //region then
-        verify(state).processMessage(stubObject.toString(), decorator);
+        verify(state).processMessage(stubObject.toString(), "reference: ");
         //endregion
     }
 
@@ -56,32 +41,32 @@ public class LoggerTest {
     public void shouldPrintChar() {
         logger.log('c');
 
-        verify(state).processMessage("c", decorator);
+        verify(state).processMessage("c", "char: ");
     }
 
     @Test
     public void shouldPrintBoolean() {
         logger.log(true);
 
-        verify(state).processMessage("true", decorator);
+        verify(state).processMessage("true", "primitive: ");
     }
 
     @Test
     public void shouldPrintByte() {
         logger.log((byte) -8);
 
-        verify(state).processMessage("-8", decorator);
+        verify(state).processMessage("-8", "primitive: ");
     }
 
     @Test
-    public void shouldPrintSumOfIntegers() {
+    public void shouldPrintInteger() {
         //region when
         logger.log(1);
         logger.stopLogging();
         //endregion
 
         //region then
-        verify(state).processMessage("1", decorator);
+        verify(state).processMessage("1", "primitive: ");
         //endregion
     }
 
@@ -93,7 +78,7 @@ public class LoggerTest {
         //endregion
 
         //region then
-        verify(state).processMessage("String", decorator);
+        verify(state).processMessage("String", "string: ");
         //endregion
     }
 
@@ -105,7 +90,7 @@ public class LoggerTest {
         //endregion
 
         //region then
-        verify(state).processMessage("{" + Logger.SEP + "{0}" + Logger.SEP + "}", decorator);
+        verify(state).processMessage("{" + Logger.SEP + "{0}" + Logger.SEP + "}", "primitives matrix: ");
         //endregion
     }
 
@@ -117,7 +102,7 @@ public class LoggerTest {
         //endregion
 
         //region then
-        verify(state).processMessage("10", decorator);
+        verify(state).processMessage("10", "primitives array: ");
         //endregion
     }
 
@@ -136,7 +121,7 @@ public class LoggerTest {
                 "{0, 1}" + Logger.SEP +
                 "}" + Logger.SEP +
                 "}" + Logger.SEP +
-                "}", decorator);
+                "}", "primitives multimatrix: ");
         //endregion
     }
 
@@ -149,9 +134,9 @@ public class LoggerTest {
         //endregion
 
         //region then
-        verify(state).processMessage("string1", decorator);
-        verify(state).processMessage("string2", decorator);
-        verify(state).processMessage("string3", decorator);
+        verify(state).processMessage("string1", "");
+        verify(state).processMessage("string2", "");
+        verify(state).processMessage("string3", "");
         //endregion
     }
 }

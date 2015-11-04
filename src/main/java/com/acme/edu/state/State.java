@@ -1,7 +1,5 @@
 package com.acme.edu.state;
 
-import com.acme.edu.decorator.Decorator;
-
 /**
  * State interface represents state of the Logger.
  */
@@ -11,7 +9,7 @@ public interface State {
      *
      * @param message message to log.
      */
-    void processMessage(String message, Decorator decorator);
+    void processMessage(String message, String prefix);
 
     /**
      * Returns BlankState and flushes the buffer if needed.

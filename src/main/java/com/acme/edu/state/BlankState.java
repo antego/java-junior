@@ -1,7 +1,6 @@
 package com.acme.edu.state;
 
 import com.acme.edu.printer.Printer;
-import com.acme.edu.decorator.Decorator;
 
 /**
  * State that Logger has when previous message not an int, byte or String.
@@ -25,8 +24,8 @@ public class BlankState implements State {
      * @param message message to log.
      */
     @Override
-    public void processMessage(String message, Decorator decorator) {
-        printer.print(decorator.decorateMessage(message));
+    public void processMessage(String message, String prefix) {
+        printer.print(prefix + message);
     }
 
     @Override

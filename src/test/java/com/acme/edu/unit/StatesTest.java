@@ -27,16 +27,16 @@ public class StatesTest {
 
         //region when
         //region CheckThatSumsAndFlushesOnChangeStates
-        intState.processMessage("1", s -> "primitive: " + s);
-        intState.processMessage("1", s -> "primitive: " + s);
+        intState.processMessage("1", "primitive: ");
+        intState.processMessage("1", "primitive: ");
         intState.getBlankState();
 
-        intState.processMessage("12", s -> "primitive: " + s);
+        intState.processMessage("12", "primitive: ");
         intState.getStringState();
 
-        intState.processMessage("5", s -> "primitive: " + s);
+        intState.processMessage("5", "primitive: ");
         intState.getIntState(); //Call to getIntState doesn't flush buffer
-        intState.processMessage("5", s -> "primitive: " + s);
+        intState.processMessage("5", "primitive: ");
         intState.getBlankState();
         //endregion
         //endregion
@@ -56,8 +56,8 @@ public class StatesTest {
         //endregion
 
         //region when
-        intState.processMessage("10", s -> "primitive: " + s);
-        intState.processMessage(Integer.MAX_VALUE + "", s -> "primitive: " + s);
+        intState.processMessage("10", "primitive: ");
+        intState.processMessage(Integer.MAX_VALUE + "", "primitive: ");
         intState.getBlankState();
         //endregion
 
@@ -72,17 +72,17 @@ public class StatesTest {
         //endregion
 
         //region when
-        StringState.processMessage("testString", s -> "string: " + s);
+        StringState.processMessage("testString", "string: ");
         StringState.getBlankState();
 
-        StringState.processMessage("testString22", s -> "string: " + s);
-        StringState.processMessage("testString22", s -> "string: " + s);
+        StringState.processMessage("testString22", "string: ");
+        StringState.processMessage("testString22", "string: ");
         StringState.getIntState();
 
-        StringState.processMessage("testString33", s -> "string: " + s);
-        StringState.processMessage("testString33", s -> "string: " + s);
+        StringState.processMessage("testString33", "string: ");
+        StringState.processMessage("testString33", "string: ");
         StringState.getStringState();
-        StringState.processMessage("testString33", s -> "string: " + s);
+        StringState.processMessage("testString33", "string: ");
         StringState.getBlankState();
         //endregion
 
@@ -98,7 +98,7 @@ public class StatesTest {
         //endregion
 
         //region when
-        blankState.processMessage("f", s -> "char: " + s);
+        blankState.processMessage("f", "char: ");
         blankState.getBlankState();
         //endregion
 
