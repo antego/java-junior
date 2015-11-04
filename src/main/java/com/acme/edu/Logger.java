@@ -160,11 +160,10 @@ public class Logger {
         StringBuilder stringBuilder = new StringBuilder("{" + SEP);
         for (int[] oneDimensionalIntArray : twoDimensionalArray) {
             stringBuilder.append("{");
-            for (int arrayElement : oneDimensionalIntArray) {
-                stringBuilder.append(arrayElement).append(", ");
+            for (int i = 0; i < oneDimensionalIntArray.length - 1; i++) {
+                stringBuilder.append(oneDimensionalIntArray[i]).append(", ");
             }
-            //Change last two symbols from comma and whitespace to bracket and newline
-            stringBuilder.replace(stringBuilder.length() - 2, stringBuilder.length(), "}" + SEP);
+            stringBuilder.append(oneDimensionalIntArray[oneDimensionalIntArray.length - 1]).append("}" + SEP);
         }
         stringBuilder.append("}");
         return stringBuilder.toString();

@@ -44,7 +44,7 @@ public class LoggerTest {
         //endregion
 
         //region when
-        logger.log((byte) -8);
+
         logger.log(true);
         logger.log('c');
         //stubObject is null so there is no call to state.processMessage()
@@ -54,11 +54,17 @@ public class LoggerTest {
         //endregion
 
         //region then
-        verify(state).processMessage("-8", decorator);
         verify(state).processMessage("true", decorator);
         verify(state).processMessage("c", decorator);
         verify(state).processMessage(stubObject.toString(), decorator);
         //endregion
+    }
+
+    @Test
+    public void shouldLogByte() {
+        logger.log((byte) -8);
+
+        verify(state).processMessage("-8", decorator);
     }
 
     @Test
