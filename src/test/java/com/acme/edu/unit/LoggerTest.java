@@ -38,7 +38,7 @@ public class LoggerTest {
     }
 
     @Test
-    public void shouldLogObject() {
+    public void shouldPrintObject() {
         //region when
         Object stubObject = null;
         //stubObject is null so there is no call to state.processMessage()
@@ -53,21 +53,21 @@ public class LoggerTest {
     }
 
     @Test
-    public void shouldLogChar() {
+    public void shouldPrintChar() {
         logger.log('c');
 
         verify(state).processMessage("c", decorator);
     }
 
     @Test
-    public void shouldLogBoolean() {
+    public void shouldPrintBoolean() {
         logger.log(true);
 
         verify(state).processMessage("true", decorator);
     }
 
     @Test
-    public void shouldLogByte() {
+    public void shouldPrintByte() {
         logger.log((byte) -8);
 
         verify(state).processMessage("-8", decorator);
@@ -86,7 +86,7 @@ public class LoggerTest {
     }
 
     @Test
-    public void shouldPrintSumOfStrings() {
+    public void shouldPrintString() {
         //region when
         logger.log("String");
         logger.stopLogging();
