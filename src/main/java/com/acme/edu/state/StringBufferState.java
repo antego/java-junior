@@ -5,7 +5,7 @@ import com.acme.edu.printer.Printer;
 /**
  * State that logger has if previous input message is of type string.
  */
-public class StringState implements State {
+public class StringBufferState implements State {
     private String buffer;
     private int stringCount;
     private Printer printer;
@@ -17,7 +17,7 @@ public class StringState implements State {
      * @param printer Printer instance.
      * @see Printer#print(String)
      */
-    public StringState(Printer printer) {
+    public StringBufferState(Printer printer) {
         this.printer = printer;
     }
 
@@ -39,15 +39,15 @@ public class StringState implements State {
     }
 
     @Override
-    public BlankState getBlankState() {
+    public NoBufferState getBlankState() {
         flushBuffer();
-        return new BlankState(printer);
+        return new NoBufferState(printer);
     }
 
     @Override
-    public IntState getIntState() {
+    public IntBufferState getIntState() {
         flushBuffer();
-        return new IntState(printer);
+        return new IntBufferState(printer);
     }
 
     private void flushBuffer() {
@@ -64,7 +64,7 @@ public class StringState implements State {
     }
 
     @Override
-    public StringState getStringState() {
+    public StringBufferState getStringState() {
         return this;
     }
 

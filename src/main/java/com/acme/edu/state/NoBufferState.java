@@ -5,7 +5,7 @@ import com.acme.edu.printer.Printer;
 /**
  * State that Logger has when previous message not an int, byte or String.
  */
-public class BlankState implements State {
+public class NoBufferState implements State {
     private Printer printer;
 
     /**
@@ -14,7 +14,7 @@ public class BlankState implements State {
      * @param printer Printer instance.
      * @see Printer#print(String)
      */
-    public BlankState(Printer printer) {
+    public NoBufferState(Printer printer) {
         this.printer = printer;
     }
 
@@ -29,17 +29,17 @@ public class BlankState implements State {
     }
 
     @Override
-    public BlankState getBlankState() {
+    public NoBufferState getBlankState() {
         return this;
     }
 
     @Override
-    public IntState getIntState() {
-        return new IntState(printer);
+    public IntBufferState getIntState() {
+        return new IntBufferState(printer);
     }
 
     @Override
-    public StringState getStringState() {
-        return new StringState(printer);
+    public StringBufferState getStringState() {
+        return new StringBufferState(printer);
     }
 }

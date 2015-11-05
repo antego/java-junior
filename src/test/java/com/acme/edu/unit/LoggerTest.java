@@ -73,6 +73,7 @@ public class LoggerTest {
     @Test
     public void shouldPrintString() {
         //region when
+        logger.log((String) null);
         logger.log("String");
         logger.stopLogging();
         //endregion
@@ -85,6 +86,7 @@ public class LoggerTest {
     @Test
     public void shouldPrintTwoDimensionalArrayDump() {
         //region when
+        logger.log((int[][]) null);
         logger.log(new int[][]{{0}});
         logger.stopLogging();
         //endregion
@@ -97,6 +99,7 @@ public class LoggerTest {
     @Test
     public void shouldLogSumOfArrayElements() {
         //region when
+        logger.log((int[]) null);
         logger.log(new int[]{0, 1, 2, 3, 4});
         logger.stopLogging();
         //endregion
@@ -111,6 +114,7 @@ public class LoggerTest {
     public void shouldLogFourDimensionalArray() {
         //region when
         logger.log(new int[][][][]{{{{0, 1}}}});
+        logger.log((int[][][][]) null);
         logger.stopLogging();
         //endregion
 

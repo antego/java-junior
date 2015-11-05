@@ -2,7 +2,7 @@ package com.acme.edu.iteration03;
 
 import com.acme.edu.*;
 import com.acme.edu.printer.SerialPrinter;
-import com.acme.edu.state.BlankState;
+import com.acme.edu.state.NoBufferState;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -14,7 +14,7 @@ import static com.acme.edu.Logger.SEP;
 
 @Ignore
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
-    Logger logger = new Logger(new BlankState(new SerialPrinter()));
+    Logger logger = new Logger(new NoBufferState(new SerialPrinter()));
 
     //region given
     @Before

@@ -76,6 +76,9 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(String message) {
+        if (message == null) {
+            return;
+        }
         state = state.getStringState();
         state.processMessage(message, "string: ");
     }
@@ -99,6 +102,9 @@ public class Logger {
      * @param oneDimensionalIntArray integer array for logging.
      */
     public void log(int... oneDimensionalIntArray) {
+        if (oneDimensionalIntArray == null) {
+            return;
+        }
         state = state.getBlankState();
         int sumOfIntegers = 0;
         for (int arrayElement : oneDimensionalIntArray) {
@@ -113,6 +119,9 @@ public class Logger {
      * @param integerMatrix integer matrix.
      */
     public void log(int[][] integerMatrix) {
+        if (integerMatrix == null) {
+            return;
+        }
         state = state.getBlankState();
         state.processMessage(dumpTwoDimensionalArray(integerMatrix), "primitives matrix: ");
     }
@@ -123,6 +132,9 @@ public class Logger {
      * @param fourDimensionalIntArray input four-dimensional array.
      */
     public void log(int[][][][] fourDimensionalIntArray) {
+        if (fourDimensionalIntArray == null) {
+            return;
+        }
         state = state.getBlankState();
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("{").append(SEP);
