@@ -1,6 +1,5 @@
 package com.acme.edu;
 
-import com.acme.edu.printer.Printer;
 import com.acme.edu.printer.PrinterException;
 import com.acme.edu.state.*;
 
@@ -207,7 +206,7 @@ public class Logger {
         }
     }
 
-    private String dumpTwoDimensionalArray(int[][] twoDimensionalArray) {
+    private String dumpTwoDimensionalArray(int[][] twoDimensionalArray) throws LogException {
         StringBuilder stringBuilder = new StringBuilder("{" + SEP);
         for (int[] oneDimensionalIntArray : twoDimensionalArray) {
             stringBuilder.append("{");
@@ -217,7 +216,7 @@ public class Logger {
             try {
                 stringBuilder.append(oneDimensionalIntArray[oneDimensionalIntArray.length - 1]).append("}").append(SEP);
             } catch (ArrayIndexOutOfBoundsException e) {
-//                throw new IllegalArgumentException();
+                throw new LogException(new IllegalArgumentException());
             }
         }
         stringBuilder.append("}");

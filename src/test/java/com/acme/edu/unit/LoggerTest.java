@@ -2,6 +2,8 @@ package com.acme.edu.unit;
 
 
 import com.acme.edu.*;
+import com.acme.edu.printer.Printer;
+import com.acme.edu.printer.PrinterException;
 import com.acme.edu.state.State;
 import com.acme.edu.state.StateManager;
 import org.junit.Before;
@@ -13,16 +15,25 @@ import static org.mockito.Mockito.*;
 
 public class LoggerTest {
     State state;
-    StateManager stateManager;
     Logger logger;
 
+    State printerExceptionState;
+    Logger printerExceptionLogger;
 
     @Before
     public void setUpTest() throws Exception {
         state = mock(State.class);
-        stateManager = mock(StateManager.class);
+        StateManager stateManager = mock(StateManager.class);
         logger = new Logger(stateManager);
         when(stateManager.getWantedState(anyObject(), anyObject())).thenReturn(state);
+    }
+
+    @Before
+    public void setUpTestForExceptionHandling() throws Exception {
+        printerExceptionState = mock(State.class);
+        StateManager stateManager = mock(StateManager.class);
+        printerExceptionLogger = new Logger(stateManager);
+        when(stateManager.getWantedState(anyObject(), anyObject())).thenThrow(PrinterException.class);
     }
 
     @Test
@@ -152,5 +163,10 @@ public class LoggerTest {
     @Test(expected = LogException.class)
     public void shouldThrowExceptionOnNullMultimatrix() throws Exception {
         logger.log((int[][][][]) null);
+    }
+
+    @Test(expected = LogException.class)
+    public void shouldThrowPrinterException() throws Exception {
+        printerExceptionLogger.log(new Object());
     }
 }
