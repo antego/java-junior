@@ -28,7 +28,7 @@ public class IntBufferState implements State {
     @Override
     public void processMessage(String message, String prefix) {
         this.prefix = prefix;
-        if (((long) Integer.parseInt(message) + buffer) > Integer.MAX_VALUE) {
+        if (((long) Integer.parseInt(message) + buffer) > Integer.MAX_VALUE || ((long) Integer.parseInt(message) + buffer) < Integer.MIN_VALUE) {
             flushBuffer();
             buffer = Integer.parseInt(message);
         } else {

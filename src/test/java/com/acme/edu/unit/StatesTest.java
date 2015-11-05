@@ -59,10 +59,15 @@ public class StatesTest {
         intBufferState.processMessage("10", "primitive: ");
         intBufferState.processMessage(Integer.MAX_VALUE + "", "primitive: ");
         intBufferState.getBlankState();
+        intBufferState.processMessage("-10", "primitive: ");
+        intBufferState.processMessage(Integer.MIN_VALUE + "", "primitive: ");
+        intBufferState.getBlankState();
         //endregion
 
         verify(printer).print("primitive: 10");
         verify(printer).print("primitive: " + Integer.MAX_VALUE);
+        verify(printer).print("primitive: -10");
+        verify(printer).print("primitive: " + Integer.MIN_VALUE);
     }
 
     @Test
