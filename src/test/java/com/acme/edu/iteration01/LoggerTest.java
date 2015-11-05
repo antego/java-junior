@@ -18,7 +18,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     Logger logger = new Logger(new StateManager(new SerialPrinter()));
     //region given
     @Before
-    public void setUpSystemOut() throws IOException {
+    public void setUpSystemOut() throws Exception {
         resetOut();
         captureSysout();
     }
@@ -30,7 +30,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     }
 
     @Test
-    public void shouldLogInteger() throws IOException {
+    public void shouldLogInteger() throws Exception {
         //region when
         logger.log(1);
         logger.log(0);
@@ -45,7 +45,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     }
 
     @Test
-    public void shouldLogByte() throws IOException {
+    public void shouldLogByte() throws Exception {
         //region when
         logger.log((byte) 1);
         logger.log((byte) 0);
@@ -60,7 +60,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     }
 
     @Test
-    public void shouldLogChar() throws IOException {
+    public void shouldLogChar() throws Exception {
         //region when
         logger.log('a');
         logger.log('b');
@@ -75,7 +75,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     }
 
     @Test
-    public void shouldLogBoolean() throws IOException {
+    public void shouldLogBoolean() throws Exception {
         //region when
         logger.log(true);
         logger.log(false);
@@ -90,7 +90,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     }
 
     @Test
-    public void shouldLogString() throws IOException {
+    public void shouldLogString() throws Exception {
         //region when
         logger.log("test string 1");
         logger.log("other str");
@@ -105,7 +105,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     }
 
     @Test
-    public void shouldLogReference() throws IOException {
+    public void shouldLogReference() throws Exception {
         //region when
         logger.log(new Object());
         logger.stopLogging();

@@ -2,6 +2,7 @@ package com.acme.edu.unit;
 
 
 import com.acme.edu.*;
+import com.acme.edu.IllegalArgumentException;
 import com.acme.edu.state.State;
 import com.acme.edu.state.StateManager;
 import org.junit.Before;
@@ -26,7 +27,6 @@ public class LoggerTest {
     }
 
     @Test
-    @Ignore
     public void shouldPrintObject() throws Exception {
         //region when
         Object stubObject = new Object();
@@ -34,7 +34,7 @@ public class LoggerTest {
         //endregion
 
         //region then
-        verify(state).processMessage(stubObject.toString(), "reference: ");
+        verify(state).processMessage(stubObject + "", "reference: ");
         //endregion
     }
 
@@ -141,7 +141,17 @@ public class LoggerTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowException() {
+    public void shouldThrowExceptionOnNullStringArray() throws Exception {
         logger.log((String[]) null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowExceptionOnNullObject() throws Exception {
+        logger.log((Object) null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowExceptionOnNullMultimatrix() throws Exception {
+        logger.log((int[][][][]) null);
     }
 }

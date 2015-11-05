@@ -30,12 +30,11 @@ public class Logger {
      * Method to stop logging and flush buffers for {@code int}, {@code byte} and {@code String}.
      * You <b>MUST</b> call this method on the end of logging.
      */
-    public void stopLogging() {
+    public void stopLogging() throws LogException, IllegalArgumentException {
         try {
             stateManager.getWantedState(state, new NoBufferState());
         } catch (PrinterException e) {
-            log(e.getMessage());
-            e.printStackTrace();
+            throw new LogException(e);
         }
     }
 
@@ -44,13 +43,12 @@ public class Logger {
      *
      * @param message value for logging.
      */
-    public void log(int message) {
+    public void log(int message) throws LogException, IllegalArgumentException {
         try {
             state = stateManager.getWantedState(state, new IntBufferState());
             state.processMessage(message + "", "primitive: ");
         } catch (PrinterException e) {
-            log(e.getMessage());
-            e.printStackTrace();
+            throw new LogException(e);
         }
     }
 
@@ -59,7 +57,7 @@ public class Logger {
      *
      * @param message value for logging.
      */
-    public void log(byte message) {
+    public void log(byte message) throws LogException, IllegalArgumentException {
         log((int) message);
     }
 
@@ -68,13 +66,12 @@ public class Logger {
      *
      * @param message value for logging.
      */
-    public void log(boolean message) {
+    public void log(boolean message) throws LogException, IllegalArgumentException {
         try {
             state = stateManager.getWantedState(state, new NoBufferState());
             state.processMessage(message + "", "primitive: ");
         } catch (PrinterException e) {
-            log(e.getMessage());
-            e.printStackTrace();
+            throw new LogException(e);
         }
     }
 
@@ -83,13 +80,12 @@ public class Logger {
      *
      * @param message value for logging.
      */
-    public void log(char message) {
+    public void log(char message) throws LogException, IllegalArgumentException {
         try {
             state = stateManager.getWantedState(state, new NoBufferState());
             state.processMessage(message + "", "char: ");
         } catch (PrinterException e) {
-            log(e.getMessage());
-            e.printStackTrace();
+            throw new LogException(e);
         }
     }
 
@@ -98,7 +94,7 @@ public class Logger {
      *
      * @param message value for logging.
      */
-    public void log(String message) {
+    public void log(String message) throws LogException, IllegalArgumentException {
         if (message == null) {
             throw new IllegalArgumentException();
         }
@@ -106,8 +102,7 @@ public class Logger {
             state = stateManager.getWantedState(state, new StringBufferState());
             state.processMessage(message, "string: ");
         } catch (PrinterException e) {
-            log(e.getMessage());
-            e.printStackTrace();
+            throw new LogException(e);
         }
     }
 
@@ -116,16 +111,15 @@ public class Logger {
      *
      * @param message value for logging.
      */
-    public void log(Object message) {
+    public void log(Object message) throws LogException, IllegalArgumentException {
         if (message == null) {
             throw new IllegalArgumentException();
         }
         try {
-            state.processMessage(message.toString(), "reference: ");
             state = stateManager.getWantedState(state, new NoBufferState());
+            state.processMessage(message.toString(), "reference: ");
         } catch (PrinterException e) {
-            log(e.getMessage());
-            e.printStackTrace();
+            throw new LogException(e);
         }
     }
 
@@ -134,7 +128,7 @@ public class Logger {
      *
      * @param oneDimensionalIntArray integer array for logging.
      */
-    public void log(int... oneDimensionalIntArray) {
+    public void log(int... oneDimensionalIntArray) throws LogException, IllegalArgumentException {
         if (oneDimensionalIntArray == null) {
             throw new IllegalArgumentException();
         }
@@ -146,8 +140,7 @@ public class Logger {
             }
             state.processMessage(sumOfIntegers + "", "primitives array: ");
         } catch (PrinterException e) {
-            log(e.getMessage());
-            e.printStackTrace();
+            throw new LogException(e);
         }
     }
 
@@ -156,7 +149,7 @@ public class Logger {
      *
      * @param integerMatrix integer matrix.
      */
-    public void log(int[][] integerMatrix) {
+    public void log(int[][] integerMatrix) throws LogException, IllegalArgumentException {
         if (integerMatrix == null) {
             throw new IllegalArgumentException();
         }
@@ -164,8 +157,7 @@ public class Logger {
             state = stateManager.getWantedState(state, new NoBufferState());
             state.processMessage(dumpTwoDimensionalArray(integerMatrix), "primitives matrix: ");
         } catch (PrinterException e) {
-            log(e.getMessage());
-            e.printStackTrace();
+            throw new LogException(e);
         }
     }
 
@@ -174,7 +166,7 @@ public class Logger {
      *
      * @param fourDimensionalIntArray input four-dimensional array.
      */
-    public void log(int[][][][] fourDimensionalIntArray) {
+    public void log(int[][][][] fourDimensionalIntArray) throws LogException, IllegalArgumentException {
         if (fourDimensionalIntArray == null) {
             throw new IllegalArgumentException();
         }
@@ -192,8 +184,7 @@ public class Logger {
             stringBuilder.append("}");
             state.processMessage(stringBuilder.toString(), "primitives multimatrix: ");
         } catch (PrinterException e) {
-            log(e.getMessage());
-            e.printStackTrace();
+            throw new LogException(e);
         }
     }
 
@@ -202,7 +193,7 @@ public class Logger {
      *
      * @param arrayOfStrings input {@code String} array.
      */
-    public void log(String... arrayOfStrings) {
+    public void log(String... arrayOfStrings) throws LogException, IllegalArgumentException {
         if (arrayOfStrings == null) {
             throw new IllegalArgumentException();
         }
@@ -212,8 +203,7 @@ public class Logger {
                 state.processMessage("" + singleString, "");
             }
         } catch (PrinterException e) {
-            log(e.getMessage());
-            e.printStackTrace();
+            throw new LogException(e);
         }
     }
 
@@ -227,7 +217,7 @@ public class Logger {
             try {
                 stringBuilder.append(oneDimensionalIntArray[oneDimensionalIntArray.length - 1]).append("}").append(SEP);
             } catch (ArrayIndexOutOfBoundsException e) {
-                throw new IllegalArgumentException();
+//                throw new IllegalArgumentException();
             }
         }
         stringBuilder.append("}");
