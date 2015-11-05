@@ -1,5 +1,7 @@
 package com.acme.edu;
 
+import com.acme.edu.printer.Printer;
+import com.acme.edu.printer.PrinterException;
 import com.acme.edu.state.*;
 
 /**
@@ -14,6 +16,7 @@ public class Logger {
 
     private State state;
     private StateManager stateManager;
+
     /**
      * Constructor creates new instance of Logger with specified printer object
      *
@@ -28,7 +31,12 @@ public class Logger {
      * You <b>MUST</b> call this method on the end of logging.
      */
     public void stopLogging() {
-        stateManager.getWantedState(state, new NoBufferState());
+        try {
+            stateManager.getWantedState(state, new NoBufferState());
+        } catch (PrinterException e) {
+            log(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -37,8 +45,13 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(int message) {
-        state = stateManager.getWantedState(state, new IntBufferState());
-        state.processMessage(message + "", "primitive: ");
+        try {
+            state = stateManager.getWantedState(state, new IntBufferState());
+            state.processMessage(message + "", "primitive: ");
+        } catch (PrinterException e) {
+            log(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -56,8 +69,13 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(boolean message) {
-        state = stateManager.getWantedState(state, new NoBufferState());
-        state.processMessage(message + "", "primitive: ");
+        try {
+            state = stateManager.getWantedState(state, new NoBufferState());
+            state.processMessage(message + "", "primitive: ");
+        } catch (PrinterException e) {
+            log(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -66,8 +84,13 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(char message) {
-        state = stateManager.getWantedState(state, new NoBufferState());
-        state.processMessage(message + "", "char: ");
+        try {
+            state = stateManager.getWantedState(state, new NoBufferState());
+            state.processMessage(message + "", "char: ");
+        } catch (PrinterException e) {
+            log(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -77,10 +100,15 @@ public class Logger {
      */
     public void log(String message) {
         if (message == null) {
-            return;
+            throw new IllegalArgumentException();
         }
-        state = stateManager.getWantedState(state, new StringBufferState());
-        state.processMessage(message, "string: ");
+        try {
+            state = stateManager.getWantedState(state, new StringBufferState());
+            state.processMessage(message, "string: ");
+        } catch (PrinterException e) {
+            log(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -90,10 +118,15 @@ public class Logger {
      */
     public void log(Object message) {
         if (message == null) {
-            return;
+            throw new IllegalArgumentException();
         }
-        state = stateManager.getWantedState(state, new NoBufferState());
-        state.processMessage(message.toString(), "reference: ");
+        try {
+            state.processMessage(message.toString(), "reference: ");
+            state = stateManager.getWantedState(state, new NoBufferState());
+        } catch (PrinterException e) {
+            log(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -103,14 +136,19 @@ public class Logger {
      */
     public void log(int... oneDimensionalIntArray) {
         if (oneDimensionalIntArray == null) {
-            return;
+            throw new IllegalArgumentException();
         }
-        state = stateManager.getWantedState(state, new NoBufferState());
-        int sumOfIntegers = 0;
-        for (int arrayElement : oneDimensionalIntArray) {
-            sumOfIntegers += arrayElement;
+        try {
+            state = stateManager.getWantedState(state, new NoBufferState());
+            int sumOfIntegers = 0;
+            for (int arrayElement : oneDimensionalIntArray) {
+                sumOfIntegers += arrayElement;
+            }
+            state.processMessage(sumOfIntegers + "", "primitives array: ");
+        } catch (PrinterException e) {
+            log(e.getMessage());
+            e.printStackTrace();
         }
-        state.processMessage(sumOfIntegers + "", "primitives array: ");
     }
 
     /**
@@ -120,10 +158,15 @@ public class Logger {
      */
     public void log(int[][] integerMatrix) {
         if (integerMatrix == null) {
-            return;
+            throw new IllegalArgumentException();
         }
-        state = stateManager.getWantedState(state, new NoBufferState());
-        state.processMessage(dumpTwoDimensionalArray(integerMatrix), "primitives matrix: ");
+        try {
+            state = stateManager.getWantedState(state, new NoBufferState());
+            state.processMessage(dumpTwoDimensionalArray(integerMatrix), "primitives matrix: ");
+        } catch (PrinterException e) {
+            log(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -133,20 +176,25 @@ public class Logger {
      */
     public void log(int[][][][] fourDimensionalIntArray) {
         if (fourDimensionalIntArray == null) {
-            return;
+            throw new IllegalArgumentException();
         }
-        state = stateManager.getWantedState(state, new NoBufferState());
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("{").append(SEP);
-        for (int[][][] threeDimensionalIntArray : fourDimensionalIntArray) {
+        try {
+            state = stateManager.getWantedState(state, new NoBufferState());
+            StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("{").append(SEP);
-            for (int[][] twoDimensionalIntArray : threeDimensionalIntArray) {
-                stringBuilder.append(dumpTwoDimensionalArray(twoDimensionalIntArray)).append(SEP);
+            for (int[][][] threeDimensionalIntArray : fourDimensionalIntArray) {
+                stringBuilder.append("{").append(SEP);
+                for (int[][] twoDimensionalIntArray : threeDimensionalIntArray) {
+                    stringBuilder.append(dumpTwoDimensionalArray(twoDimensionalIntArray)).append(SEP);
+                }
+                stringBuilder.append("}").append(SEP);
             }
-            stringBuilder.append("}").append(SEP);
+            stringBuilder.append("}");
+            state.processMessage(stringBuilder.toString(), "primitives multimatrix: ");
+        } catch (PrinterException e) {
+            log(e.getMessage());
+            e.printStackTrace();
         }
-        stringBuilder.append("}");
-        state.processMessage(stringBuilder.toString(), "primitives multimatrix: ");
     }
 
     /**
@@ -156,11 +204,16 @@ public class Logger {
      */
     public void log(String... arrayOfStrings) {
         if (arrayOfStrings == null) {
-            return;
+            throw new IllegalArgumentException();
         }
-        state = stateManager.getWantedState(state, new NoBufferState());
-        for (String singleString : arrayOfStrings) {
-            state.processMessage("" + singleString, "");
+        try {
+            state = stateManager.getWantedState(state, new NoBufferState());
+            for (String singleString : arrayOfStrings) {
+                state.processMessage("" + singleString, "");
+            }
+        } catch (PrinterException e) {
+            log(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -171,7 +224,11 @@ public class Logger {
             for (int i = 0; i < oneDimensionalIntArray.length - 1; i++) {
                 stringBuilder.append(oneDimensionalIntArray[i]).append(", ");
             }
-            stringBuilder.append(oneDimensionalIntArray[oneDimensionalIntArray.length - 1]).append("}").append(SEP);
+            try {
+                stringBuilder.append(oneDimensionalIntArray[oneDimensionalIntArray.length - 1]).append("}").append(SEP);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                throw new IllegalArgumentException();
+            }
         }
         stringBuilder.append("}");
         return stringBuilder.toString();

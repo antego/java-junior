@@ -5,8 +5,8 @@ import com.acme.edu.*;
 import com.acme.edu.state.State;
 import com.acme.edu.state.StateManager;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.mockito.internal.matchers.Any;
 
 import static org.mockito.Mockito.*;
 
@@ -18,7 +18,7 @@ public class LoggerTest {
 
 
     @Before
-    public void setUpTest() {
+    public void setUpTest() throws Exception {
         state = mock(State.class);
         stateManager = mock(StateManager.class);
         logger = new Logger(stateManager);
@@ -26,12 +26,10 @@ public class LoggerTest {
     }
 
     @Test
-    public void shouldPrintObject() {
+    @Ignore
+    public void shouldPrintObject() throws Exception {
         //region when
-        Object stubObject = null;
-        //stubObject is null so there is no call to state.processMessage()
-        logger.log(stubObject);
-        stubObject = new Object();
+        Object stubObject = new Object();
         logger.log(stubObject);
         //endregion
 
@@ -41,28 +39,28 @@ public class LoggerTest {
     }
 
     @Test
-    public void shouldPrintChar() {
+    public void shouldPrintChar() throws Exception {
         logger.log('c');
 
         verify(state).processMessage("c", "char: ");
     }
 
     @Test
-    public void shouldPrintBoolean() {
+    public void shouldPrintBoolean() throws Exception {
         logger.log(true);
 
         verify(state).processMessage("true", "primitive: ");
     }
 
     @Test
-    public void shouldPrintByte() {
+    public void shouldPrintByte() throws Exception {
         logger.log((byte) -8);
 
         verify(state).processMessage("-8", "primitive: ");
     }
 
     @Test
-    public void shouldPrintInteger() {
+    public void shouldPrintInteger() throws Exception {
         //region when
         logger.log(1);
         logger.stopLogging();
@@ -74,9 +72,8 @@ public class LoggerTest {
     }
 
     @Test
-    public void shouldPrintString() {
+    public void shouldPrintString() throws Exception {
         //region when
-        logger.log((String) null);
         logger.log("String");
         logger.stopLogging();
         //endregion
@@ -87,9 +84,8 @@ public class LoggerTest {
     }
 
     @Test
-    public void shouldPrintTwoDimensionalArrayDump() {
+    public void shouldPrintTwoDimensionalArrayDump() throws Exception {
         //region when
-        logger.log((int[][]) null);
         logger.log(new int[][]{{0}});
         logger.stopLogging();
         //endregion
@@ -100,9 +96,8 @@ public class LoggerTest {
     }
 
     @Test
-    public void shouldLogSumOfArrayElements() {
+    public void shouldLogSumOfArrayElements() throws Exception {
         //region when
-        logger.log((int[]) null);
         logger.log(new int[]{0, 1, 2, 3, 4});
         logger.stopLogging();
         //endregion
@@ -114,10 +109,9 @@ public class LoggerTest {
 
 
     @Test
-    public void shouldLogFourDimensionalArray() {
+    public void shouldLogFourDimensionalArray() throws Exception {
         //region when
         logger.log(new int[][][][]{{{{0, 1}}}});
-        logger.log((int[][][][]) null);
         logger.stopLogging();
         //endregion
 
@@ -133,9 +127,8 @@ public class LoggerTest {
     }
 
     @Test
-    public void shouldLogStringArray() {
+    public void shouldLogStringArray() throws Exception {
         //region when
-        logger.log((String[]) null);
         logger.log("string1", "string2", "string3");
         logger.stopLogging();
         //endregion
@@ -145,5 +138,10 @@ public class LoggerTest {
         verify(state).processMessage("string2", "");
         verify(state).processMessage("string3", "");
         //endregion
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowException() {
+        logger.log((String[]) null);
     }
 }

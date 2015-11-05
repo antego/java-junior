@@ -1,6 +1,7 @@
 package com.acme.edu.state;
 
 import com.acme.edu.printer.Printer;
+import com.acme.edu.printer.PrinterException;
 
 /**
  * State that logger has if previous input message is of type string.
@@ -17,7 +18,7 @@ public class StringBufferState implements State {
      * @param message message to log.
      */
     @Override
-    public void processMessage(String message, String prefix) {
+    public void processMessage(String message, String prefix) throws PrinterException {
         this.prefix = prefix;
         if (message.equals(buffer)) {
             stringCount++;
@@ -29,7 +30,7 @@ public class StringBufferState implements State {
     }
 
     @Override
-    public void flushBuffer() {
+    public void flushBuffer() throws PrinterException {
         if (stringCount == 0) {
             return;
         }
@@ -42,6 +43,7 @@ public class StringBufferState implements State {
         buffer = null;
     }
 
+    @Override
     public void setPrinter(Printer printer) {
         this.printer = printer;
     }

@@ -1,6 +1,7 @@
 package com.acme.edu.state;
 
 import com.acme.edu.printer.Printer;
+import com.acme.edu.printer.PrinterException;
 
 /**
  * State interface represents state of the Logger.
@@ -11,9 +12,9 @@ public interface State {
      *
      * @param message message to log.
      */
-    void processMessage(String message, String prefix);
+    void processMessage(String message, String prefix) throws PrinterException;
 
     void setPrinter(Printer printer);
 
-    void flushBuffer();
+    void flushBuffer() throws PrinterException;
 }

@@ -20,7 +20,7 @@ public class StatesTest {
     }
 
     @Test
-    public void hasIntStateTest() {
+    public void hasIntStateTest() throws Exception {
         //region given
         IntBufferState intBufferState = new IntBufferState();
         intBufferState.setPrinter(printer);
@@ -50,7 +50,7 @@ public class StatesTest {
     }
 
     @Test
-    public void hasIntStateOverflowTest() {
+    public void hasIntStateOverflowTest() throws Exception {
         //region given
         IntBufferState intBufferState = new IntBufferState();
         intBufferState.setPrinter(printer);
@@ -72,7 +72,7 @@ public class StatesTest {
     }
 
     @Test
-    public void hasStringStateTest() {
+    public void hasStringStateTest() throws Exception {
         //region given
         StringBufferState stringBufferState = new StringBufferState();
         stringBufferState.setPrinter(printer);
@@ -98,7 +98,7 @@ public class StatesTest {
     }
 
     @Test
-    public void BlankStateTest() {
+    public void BlankStateTest() throws Exception {
         //region given
         NoBufferState noBufferState = new NoBufferState();
         noBufferState.setPrinter(printer);
