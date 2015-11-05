@@ -39,13 +39,13 @@ public class StringBufferState implements State {
     }
 
     @Override
-    public NoBufferState getBlankState() {
+    public NoBufferState getNoBufferState() {
         flushBuffer();
         return new NoBufferState(printer);
     }
 
     @Override
-    public IntBufferState getIntState() {
+    public IntBufferState getIntBufferState() {
         flushBuffer();
         return new IntBufferState(printer);
     }
@@ -64,7 +64,7 @@ public class StringBufferState implements State {
     }
 
     @Override
-    public StringBufferState getStringState() {
+    public StringBufferState getStringBufferState() {
         return this;
     }
 

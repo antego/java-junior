@@ -28,7 +28,7 @@ public class Logger {
      * You <b>MUST</b> call this method on the end of logging.
      */
     public void stopLogging() {
-        state.getBlankState();
+        state.getNoBufferState();
     }
 
     /**
@@ -37,7 +37,7 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(int message) {
-        state = state.getIntState();
+        state = state.getIntBufferState();
         state.processMessage(message + "", "primitive: ");
     }
 
@@ -56,7 +56,7 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(boolean message) {
-        state = state.getBlankState();
+        state = state.getNoBufferState();
         state.processMessage(message + "", "primitive: ");
     }
 
@@ -66,7 +66,7 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(char message) {
-        state = state.getBlankState();
+        state = state.getNoBufferState();
         state.processMessage(message + "", "char: ");
     }
 
@@ -79,7 +79,7 @@ public class Logger {
         if (message == null) {
             return;
         }
-        state = state.getStringState();
+        state = state.getStringBufferState();
         state.processMessage(message, "string: ");
     }
 
@@ -92,7 +92,7 @@ public class Logger {
         if (message == null) {
             return;
         }
-        state = state.getBlankState();
+        state = state.getNoBufferState();
         state.processMessage(message.toString(), "reference: ");
     }
 
@@ -105,7 +105,7 @@ public class Logger {
         if (oneDimensionalIntArray == null) {
             return;
         }
-        state = state.getBlankState();
+        state = state.getNoBufferState();
         int sumOfIntegers = 0;
         for (int arrayElement : oneDimensionalIntArray) {
             sumOfIntegers += arrayElement;
@@ -122,7 +122,7 @@ public class Logger {
         if (integerMatrix == null) {
             return;
         }
-        state = state.getBlankState();
+        state = state.getNoBufferState();
         state.processMessage(dumpTwoDimensionalArray(integerMatrix), "primitives matrix: ");
     }
 
@@ -135,7 +135,7 @@ public class Logger {
         if (fourDimensionalIntArray == null) {
             return;
         }
-        state = state.getBlankState();
+        state = state.getNoBufferState();
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("{").append(SEP);
         for (int[][][] threeDimensionalIntArray : fourDimensionalIntArray) {
@@ -158,7 +158,7 @@ public class Logger {
         if (arrayOfStrings == null) {
             return;
         }
-        state = state.getBlankState();
+        state = state.getNoBufferState();
         for (String singleString : arrayOfStrings) {
             state.processMessage("" + singleString, "");
         }

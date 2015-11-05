@@ -29,17 +29,17 @@ public class NoBufferState implements State {
     }
 
     @Override
-    public NoBufferState getBlankState() {
+    public NoBufferState getNoBufferState() {
         return this;
     }
 
     @Override
-    public IntBufferState getIntState() {
+    public IntBufferState getIntBufferState() {
         return new IntBufferState(printer);
     }
 
     @Override
-    public StringBufferState getStringState() {
+    public StringBufferState getStringBufferState() {
         return new StringBufferState(printer);
     }
 }

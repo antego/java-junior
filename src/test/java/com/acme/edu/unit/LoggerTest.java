@@ -16,9 +16,9 @@ public class LoggerTest {
     @Before
     public void setUpTest() {
         state = mock(State.class);
-        when(state.getIntState()).thenReturn(state);
-        when(state.getStringState()).thenReturn(state);
-        when(state.getBlankState()).thenReturn(state);
+        when(state.getIntBufferState()).thenReturn(state);
+        when(state.getStringBufferState()).thenReturn(state);
+        when(state.getNoBufferState()).thenReturn(state);
         logger = new Logger(state);
     }
 

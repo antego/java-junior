@@ -37,18 +37,18 @@ public class IntBufferState implements State {
     }
 
     @Override
-    public NoBufferState getBlankState() {
+    public NoBufferState getNoBufferState() {
         flushBuffer();
         return new NoBufferState(printer);
     }
 
     @Override
-    public IntBufferState getIntState() {
+    public IntBufferState getIntBufferState() {
         return this;
     }
 
     @Override
-    public StringBufferState getStringState() {
+    public StringBufferState getStringBufferState() {
         flushBuffer();
         return new StringBufferState(printer);
     }

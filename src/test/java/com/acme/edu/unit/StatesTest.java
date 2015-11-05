@@ -29,15 +29,15 @@ public class StatesTest {
         //region CheckThatSumsAndFlushesOnChangeStates
         intBufferState.processMessage("1", "primitive: ");
         intBufferState.processMessage("1", "primitive: ");
-        intBufferState.getBlankState();
+        intBufferState.getNoBufferState();
 
         intBufferState.processMessage("12", "primitive: ");
-        intBufferState.getStringState();
+        intBufferState.getStringBufferState();
 
         intBufferState.processMessage("5", "primitive: ");
-        intBufferState.getIntState(); //Call to getIntState doesn't flush buffer
+        intBufferState.getIntBufferState(); //Call to getIntBufferState doesn't flush buffer
         intBufferState.processMessage("5", "primitive: ");
-        intBufferState.getBlankState();
+        intBufferState.getNoBufferState();
         //endregion
         //endregion
 
@@ -58,10 +58,10 @@ public class StatesTest {
         //region when
         intBufferState.processMessage("10", "primitive: ");
         intBufferState.processMessage(Integer.MAX_VALUE + "", "primitive: ");
-        intBufferState.getBlankState();
+        intBufferState.getNoBufferState();
         intBufferState.processMessage("-10", "primitive: ");
         intBufferState.processMessage(Integer.MIN_VALUE + "", "primitive: ");
-        intBufferState.getBlankState();
+        intBufferState.getNoBufferState();
         //endregion
 
         verify(printer).print("primitive: 10");
@@ -78,17 +78,17 @@ public class StatesTest {
 
         //region when
         StringBufferState.processMessage("testString", "string: ");
-        StringBufferState.getBlankState();
+        StringBufferState.getNoBufferState();
 
         StringBufferState.processMessage("testString22", "string: ");
         StringBufferState.processMessage("testString22", "string: ");
-        StringBufferState.getIntState();
+        StringBufferState.getIntBufferState();
 
         StringBufferState.processMessage("testString33", "string: ");
         StringBufferState.processMessage("testString33", "string: ");
-        StringBufferState.getStringState();
+        StringBufferState.getStringBufferState();
         StringBufferState.processMessage("testString33", "string: ");
-        StringBufferState.getBlankState();
+        StringBufferState.getNoBufferState();
         //endregion
 
         verify(printer).print("string: testString");
@@ -104,7 +104,7 @@ public class StatesTest {
 
         //region when
         noBufferState.processMessage("f", "char: ");
-        noBufferState.getBlankState();
+        noBufferState.getNoBufferState();
         //endregion
 
         verify(printer).print("char: f");

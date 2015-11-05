@@ -16,19 +16,19 @@ public interface State {
      *
      * @return BlankState state.
      */
-    State getBlankState();
+    State getNoBufferState();
 
     /**
      * Returns IntState and flushes the buffer if needed.
      *
      * @return IntState state.
      */
-    State getIntState();
+    State getIntBufferState();
 
     /**
      * Returns StringState and flushes the buffer if needed.
      *
      * @return StringState state.
      */
-    State getStringState();
+    State getStringBufferState();
 }
