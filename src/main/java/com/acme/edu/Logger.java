@@ -1,6 +1,6 @@
 package com.acme.edu;
 
-import com.acme.edu.state.State;
+import com.acme.edu.state.*;
 
 /**
  * This class contains static methods to log values of different types.
@@ -13,14 +13,14 @@ public class Logger {
     public static final String SEP = System.lineSeparator();
 
     private State state;
-
+    private StateManager stateManager;
     /**
      * Constructor creates new instance of Logger with specified printer object
      *
-     * @param state printer object that can print in various output channels.
+     * @param stateManager printer object that can print in various output channels.
      */
-    public Logger(State state) {
-        this.state = state;
+    public Logger(StateManager stateManager) {
+        this.stateManager = stateManager;
     }
 
     /**
@@ -28,7 +28,7 @@ public class Logger {
      * You <b>MUST</b> call this method on the end of logging.
      */
     public void stopLogging() {
-        state.getNoBufferState();
+        stateManager.getWantedState(state, new NoBufferState());
     }
 
     /**
@@ -37,7 +37,7 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(int message) {
-        state = state.getIntBufferState();
+        state = stateManager.getWantedState(state, new IntBufferState());
         state.processMessage(message + "", "primitive: ");
     }
 
@@ -56,7 +56,7 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(boolean message) {
-        state = state.getNoBufferState();
+        state = stateManager.getWantedState(state, new NoBufferState());
         state.processMessage(message + "", "primitive: ");
     }
 
@@ -66,7 +66,7 @@ public class Logger {
      * @param message value for logging.
      */
     public void log(char message) {
-        state = state.getNoBufferState();
+        state = stateManager.getWantedState(state, new NoBufferState());
         state.processMessage(message + "", "char: ");
     }
 
@@ -79,7 +79,7 @@ public class Logger {
         if (message == null) {
             return;
         }
-        state = state.getStringBufferState();
+        state = stateManager.getWantedState(state, new StringBufferState());
         state.processMessage(message, "string: ");
     }
 
@@ -92,7 +92,7 @@ public class Logger {
         if (message == null) {
             return;
         }
-        state = state.getNoBufferState();
+        state = stateManager.getWantedState(state, new NoBufferState());
         state.processMessage(message.toString(), "reference: ");
     }
 
@@ -105,7 +105,7 @@ public class Logger {
         if (oneDimensionalIntArray == null) {
             return;
         }
-        state = state.getNoBufferState();
+        state = stateManager.getWantedState(state, new NoBufferState());
         int sumOfIntegers = 0;
         for (int arrayElement : oneDimensionalIntArray) {
             sumOfIntegers += arrayElement;
@@ -122,7 +122,7 @@ public class Logger {
         if (integerMatrix == null) {
             return;
         }
-        state = state.getNoBufferState();
+        state = stateManager.getWantedState(state, new NoBufferState());
         state.processMessage(dumpTwoDimensionalArray(integerMatrix), "primitives matrix: ");
     }
 
@@ -135,7 +135,7 @@ public class Logger {
         if (fourDimensionalIntArray == null) {
             return;
         }
-        state = state.getNoBufferState();
+        state = stateManager.getWantedState(state, new NoBufferState());
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("{").append(SEP);
         for (int[][][] threeDimensionalIntArray : fourDimensionalIntArray) {
@@ -158,7 +158,7 @@ public class Logger {
         if (arrayOfStrings == null) {
             return;
         }
-        state = state.getNoBufferState();
+        state = stateManager.getWantedState(state, new NoBufferState());
         for (String singleString : arrayOfStrings) {
             state.processMessage("" + singleString, "");
         }
@@ -171,7 +171,7 @@ public class Logger {
             for (int i = 0; i < oneDimensionalIntArray.length - 1; i++) {
                 stringBuilder.append(oneDimensionalIntArray[i]).append(", ");
             }
-            stringBuilder.append(oneDimensionalIntArray[oneDimensionalIntArray.length - 1]).append("}" + SEP);
+            stringBuilder.append(oneDimensionalIntArray[oneDimensionalIntArray.length - 1]).append("}").append(SEP);
         }
         stringBuilder.append("}");
         return stringBuilder.toString();

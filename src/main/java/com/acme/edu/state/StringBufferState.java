@@ -12,16 +12,6 @@ public class StringBufferState implements State {
     private String prefix;
 
     /**
-     * Creates new instance of {@code IntState} with specified printer.
-     *
-     * @param printer Printer instance.
-     * @see Printer#print(String)
-     */
-    public StringBufferState(Printer printer) {
-        this.printer = printer;
-    }
-
-    /**
      * Method that processes and logs input string message.
      *
      * @param message message to log.
@@ -39,18 +29,7 @@ public class StringBufferState implements State {
     }
 
     @Override
-    public NoBufferState getNoBufferState() {
-        flushBuffer();
-        return new NoBufferState(printer);
-    }
-
-    @Override
-    public IntBufferState getIntBufferState() {
-        flushBuffer();
-        return new IntBufferState(printer);
-    }
-
-    private void flushBuffer() {
+    public void flushBuffer() {
         if (stringCount == 0) {
             return;
         }
@@ -63,9 +42,7 @@ public class StringBufferState implements State {
         buffer = null;
     }
 
-    @Override
-    public StringBufferState getStringBufferState() {
-        return this;
+    public void setPrinter(Printer printer) {
+        this.printer = printer;
     }
-
 }

@@ -22,22 +22,22 @@ public class StatesTest {
     @Test
     public void hasIntStateTest() {
         //region given
-        IntBufferState intBufferState = new IntBufferState(printer);
+        IntBufferState intBufferState = new IntBufferState();
+        intBufferState.setPrinter(printer);
         //endregion
 
         //region when
         //region CheckThatSumsAndFlushesOnChangeStates
         intBufferState.processMessage("1", "primitive: ");
         intBufferState.processMessage("1", "primitive: ");
-        intBufferState.getNoBufferState();
+        intBufferState.flushBuffer();
 
         intBufferState.processMessage("12", "primitive: ");
-        intBufferState.getStringBufferState();
+        intBufferState.flushBuffer();
 
         intBufferState.processMessage("5", "primitive: ");
-        intBufferState.getIntBufferState(); //Call to getIntBufferState doesn't flush buffer
         intBufferState.processMessage("5", "primitive: ");
-        intBufferState.getNoBufferState();
+        intBufferState.flushBuffer();
         //endregion
         //endregion
 
@@ -52,16 +52,17 @@ public class StatesTest {
     @Test
     public void hasIntStateOverflowTest() {
         //region given
-        IntBufferState intBufferState = new IntBufferState(printer);
+        IntBufferState intBufferState = new IntBufferState();
+        intBufferState.setPrinter(printer);
         //endregion
 
         //region when
         intBufferState.processMessage("10", "primitive: ");
         intBufferState.processMessage(Integer.MAX_VALUE + "", "primitive: ");
-        intBufferState.getNoBufferState();
+        intBufferState.flushBuffer();
         intBufferState.processMessage("-10", "primitive: ");
         intBufferState.processMessage(Integer.MIN_VALUE + "", "primitive: ");
-        intBufferState.getNoBufferState();
+        intBufferState.flushBuffer();
         //endregion
 
         verify(printer).print("primitive: 10");
@@ -73,22 +74,22 @@ public class StatesTest {
     @Test
     public void hasStringStateTest() {
         //region given
-        StringBufferState StringBufferState = new StringBufferState(printer);
+        StringBufferState stringBufferState = new StringBufferState();
+        stringBufferState.setPrinter(printer);
         //endregion
 
         //region when
-        StringBufferState.processMessage("testString", "string: ");
-        StringBufferState.getNoBufferState();
+        stringBufferState.processMessage("testString", "string: ");
+        stringBufferState.flushBuffer();
 
-        StringBufferState.processMessage("testString22", "string: ");
-        StringBufferState.processMessage("testString22", "string: ");
-        StringBufferState.getIntBufferState();
+        stringBufferState.processMessage("testString22", "string: ");
+        stringBufferState.processMessage("testString22", "string: ");
+        stringBufferState.flushBuffer();
 
-        StringBufferState.processMessage("testString33", "string: ");
-        StringBufferState.processMessage("testString33", "string: ");
-        StringBufferState.getStringBufferState();
-        StringBufferState.processMessage("testString33", "string: ");
-        StringBufferState.getNoBufferState();
+        stringBufferState.processMessage("testString33", "string: ");
+        stringBufferState.processMessage("testString33", "string: ");
+        stringBufferState.processMessage("testString33", "string: ");
+        stringBufferState.flushBuffer();
         //endregion
 
         verify(printer).print("string: testString");
@@ -99,12 +100,13 @@ public class StatesTest {
     @Test
     public void BlankStateTest() {
         //region given
-        NoBufferState noBufferState = new NoBufferState(printer);
+        NoBufferState noBufferState = new NoBufferState();
+        noBufferState.setPrinter(printer);
         //endregion
 
         //region when
         noBufferState.processMessage("f", "char: ");
-        noBufferState.getNoBufferState();
+        noBufferState.flushBuffer();
         //endregion
 
         verify(printer).print("char: f");

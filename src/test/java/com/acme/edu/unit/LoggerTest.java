@@ -3,23 +3,26 @@ package com.acme.edu.unit;
 
 import com.acme.edu.*;
 import com.acme.edu.state.State;
+import com.acme.edu.state.StateManager;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.internal.matchers.Any;
 
 import static org.mockito.Mockito.*;
 
 
 public class LoggerTest {
     State state;
+    StateManager stateManager;
     Logger logger;
+
 
     @Before
     public void setUpTest() {
         state = mock(State.class);
-        when(state.getIntBufferState()).thenReturn(state);
-        when(state.getStringBufferState()).thenReturn(state);
-        when(state.getNoBufferState()).thenReturn(state);
-        logger = new Logger(state);
+        stateManager = mock(StateManager.class);
+        logger = new Logger(stateManager);
+        when(stateManager.getWantedState(anyObject(), anyObject())).thenReturn(state);
     }
 
     @Test

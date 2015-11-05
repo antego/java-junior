@@ -1,5 +1,7 @@
 package com.acme.edu.state;
 
+import com.acme.edu.printer.Printer;
+
 /**
  * State interface represents state of the Logger.
  */
@@ -11,24 +13,7 @@ public interface State {
      */
     void processMessage(String message, String prefix);
 
-    /**
-     * Returns BlankState and flushes the buffer if needed.
-     *
-     * @return BlankState state.
-     */
-    State getNoBufferState();
+    void setPrinter(Printer printer);
 
-    /**
-     * Returns IntState and flushes the buffer if needed.
-     *
-     * @return IntState state.
-     */
-    State getIntBufferState();
-
-    /**
-     * Returns StringState and flushes the buffer if needed.
-     *
-     * @return StringState state.
-     */
-    State getStringBufferState();
+    void flushBuffer();
 }
