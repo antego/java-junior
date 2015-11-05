@@ -1,7 +1,7 @@
 package com.acme.edu.printer;
 
 /**
- * Created by anton on 05.11.15.
+ * Исключение, которое выбрасывается при ошибке в работе с ресурсом, куда записываются данные
  */
 public class PrinterException extends Exception {
     public PrinterException() {

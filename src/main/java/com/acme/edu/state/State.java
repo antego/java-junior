@@ -4,17 +4,29 @@ import com.acme.edu.printer.Printer;
 import com.acme.edu.printer.PrinterException;
 
 /**
- * State interface represents state of the Logger.
+ * Интерфейс состояния, в котором может находится логер.
  */
 public interface State {
     /**
-     * Processes message according to a current state.
+     * Метод обрабатывает поступаемое сообщение
      *
-     * @param message message to log.
+     * @param message сообщение для логгирования
+     * @param prefix префикс сообщения
      */
     void processMessage(String message, String prefix) throws PrinterException;
 
+    /**
+     * Метод для установки объекта, который будет записывать данные в постоянное хранилище
+     *
+     * @param printer Объект, пишущий данные
+     */
     void setPrinter(Printer printer);
 
+    /**
+     * Метод записывает содержимое буфера и обнуляет его.
+     * Необходимо вызвать этот метод при смене состояния.
+     *
+     * @throws PrinterException
+     */
     void flushBuffer() throws PrinterException;
 }

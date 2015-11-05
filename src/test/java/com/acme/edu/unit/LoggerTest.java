@@ -150,9 +150,25 @@ public class LoggerTest {
         //endregion
     }
 
+    //region log method should throw LoggerException if message is null
     @Test(expected = LogException.class)
     public void shouldThrowExceptionOnNullStringArray() throws Exception {
         logger.log((String[]) null);
+    }
+
+    @Test(expected = LogException.class)
+    public void shouldThrowExceptionOnNullString() throws Exception {
+        logger.log((String) null);
+    }
+
+    @Test(expected = LogException.class)
+    public void shouldThrowExceptionOnNullIntArray() throws Exception {
+        logger.log((int[]) null);
+    }
+
+    @Test(expected = LogException.class)
+    public void shouldThrowExceptionOnNullIntMatrix() throws Exception {
+        logger.log((int[][]) null);
     }
 
     @Test(expected = LogException.class)
@@ -164,7 +180,9 @@ public class LoggerTest {
     public void shouldThrowExceptionOnNullMultimatrix() throws Exception {
         logger.log((int[][][][]) null);
     }
+    //endregion
 
+    //region logger should rethrow printer exception
     @Test(expected = LogException.class)
     public void shouldThrowPrinterExceptionOnObject() throws Exception {
         printerExceptionLogger.log(new Object());
@@ -209,4 +227,5 @@ public class LoggerTest {
     public void shouldThrowPrinterExceptionOnIntMultimatrix() throws Exception {
         printerExceptionLogger.log(new int[][][][]{{{{0}}}});
     }
+    //endregion
 }
