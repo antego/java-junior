@@ -2,7 +2,6 @@ package com.acme.edu.unit;
 
 
 import com.acme.edu.*;
-import com.acme.edu.IllegalArgumentException;
 import com.acme.edu.state.State;
 import com.acme.edu.state.StateManager;
 import org.junit.Before;
@@ -140,17 +139,17 @@ public class LoggerTest {
         //endregion
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = LogException.class)
     public void shouldThrowExceptionOnNullStringArray() throws Exception {
         logger.log((String[]) null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = LogException.class)
     public void shouldThrowExceptionOnNullObject() throws Exception {
         logger.log((Object) null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = LogException.class)
     public void shouldThrowExceptionOnNullMultimatrix() throws Exception {
         logger.log((int[][][][]) null);
     }
