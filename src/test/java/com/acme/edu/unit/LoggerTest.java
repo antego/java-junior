@@ -166,7 +166,47 @@ public class LoggerTest {
     }
 
     @Test(expected = LogException.class)
-    public void shouldThrowPrinterException() throws Exception {
+    public void shouldThrowPrinterExceptionOnObject() throws Exception {
         printerExceptionLogger.log(new Object());
+    }
+
+    @Test(expected = LogException.class)
+    public void shouldThrowPrinterExceptionOnStopLogging() throws Exception {
+        printerExceptionLogger.stopLogging();
+    }
+
+    @Test(expected = LogException.class)
+    public void shouldThrowPrinterExceptionOnInt() throws Exception {
+        printerExceptionLogger.log(1337);
+    }
+
+    @Test(expected = LogException.class)
+    public void shouldThrowPrinterExceptionOnBoolean() throws Exception {
+        printerExceptionLogger.log(true);
+    }
+
+    @Test(expected = LogException.class)
+    public void shouldThrowPrinterExceptionOnChar() throws Exception {
+        printerExceptionLogger.log('c');
+    }
+
+    @Test(expected = LogException.class)
+    public void shouldThrowPrinterExceptionOnString() throws Exception {
+        printerExceptionLogger.log("Stringh");
+    }
+
+    @Test(expected = LogException.class)
+    public void shouldThrowPrinterExceptionOnIntArray() throws Exception {
+        printerExceptionLogger.log(new int[]{0});
+    }
+
+    @Test(expected = LogException.class)
+    public void shouldThrowPrinterExceptionOnIntMatrix() throws Exception {
+        printerExceptionLogger.log(new int[][]{{0}});
+    }
+
+    @Test(expected = LogException.class)
+    public void shouldThrowPrinterExceptionOnIntMultimatrix() throws Exception {
+        printerExceptionLogger.log(new int[][][][]{{{{0}}}});
     }
 }

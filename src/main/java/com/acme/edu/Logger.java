@@ -216,7 +216,7 @@ public class Logger {
             try {
                 stringBuilder.append(oneDimensionalIntArray[oneDimensionalIntArray.length - 1]).append("}").append(SEP);
             } catch (ArrayIndexOutOfBoundsException e) {
-                throw new LogException(new IllegalArgumentException());
+                throw new LogException(new IllegalArgumentException(e));
             }
         }
         stringBuilder.append("}");
