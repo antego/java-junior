@@ -1,24 +1,24 @@
 package com.acme.edu.state;
 
-import com.acme.edu.printer.Printer;
 import com.acme.edu.printer.PrinterException;
+import com.acme.edu.printer.PrinterManager;
 
 /**
  * Class that manages switching states.
  */
 public class StateManager {
-    Printer printer;
+    PrinterManager printerManager;
 
     /**
-     * Constructor creates new instance of StateManager with specified printer object.
+     * Constructor creates new instance of StateManager with specified printerManager object.
      *
-     * @param printer object that saves logs.
+     * @param printerManager object that saves logs.
      */
-    public StateManager(Printer printer) {
-        if (printer == null) {
-            throw new NullPointerException("Printer object is null!");
+    public StateManager(PrinterManager printerManager) {
+        if (printerManager == null) {
+            throw new NullPointerException("Printer manager object is null!");
         }
-        this.printer = printer;
+        this.printerManager = printerManager;
     }
 
     /**
@@ -30,20 +30,20 @@ public class StateManager {
      * @throws PrinterException
      */
     public State getWantedState(State currentState, State wantedState) throws PrinterException {
-        //if current state is null then just return wanted state with specified printer
+        //if current state is null then just return wanted state with specified printerManager
         if (currentState == null) {
-            wantedState.setPrinter(printer);
+            wantedState.setPrinterManager(printerManager);
             return wantedState;
         }
         //if current state is the same as the wanted state, then return same current state
         if (currentState.getClass() == wantedState.getClass()) {
             return currentState;
         } else {
-            //if not, then flush current state if it flushable and return wanted state with specified printer
+            //if not, then flush current state if it flushable and return wanted state with specified printerManager
             if (currentState instanceof Flushable) {
                 ((Flushable) currentState).flushBuffer();
             }
-            wantedState.setPrinter(printer);
+            wantedState.setPrinterManager(printerManager);
             return wantedState;
         }
     }

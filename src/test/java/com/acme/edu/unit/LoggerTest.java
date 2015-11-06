@@ -181,7 +181,7 @@ public class LoggerTest {
     }
     //endregion
 
-    //region logger should rethrow printer exception
+    //region logger should rethrow printerManager exception
     @Test(expected = LogException.class)
     public void shouldThrowPrinterExceptionOnObject() throws Exception {
         printerExceptionLogger.log(new Object());

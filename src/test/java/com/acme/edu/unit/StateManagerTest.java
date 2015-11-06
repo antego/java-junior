@@ -1,7 +1,7 @@
 package com.acme.edu.unit;
 
 
-import com.acme.edu.printer.Printer;
+import com.acme.edu.printer.PrinterManager;
 import com.acme.edu.state.IntBufferState;
 import com.acme.edu.state.State;
 import com.acme.edu.state.StateManager;
@@ -11,24 +11,23 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockingDetails;
 import static org.mockito.Mockito.verify;
 
 public class StateManagerTest {
-    Printer printer;
-    Printer printerThatThrowsException;
+    PrinterManager printerManager;
+    PrinterManager printerManagerThatThrowsException;
     StateManager stateManager;
 
     @Before
     public void setUpManager() {
-        printer = mock(Printer.class);
-        stateManager = new StateManager(printer);
+        printerManager = mock(PrinterManager.class);
+        stateManager = new StateManager(printerManager);
     }
 
     @Test(expected = NullPointerException.class)
     public void shouldThrowExceptionInConstructor() {
         //not null parameter for full conditional coverage
-        new StateManager(printer);
+        new StateManager(printerManager);
         //null parameter that causes exception
         new StateManager(null);
     }

@@ -1,6 +1,7 @@
 package com.acme.edu.unit;
 
 import com.acme.edu.printer.Printer;
+import com.acme.edu.printer.PrinterManager;
 import com.acme.edu.state.NoBufferState;
 import com.acme.edu.state.IntBufferState;
 import com.acme.edu.state.StringBufferState;
@@ -12,18 +13,18 @@ import static org.mockito.Mockito.verify;
 
 public class StatesTest {
 
-    private Printer printer;
+    private PrinterManager printerManager;
 
     @Before
     public void setUpTests() {
-        printer = mock(Printer.class);
+        printerManager = mock(PrinterManager.class);
     }
 
     @Test
     public void hasIntStateTest() throws Exception {
         //region given
         IntBufferState intBufferState = new IntBufferState();
-        intBufferState.setPrinter(printer);
+        intBufferState.setPrinterManager(printerManager);
         //endregion
 
         //region when
@@ -42,9 +43,9 @@ public class StatesTest {
         //endregion
 
         //region then
-        verify(printer).print("primitive: 2");
-        verify(printer).print("primitive: 12");
-        verify(printer).print("primitive: 10");
+        verify(printerManager).print("primitive: 2");
+        verify(printerManager).print("primitive: 12");
+        verify(printerManager).print("primitive: 10");
         //endregion
 
     }
@@ -53,7 +54,7 @@ public class StatesTest {
     public void hasIntStateOverflowTest() throws Exception {
         //region given
         IntBufferState intBufferState = new IntBufferState();
-        intBufferState.setPrinter(printer);
+        intBufferState.setPrinterManager(printerManager);
         //endregion
 
         //region when
@@ -65,17 +66,17 @@ public class StatesTest {
         intBufferState.flushBuffer();
         //endregion
 
-        verify(printer).print("primitive: 10");
-        verify(printer).print("primitive: " + Integer.MAX_VALUE);
-        verify(printer).print("primitive: -10");
-        verify(printer).print("primitive: " + Integer.MIN_VALUE);
+        verify(printerManager).print("primitive: 10");
+        verify(printerManager).print("primitive: " + Integer.MAX_VALUE);
+        verify(printerManager).print("primitive: -10");
+        verify(printerManager).print("primitive: " + Integer.MIN_VALUE);
     }
 
     @Test
     public void hasStringStateTest() throws Exception {
         //region given
         StringBufferState stringBufferState = new StringBufferState();
-        stringBufferState.setPrinter(printer);
+        stringBufferState.setPrinterManager(printerManager);
         //endregion
 
         //region when
@@ -92,22 +93,22 @@ public class StatesTest {
         stringBufferState.flushBuffer();
         //endregion
 
-        verify(printer).print("string: testString");
-        verify(printer).print("string: testString22 (x2)");
-        verify(printer).print("string: testString33 (x3)");
+        verify(printerManager).print("string: testString");
+        verify(printerManager).print("string: testString22 (x2)");
+        verify(printerManager).print("string: testString33 (x3)");
     }
 
     @Test
     public void BlankStateTest() throws Exception {
         //region given
         NoBufferState noBufferState = new NoBufferState();
-        noBufferState.setPrinter(printer);
+        noBufferState.setPrinterManager(printerManager);
         //endregion
 
         //region when
         noBufferState.processMessage("f", "char: ");
         //endregion
 
-        verify(printer).print("char: f");
+        verify(printerManager).print("char: f");
     }
 }

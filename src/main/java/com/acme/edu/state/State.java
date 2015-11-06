@@ -2,6 +2,7 @@ package com.acme.edu.state;
 
 import com.acme.edu.printer.Printer;
 import com.acme.edu.printer.PrinterException;
+import com.acme.edu.printer.PrinterManager;
 
 /**
  * Интерфейс состояния, в котором может находится логер.
@@ -18,7 +19,7 @@ public interface State {
     /**
      * Метод для установки объекта, который будет записывать данные в постоянное хранилище
      *
-     * @param printer Объект, пишущий данные
+     * @param printerManager объект, пишущий данные
      */
-    void setPrinter(Printer printer);
+    void setPrinterManager(PrinterManager printerManager);
 }

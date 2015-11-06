@@ -2,13 +2,14 @@ package com.acme.edu.state;
 
 import com.acme.edu.printer.Printer;
 import com.acme.edu.printer.PrinterException;
+import com.acme.edu.printer.PrinterManager;
 
 /**
  * State that Logger has if previous input message was byte or int.
  */
 public class IntBufferState implements State, Flushable {
     private int buffer;
-    private Printer printer;
+    private PrinterManager printerManager;
     private String prefix;
 
     /**
@@ -29,12 +30,12 @@ public class IntBufferState implements State, Flushable {
 
     @Override
     public void flushBuffer() throws PrinterException {
-        printer.print(prefix + buffer + "");
+        printerManager.print(prefix + buffer + "");
         buffer = 0;
     }
 
     @Override
-    public void setPrinter(Printer printer) {
-        this.printer = printer;
+    public void setPrinterManager(PrinterManager printerManager) {
+        this.printerManager = printerManager;
     }
 }
