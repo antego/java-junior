@@ -4,15 +4,15 @@ import com.acme.edu.printer.Printer;
 import com.acme.edu.printer.PrinterException;
 
 /**
- * Класс объекта, управляющего переключением состояний логера
+ * Class that manages switching states.
  */
 public class StateManager {
     Printer printer;
 
     /**
-     * Конструктор создает экземпляр класса StateManager с указанным Printer.
+     * Constructor creates new instance of StateManager with specified printer object.
      *
-     * @param printer Объект, который отвечает за сохранение или передачу логируемых данных.
+     * @param printer object that saves logs.
      */
     public StateManager(Printer printer) {
         if (printer == null) {
@@ -22,24 +22,24 @@ public class StateManager {
     }
 
     /**
-     * Метод возвращает требуемое состояние, объект которого передается в качестве второго аргумента.
+     * Method that returns wanted state with respect to the current state.
      *
-     * @param currentState Текущее состояние логера.
-     * @param wantedState  Требуемое состояние логера.
-     * @return Требуемое состояние логера.
+     * @param currentState current state of the logger.
+     * @param wantedState state that logger wants to have.
+     * @return new state.
      * @throws PrinterException
      */
     public State getWantedState(State currentState, State wantedState) throws PrinterException {
-        //если текущее состояние не инициализированно, просто возвращаем требуемое состояние с установленным принтером
+        //if current state is null then just return wanted state with specified printer
         if (currentState == null) {
             wantedState.setPrinter(printer);
             return wantedState;
         }
-        //Если состояния совпадают, возвращается текущее состояние
+        //if current state is the same as the wanted state, then return same current state
         if (currentState.getClass() == wantedState.getClass()) {
             return currentState;
-            //Если нет, то у текущего сбрасывается буффер и возвращается требуемое состояние
         } else {
+            //if not, then flush current state if it flushable and return wanted state with specified printer
             if (currentState instanceof Flushable) {
                 ((Flushable) currentState).flushBuffer();
             }

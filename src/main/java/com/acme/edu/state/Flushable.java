@@ -3,12 +3,11 @@ package com.acme.edu.state;
 import com.acme.edu.printer.PrinterException;
 
 /**
- * Интерфейс, который должно реализовывать состояние, если у состояния есть буфер.
+ * Flushable interface that denotes that implementation has buffer
  */
 public interface Flushable {
     /**
-     * Метод записывает содержимое буфера и обнуляет его.
-     * Необходимо вызвать этот метод при смене состояния.
+     * Method that flushes buffer
      *
      * @throws PrinterException
      */
