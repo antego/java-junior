@@ -1,6 +1,6 @@
 package com.acme.edu.state;
 
-import com.acme.edu.printer.PrinterException;
+import com.acme.edu.printer.PrinterManagerException;
 
 /**
  * Flushable interface that denotes that implementation has buffer
@@ -9,7 +9,7 @@ public interface Flushable {
     /**
      * Method that flushes buffer
      *
-     * @throws PrinterException
+     * @throws PrinterManagerException
      */
-    void flushBuffer() throws PrinterException;
+    void flushBuffer() throws PrinterManagerException;
 }

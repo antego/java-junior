@@ -20,11 +20,35 @@ public class PrinterManager {
      * Method that calls print() methods on each printer
      *
      * @param message message to log
-     * @throws PrinterException
+     * @throws PrinterManagerException
      */
-    public void print(String message) throws PrinterException {
+    public void print(String message) throws PrinterManagerException {
+        PrinterManagerException printerManagerException = new PrinterManagerException();
         for (Printer printer : printers) {
-            printer.print(message);
+            try {
+                printer.print(message);
+            } catch (PrinterException e) {
+                printerManagerException.addPrinterException(e);
+            }
+        }
+        if (printerManagerException.getPrinterExceptions().size() > 0) {
+            throw printerManagerException;
+        }
+    }
+
+    public void closePrinters() throws PrinterManagerException {
+        PrinterManagerException printerManagerException = new PrinterManagerException();
+        for (Printer printer : printers) {
+            if (printer instanceof CloseablePrinter) {
+                try {
+                    ((CloseablePrinter) printer).close();
+                } catch (PrinterException e) {
+                    printerManagerException.addPrinterException(e);
+                }
+            }
+        }
+        if (printerManagerException.getPrinterExceptions().size() > 0) {
+            throw printerManagerException;
         }
     }
 }

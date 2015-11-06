@@ -1,8 +1,7 @@
 package com.acme.edu.state;
 
-import com.acme.edu.printer.Printer;
-import com.acme.edu.printer.PrinterException;
 import com.acme.edu.printer.PrinterManager;
+import com.acme.edu.printer.PrinterManagerException;
 
 /**
  * State that Logger has if previous input message was byte or int.
@@ -18,7 +17,7 @@ public class IntBufferState implements State, Flushable {
      * @param message message to log.
      */
     @Override
-    public void processMessage(String message, String prefix) throws PrinterException {
+    public void processMessage(String message, String prefix) throws PrinterManagerException {
         this.prefix = prefix;
         if (((long) Integer.parseInt(message) + buffer) > Integer.MAX_VALUE || ((long) Integer.parseInt(message) + buffer) < Integer.MIN_VALUE) {
             flushBuffer();
@@ -29,7 +28,7 @@ public class IntBufferState implements State, Flushable {
     }
 
     @Override
-    public void flushBuffer() throws PrinterException {
+    public void flushBuffer() throws PrinterManagerException {
         printerManager.print(prefix + buffer + "");
         buffer = 0;
     }

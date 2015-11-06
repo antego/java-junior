@@ -1,9 +1,7 @@
 package com.acme.edu.logger;
 
-import com.acme.edu.printer.PrinterException;
+import com.acme.edu.printer.PrinterManagerException;
 import com.acme.edu.state.*;
-
-import java.lang.*;
 
 /**
  * This class contains static methods to log values of different types.
@@ -34,7 +32,8 @@ public class Logger {
     public void stopLogging() throws LogException {
         try {
             stateManager.getWantedState(state, new NoBufferState());
-        } catch (PrinterException e) {
+            stateManager.closePrinterManager();
+        } catch (PrinterManagerException e) {
             throw new LogException(e);
         }
     }
@@ -48,7 +47,7 @@ public class Logger {
         try {
             state = stateManager.getWantedState(state, new IntBufferState());
             state.processMessage(message + "", "primitive: ");
-        } catch (PrinterException e) {
+        } catch (PrinterManagerException e) {
             throw new LogException(e);
         }
     }
@@ -71,7 +70,7 @@ public class Logger {
         try {
             state = stateManager.getWantedState(state, new NoBufferState());
             state.processMessage(message + "", "primitive: ");
-        } catch (PrinterException e) {
+        } catch (PrinterManagerException e) {
             throw new LogException(e);
         }
     }
@@ -85,7 +84,7 @@ public class Logger {
         try {
             state = stateManager.getWantedState(state, new NoBufferState());
             state.processMessage(message + "", "char: ");
-        } catch (PrinterException e) {
+        } catch (PrinterManagerException e) {
             throw new LogException(e);
         }
     }
@@ -102,7 +101,7 @@ public class Logger {
         try {
             state = stateManager.getWantedState(state, new StringBufferState());
             state.processMessage(message, "string: ");
-        } catch (PrinterException e) {
+        } catch (PrinterManagerException e) {
             throw new LogException(e);
         }
     }
@@ -119,7 +118,7 @@ public class Logger {
         try {
             state = stateManager.getWantedState(state, new NoBufferState());
             state.processMessage(message.toString(), "reference: ");
-        } catch (PrinterException e) {
+        } catch (PrinterManagerException e) {
             throw new LogException(e);
         }
     }
@@ -140,7 +139,7 @@ public class Logger {
                 sumOfIntegers += arrayElement;
             }
             state.processMessage(sumOfIntegers + "", "primitives array: ");
-        } catch (PrinterException e) {
+        } catch (PrinterManagerException e) {
             throw new LogException(e);
         }
     }
@@ -157,7 +156,7 @@ public class Logger {
         try {
             state = stateManager.getWantedState(state, new NoBufferState());
             state.processMessage(dumpTwoDimensionalArray(integerMatrix), "primitives matrix: ");
-        } catch (PrinterException e) {
+        } catch (PrinterManagerException e) {
             throw new LogException(e);
         }
     }
@@ -184,7 +183,7 @@ public class Logger {
             }
             stringBuilder.append("}");
             state.processMessage(stringBuilder.toString(), "primitives multimatrix: ");
-        } catch (PrinterException e) {
+        } catch (PrinterManagerException e) {
             throw new LogException(e);
         }
     }
@@ -203,7 +202,7 @@ public class Logger {
             for (String singleString : arrayOfStrings) {
                 state.processMessage("" + singleString, "");
             }
-        } catch (PrinterException e) {
+        } catch (PrinterManagerException e) {
             throw new LogException(e);
         }
     }

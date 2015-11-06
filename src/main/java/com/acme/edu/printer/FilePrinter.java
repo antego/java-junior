@@ -5,25 +5,46 @@ import com.acme.edu.logger.Logger;
 import java.io.*;
 import java.nio.charset.Charset;
 
-/**
- * Created by anton on 06.11.15.
- */
-public class FilePrinter implements Printer {
-    String outputFileName;
-    Charset charset;
 
-    public FilePrinter(String outputFileName, Charset charset) {
+public class FilePrinter implements Printer, CloseablePrinter {
+    private String outputFileName;
+    private Charset charset;
+
+    private FileOutputStream fileOutputStream;
+    private OutputStreamWriter logPrintWriter;
+
+    private int messageCount;
+
+    public FilePrinter(String outputFileName, Charset charset) throws PrinterException {
         this.outputFileName = outputFileName;
         this.charset = charset;
+
+        try {
+            fileOutputStream = new FileOutputStream(outputFileName, true);
+        } catch (FileNotFoundException e) {
+            throw new PrinterException(e);
+        }
+        logPrintWriter = new OutputStreamWriter(new BufferedOutputStream(fileOutputStream), charset);
     }
 
     @Override
     public void print(String message) throws PrinterException {
-        try (
-                FileOutputStream fileOutputStream = new FileOutputStream(outputFileName, true);
-                OutputStreamWriter logPrintWriter = new OutputStreamWriter(fileOutputStream, charset)
-        ) {
+        try {
             logPrintWriter.write(message + Logger.SEP);
+            messageCount++;
+            if (messageCount == 50) {
+                logPrintWriter.flush();
+                messageCount = 0;
+            }
+        } catch (IOException e) {
+            throw new PrinterException(e);
+        }
+    }
+
+    @Override
+    public void close() throws PrinterException {
+        try {
+            logPrintWriter.close();
         } catch (IOException e) {
             throw new PrinterException(e);
         }

@@ -1,7 +1,7 @@
 package com.acme.edu.state;
 
-import com.acme.edu.printer.PrinterException;
 import com.acme.edu.printer.PrinterManager;
+import com.acme.edu.printer.PrinterManagerException;
 
 /**
  * Class that manages switching states.
@@ -27,9 +27,9 @@ public class StateManager {
      * @param currentState current state of the logger.
      * @param wantedState state that logger wants to have.
      * @return new state.
-     * @throws PrinterException
+     * @throws PrinterManagerException
      */
-    public State getWantedState(State currentState, State wantedState) throws PrinterException {
+    public State getWantedState(State currentState, State wantedState) throws PrinterManagerException {
         //if current state is null then just return wanted state with specified printerManager
         if (currentState == null) {
             wantedState.setPrinterManager(printerManager);
@@ -46,5 +46,9 @@ public class StateManager {
             wantedState.setPrinterManager(printerManager);
             return wantedState;
         }
+    }
+
+    public void closePrinterManager() throws PrinterManagerException {
+        printerManager.closePrinters();
     }
 }

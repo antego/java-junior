@@ -1,9 +1,8 @@
 package com.acme.edu.unit;
 
-import com.acme.edu.printer.Printer;
 import com.acme.edu.printer.PrinterManager;
-import com.acme.edu.state.NoBufferState;
 import com.acme.edu.state.IntBufferState;
+import com.acme.edu.state.NoBufferState;
 import com.acme.edu.state.StringBufferState;
 import org.junit.Before;
 import org.junit.Test;
@@ -111,4 +110,6 @@ public class StatesTest {
 
         verify(printerManager).print("char: f");
     }
+
+
 }

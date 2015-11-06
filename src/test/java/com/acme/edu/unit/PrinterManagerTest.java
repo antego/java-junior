@@ -1,7 +1,6 @@
 package com.acme.edu.unit;
 
 import com.acme.edu.printer.Printer;
-import com.acme.edu.printer.PrinterException;
 import com.acme.edu.printer.PrinterManager;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +21,7 @@ public class PrinterManagerTest {
     }
 
     @Test
-    public void shouldCallPrintMethodOnAllPrinters() throws PrinterException {
+    public void shouldCallPrintMethodOnAllPrinters() throws Exception {
         printerManager.print("test message");
 
         verify(firstPrinter).print("test message");

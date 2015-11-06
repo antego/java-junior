@@ -5,7 +5,6 @@ import com.acme.edu.logger.Logger;
 import com.acme.edu.printer.FilePrinter;
 import com.acme.edu.printer.PrinterException;
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +17,7 @@ public class FilePrinterTest {
     File testFile;
 
     @Before
-    public void setUpTests() {
+    public void setUpTests() throws PrinterException {
         testFile = new File("test_file");
         testFile.delete();
         filePrinter = new FilePrinter(testFile.getPath(), Charset.defaultCharset());
@@ -27,7 +26,13 @@ public class FilePrinterTest {
     @Test
     public void shouldLogMessagesInFile() throws Exception {
         filePrinter.print("test string");
+        filePrinter.close();
 
         Assert.assertEquals("test string" + Logger.SEP, FileUtils.readFileToString(testFile));
+    }
+
+    @Test
+    public void shouldThrowPrinterException() {
+
     }
 }
