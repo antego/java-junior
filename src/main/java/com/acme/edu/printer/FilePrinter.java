@@ -25,7 +25,6 @@ public class FilePrinter implements Printer {
         ) {
             logPrintWriter.write(message + Logger.SEP);
         } catch (IOException e) {
-            e.printStackTrace();
             throw new PrinterException(e);
         }
     }
