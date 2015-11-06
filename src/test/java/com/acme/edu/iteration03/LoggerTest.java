@@ -1,8 +1,8 @@
 package com.acme.edu.iteration03;
 
 import com.acme.edu.*;
+import com.acme.edu.logger.Logger;
 import com.acme.edu.printer.SerialPrinter;
-import com.acme.edu.state.NoBufferState;
 import com.acme.edu.state.StateManager;
 import org.junit.After;
 import org.junit.Before;
@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import static com.acme.edu.Logger.SEP;
+import static com.acme.edu.logger.Logger.SEP;
 
 @Ignore
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {

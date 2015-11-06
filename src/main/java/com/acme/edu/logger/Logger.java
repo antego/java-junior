@@ -1,7 +1,9 @@
-package com.acme.edu;
+package com.acme.edu.logger;
 
 import com.acme.edu.printer.PrinterException;
 import com.acme.edu.state.*;
+
+import java.lang.*;
 
 /**
  * This class contains static methods to log values of different types.

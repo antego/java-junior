@@ -1,4 +1,4 @@
-package com.acme.edu;
+package com.acme.edu.logger;
 
 /**
  * Exception that threw by the Logger if message not correspond to requirements.

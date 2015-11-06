@@ -1,13 +1,12 @@
 package com.acme.edu.unit;
 
 
-import com.acme.edu.*;
-import com.acme.edu.printer.Printer;
+import com.acme.edu.logger.LogException;
+import com.acme.edu.logger.Logger;
 import com.acme.edu.printer.PrinterException;
 import com.acme.edu.state.State;
 import com.acme.edu.state.StateManager;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.mockito.Mockito.*;
