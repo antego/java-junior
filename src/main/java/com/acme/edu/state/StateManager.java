@@ -40,7 +40,9 @@ public class StateManager {
             return currentState;
             //Если нет, то у текущего сбрасывается буффер и возвращается требуемое состояние
         } else {
-            currentState.flushBuffer();
+            if (currentState instanceof Flushable) {
+                ((Flushable) currentState).flushBuffer();
+            }
             wantedState.setPrinter(printer);
             return wantedState;
         }

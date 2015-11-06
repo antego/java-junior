@@ -6,7 +6,7 @@ import com.acme.edu.printer.PrinterException;
 /**
  * State that logger has if previous input message is of type string.
  */
-public class StringBufferState implements State {
+public class StringBufferState implements State, Flushable {
     private String buffer;
     private int stringCount;
     private Printer printer;

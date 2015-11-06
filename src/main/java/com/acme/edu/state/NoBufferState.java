@@ -20,11 +20,6 @@ public class NoBufferState implements State {
     }
 
     @Override
-    public void flushBuffer() {
-        //Buffer is not present in this implementation
-    }
-
-    @Override
     public void setPrinter(Printer printer) {
         this.printer = printer;
     }

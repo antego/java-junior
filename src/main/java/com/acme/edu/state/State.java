@@ -21,12 +21,4 @@ public interface State {
      * @param printer Объект, пишущий данные
      */
     void setPrinter(Printer printer);
-
-    /**
-     * Метод записывает содержимое буфера и обнуляет его.
-     * Необходимо вызвать этот метод при смене состояния.
-     *
-     * @throws PrinterException
-     */
-    void flushBuffer() throws PrinterException;
 }

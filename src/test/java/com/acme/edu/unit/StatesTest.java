@@ -106,7 +106,6 @@ public class StatesTest {
 
         //region when
         noBufferState.processMessage("f", "char: ");
-        noBufferState.flushBuffer();
         //endregion
 
         verify(printer).print("char: f");

@@ -6,7 +6,7 @@ import com.acme.edu.printer.PrinterException;
 /**
  * State that Logger has if previous input message was byte or int.
  */
-public class IntBufferState implements State {
+public class IntBufferState implements State, Flushable {
     private int buffer;
     private Printer printer;
     private String prefix;
