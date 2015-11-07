@@ -31,7 +31,7 @@ public class Logger {
      */
     public void stopLogging() throws LogException {
         try {
-            stateManager.getWantedState(state, new NoBufferState());
+            stateManager.getWantedState(state, NoBufferState.class);
             stateManager.closePrinterManager();
         } catch (PrinterManagerException e) {
             throw new LogException(e);
@@ -45,7 +45,7 @@ public class Logger {
      */
     public void log(int message) throws LogException {
         try {
-            state = stateManager.getWantedState(state, new IntBufferState());
+            state = stateManager.getWantedState(state, IntBufferState.class);
             state.processMessage(message + "", "primitive: ");
         } catch (PrinterManagerException e) {
             throw new LogException(e);
@@ -68,7 +68,7 @@ public class Logger {
      */
     public void log(boolean message) throws LogException {
         try {
-            state = stateManager.getWantedState(state, new NoBufferState());
+            state = stateManager.getWantedState(state, NoBufferState.class);
             state.processMessage(message + "", "primitive: ");
         } catch (PrinterManagerException e) {
             throw new LogException(e);
@@ -82,7 +82,7 @@ public class Logger {
      */
     public void log(char message) throws LogException {
         try {
-            state = stateManager.getWantedState(state, new NoBufferState());
+            state = stateManager.getWantedState(state, NoBufferState.class);
             state.processMessage(message + "", "char: ");
         } catch (PrinterManagerException e) {
             throw new LogException(e);
@@ -99,7 +99,7 @@ public class Logger {
             throw new LogException(new IllegalArgumentException());
         }
         try {
-            state = stateManager.getWantedState(state, new StringBufferState());
+            state = stateManager.getWantedState(state, StringBufferState.class);
             state.processMessage(message, "string: ");
         } catch (PrinterManagerException e) {
             throw new LogException(e);
@@ -116,7 +116,7 @@ public class Logger {
             throw new LogException(new IllegalArgumentException());
         }
         try {
-            state = stateManager.getWantedState(state, new NoBufferState());
+            state = stateManager.getWantedState(state, NoBufferState.class);
             state.processMessage(message.toString(), "reference: ");
         } catch (PrinterManagerException e) {
             throw new LogException(e);
@@ -133,7 +133,7 @@ public class Logger {
             throw new LogException(new IllegalArgumentException());
         }
         try {
-            state = stateManager.getWantedState(state, new NoBufferState());
+            state = stateManager.getWantedState(state, NoBufferState.class);
             int sumOfIntegers = 0;
             for (int arrayElement : oneDimensionalIntArray) {
                 sumOfIntegers += arrayElement;
@@ -154,7 +154,7 @@ public class Logger {
             throw new LogException(new IllegalArgumentException());
         }
         try {
-            state = stateManager.getWantedState(state, new NoBufferState());
+            state = stateManager.getWantedState(state, NoBufferState.class);
             state.processMessage(dumpTwoDimensionalArray(integerMatrix), "primitives matrix: ");
         } catch (PrinterManagerException e) {
             throw new LogException(e);
@@ -171,7 +171,7 @@ public class Logger {
             throw new LogException(new IllegalArgumentException());
         }
         try {
-            state = stateManager.getWantedState(state, new NoBufferState());
+            state = stateManager.getWantedState(state, NoBufferState.class);
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("{").append(SEP);
             for (int[][][] threeDimensionalIntArray : fourDimensionalIntArray) {
@@ -198,7 +198,7 @@ public class Logger {
             throw new LogException(new IllegalArgumentException());
         }
         try {
-            state = stateManager.getWantedState(state, new NoBufferState());
+            state = stateManager.getWantedState(state, NoBufferState.class);
             for (String singleString : arrayOfStrings) {
                 state.processMessage("" + singleString, "");
             }

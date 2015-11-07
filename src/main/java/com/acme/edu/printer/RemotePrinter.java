@@ -20,7 +20,6 @@ public class RemotePrinter implements Printer, Closeable {
             OutputStreamWriter dataOutputStream = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
             bufferedWriter = new BufferedWriter(dataOutputStream);
             socketInputStream = socket.getInputStream();
-
         } catch (Exception e) {
             throw new PrinterException(e);
         }
@@ -54,7 +53,11 @@ public class RemotePrinter implements Printer, Closeable {
         try {
             if (bufferedWriter != null) {
                 bufferedWriter.close();
+            }
+            if (socketInputStream != null) {
                 socketInputStream.close();
+            }
+            if (socket != null) {
                 socket.close();
             }
         } catch (IOException e) {

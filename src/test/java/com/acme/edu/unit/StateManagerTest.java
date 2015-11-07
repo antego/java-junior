@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class StateManagerTest {
     PrinterManager printerManager;
@@ -34,33 +33,30 @@ public class StateManagerTest {
 
     @Test
     public void shouldReturnWantedState() throws Exception {
-        State wantedState = mock(State.class);
         State currentState = null;
 
-        currentState = stateManager.getWantedState(currentState, wantedState);
+        currentState = stateManager.getWantedState(currentState, IntBufferState.class);
 
-        Assert.assertEquals(currentState, wantedState);
+        Assert.assertEquals(currentState.getClass(), IntBufferState.class);
     }
 
     @Test
     public void shouldReturnCurrentState() throws Exception {
-        State wantedState = mock(State.class);
-        State oldCurrentState = wantedState;
+        State oldCurrentState = new IntBufferState();
 
         //if current state == wanted state then manager should return same current state
-        State newCurrentState = stateManager.getWantedState(oldCurrentState, wantedState);
+        State newCurrentState = stateManager.getWantedState(oldCurrentState, IntBufferState.class);
 
         Assert.assertEquals(oldCurrentState, newCurrentState);
     }
 
     @Test
     public void shouldReturnWantedStateAndFlushBuffer() throws Exception {
-        State wantedState = mock(StringBufferState.class);
         State currentState = mock(IntBufferState.class);
 
         //if current state != wanted state then manager should return wanted state
-        currentState = stateManager.getWantedState(currentState, wantedState);
+        currentState = stateManager.getWantedState(currentState, StringBufferState.class);
 
-        Assert.assertTrue(currentState == wantedState);
+        Assert.assertTrue(currentState instanceof StringBufferState);
     }
 }
