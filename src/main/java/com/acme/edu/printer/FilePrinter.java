@@ -6,19 +6,13 @@ import java.io.*;
 import java.nio.charset.Charset;
 
 
-public class FilePrinter implements Printer, CloseablePrinter {
-    private String outputFileName;
-    private Charset charset;
-
-    private FileOutputStream fileOutputStream;
+public class FilePrinter implements Printer, Closeable {
     private OutputStreamWriter logPrintWriter;
 
     private int messageCount;
 
     public FilePrinter(String outputFileName, Charset charset) throws PrinterException {
-        this.outputFileName = outputFileName;
-        this.charset = charset;
-
+        FileOutputStream fileOutputStream;
         try {
             fileOutputStream = new FileOutputStream(outputFileName, true);
         } catch (FileNotFoundException e) {
@@ -44,7 +38,9 @@ public class FilePrinter implements Printer, CloseablePrinter {
     @Override
     public void close() throws PrinterException {
         try {
-            logPrintWriter.close();
+            if (logPrintWriter != null) {
+                logPrintWriter.close();
+            }
         } catch (IOException e) {
             throw new PrinterException(e);
         }

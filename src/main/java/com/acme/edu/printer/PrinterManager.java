@@ -39,9 +39,9 @@ public class PrinterManager {
     public void closePrinters() throws PrinterManagerException {
         PrinterManagerException printerManagerException = new PrinterManagerException();
         for (Printer printer : printers) {
-            if (printer instanceof CloseablePrinter) {
+            if (printer instanceof Closeable) {
                 try {
-                    ((CloseablePrinter) printer).close();
+                    ((Closeable) printer).close();
                 } catch (PrinterException e) {
                     printerManagerException.addPrinterException(e);
                 }

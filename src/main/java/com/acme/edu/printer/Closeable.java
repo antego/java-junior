@@ -1,6 +1,6 @@
 package com.acme.edu.printer;
 
 
-public interface CloseablePrinter extends AutoCloseable {
+public interface Closeable extends AutoCloseable {
     void close() throws PrinterException;
 }
