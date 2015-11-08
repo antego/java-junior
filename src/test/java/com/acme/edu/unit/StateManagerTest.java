@@ -2,6 +2,7 @@ package com.acme.edu.unit;
 
 
 import com.acme.edu.printer.PrinterManager;
+import com.acme.edu.printer.PrinterManagerException;
 import com.acme.edu.state.IntBufferState;
 import com.acme.edu.state.State;
 import com.acme.edu.state.StateManager;
@@ -11,10 +12,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class StateManagerTest {
     PrinterManager printerManager;
-    PrinterManager printerManagerThatThrowsException;
     StateManager stateManager;
 
     @Before
@@ -58,5 +59,12 @@ public class StateManagerTest {
         currentState = stateManager.getWantedState(currentState, StringBufferState.class);
 
         Assert.assertTrue(currentState instanceof StringBufferState);
+    }
+
+    @Test
+    public void shouldClosePrinterManager() throws PrinterManagerException {
+        stateManager.closePrinterManager();
+
+        verify(printerManager).closePrinters();
     }
 }

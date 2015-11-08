@@ -34,30 +34,30 @@ public class StateManager {
      * Method that returns wanted state with respect to the current state.
      *
      * @param currentState current state of the logger.
-     * @param WantedState class of the state that logger wants to have.
+     * @param wantedStateClass class of the state that logger wants to have.
      * @return new state.
      * @throws PrinterManagerException
      */
-    public State getWantedState(State currentState, Class WantedState) throws PrinterManagerException {
+    public State getWantedState(State currentState, Class wantedStateClass) throws PrinterManagerException {
         //if current state is null then just return wanted state with specified printerManager
         if (currentState == null) {
-            return instantiateWantedState(WantedState);
+            return instantiateWantedState(wantedStateClass);
         }
         //if current state is the same as the wanted state, then return same current state
-        if (currentState.getClass() == WantedState) {
+        if (currentState.getClass() == wantedStateClass) {
             return currentState;
         } else {
             //if not, then flush current state if it flushable and return wanted state with specified printerManager
             if (currentState instanceof Flushable) {
                 ((Flushable) currentState).flushBuffer();
             }
-            return instantiateWantedState(WantedState);
+            return instantiateWantedState(wantedStateClass);
         }
     }
 
-    private State instantiateWantedState(Class WantedState) throws PrinterManagerException {
+    private State instantiateWantedState(Class wantedStateClass) throws PrinterManagerException {
         try {
-            State wantedState = (State) WantedState.newInstance();
+            State wantedState = (State) wantedStateClass.newInstance();
             wantedState.setPrinterManager(printerManager);
             return wantedState;
         } catch (Exception e) {

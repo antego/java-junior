@@ -81,4 +81,32 @@ public class ServerTest {
         ServerException serializedServerException = (ServerException) new ObjectInputStream(objectByteInputStream).readObject();
         Assert.assertTrue(serializedServerException.getCause() instanceof PrinterException);
     }
+
+    @Test
+    public void shouldNotLogIncompleteMessages()throws Exception {
+        ServerSocket stubServerSocket = mock(ServerSocket.class);
+        Socket stubSocket = mock(Socket.class);
+        stubFilePrinter = mock(FilePrinter.class);
+        byteArrayOutputStream = new ByteArrayOutputStream();
+        byteArrayInputStream = new ByteArrayInputStream("test_message".getBytes());
+
+        when(stubServerSocket.accept()).thenReturn(stubSocket).thenReturn(null);
+        when(stubSocket.getOutputStream()).thenReturn(byteArrayOutputStream);
+        when(stubSocket.getInputStream()).thenReturn(byteArrayInputStream);
+
+        server = new Server() {
+            @Override
+            protected ServerSocket createSocket() throws IOException {
+                return stubServerSocket;
+            }
+
+            @Override
+            protected FilePrinter createFilePrinter() throws PrinterException {
+                return stubFilePrinter;
+            }
+        };
+
+        verifyZeroInteractions(stubFilePrinter);
+    }
+
 }

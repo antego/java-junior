@@ -16,6 +16,7 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -103,5 +104,29 @@ public class RemotePrinterTest {
         } catch (PrinterException e) {
             Assert.assertTrue(e.getCause().getMessage().equals("Server not Ok"));
         }
+    }
+
+    @Test(expected = PrinterException.class)
+    public void shouldThrowExceptionInConstructor() throws Exception {
+        testRemotePrinter = new RemotePrinter() {
+            @Override
+            protected Socket createSocket() throws IOException {
+                throw new IOException();
+            }
+        };
+    }
+
+    @Test(expected = PrinterException.class)
+    public void shouldThrowExceptionInClose() throws Exception {
+        Socket faultySocket = mock(Socket.class);
+        doThrow(IOException.class).when(faultySocket).close();
+        testRemotePrinter = new RemotePrinter() {
+            @Override
+            protected Socket createSocket() throws IOException {
+                return faultySocket;
+            }
+        };
+
+        testRemotePrinter.close();
     }
 }

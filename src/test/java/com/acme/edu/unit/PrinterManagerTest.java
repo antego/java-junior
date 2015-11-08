@@ -49,4 +49,13 @@ public class PrinterManagerTest {
         printerManager = new PrinterManager(faultyPrinter);
         printerManager.closePrinters();
     }
+
+    @Test
+    public void shouldProperlyClosePrinterManager() throws Exception {
+        Printer firstPrinter = mock(FilePrinter.class);
+        Printer secondPrinter = mock(Printer.class);
+
+        printerManager = new PrinterManager(firstPrinter, secondPrinter);
+        printerManager.closePrinters();
+    }
 }
