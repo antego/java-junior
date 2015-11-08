@@ -7,13 +7,18 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
 public class RemotePrinter implements Printer, Closeable {
-    Socket socket;
-    BufferedWriter bufferedWriter;
+    private Socket socket;
 
-    InputStream socketInputStream;
-    int messageBufferSize;
+    private BufferedWriter bufferedWriter;
+    private InputStream socketInputStream;
 
+    private int messageBufferSize;
 
+    /**
+     * Crates new instance of RemotePrinter.
+     *
+     * @throws PrinterException
+     */
     public RemotePrinter() throws PrinterException {
         try {
             socket = createSocket();
@@ -25,10 +30,22 @@ public class RemotePrinter implements Printer, Closeable {
         }
     }
 
+    /**
+     * Method that can be overridden for test purposes
+     *
+     * @return instance of socket
+     * @throws IOException
+     */
     protected Socket createSocket() throws IOException {
-        return new Socket("127.0.0.1", 1337);
+        return new Socket("localhost", 31337);
     }
 
+    /**
+     * Sends messages to remote log server.
+     *
+     * @param message formatted message to print.
+     * @throws PrinterException
+     */
     @Override
     public void print(String message) throws PrinterException {
         messageBufferSize++;
@@ -66,6 +83,6 @@ public class RemotePrinter implements Printer, Closeable {
     }
 
     private String formRequest(String message) {
-        return "/PUT/" + message.replace("/", "\\/") + "/";
+        return "/" + message.replace("/", "\\/") + "/";
     }
 }

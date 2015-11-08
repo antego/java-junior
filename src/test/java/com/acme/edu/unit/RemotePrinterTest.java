@@ -83,7 +83,7 @@ public class RemotePrinterTest {
         testRemotePrinter.close();
 
         byte[] outputStreamContent = byteArrayOutputStream.toByteArray();
-        byte[] expectedContent = "/PUT/test message/".getBytes(StandardCharsets.UTF_8);
+        byte[] expectedContent = "/test message/".getBytes(StandardCharsets.UTF_8);
         Assert.assertTrue(Arrays.equals(outputStreamContent, expectedContent));
     }
 
@@ -93,7 +93,7 @@ public class RemotePrinterTest {
             testRemotePrinter.print("");
         }
 
-        Assert.assertTrue(new String(byteArrayOutputStream.toByteArray(), StandardCharsets.UTF_8).contains("/PUT/"));
+        Assert.assertTrue(new String(byteArrayOutputStream.toByteArray(), StandardCharsets.UTF_8).contains("/"));
     }
 
     @Test

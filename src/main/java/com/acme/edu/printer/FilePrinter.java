@@ -5,12 +5,21 @@ import com.acme.edu.logger.Logger;
 import java.io.*;
 import java.nio.charset.Charset;
 
-
+/**
+ * Appender that implements saving log messages to a file.
+ */
 public class FilePrinter implements Printer, Closeable {
-    private OutputStreamWriter logPrintWriter;
+    private BufferedWriter logPrintWriter;
 
     private int messageCount;
 
+    /**
+     * Creates new instance of FilePrinter with file path and charset encoding.
+     *
+     * @param outputFileName file name of output log fie.
+     * @param charset charset log messages.
+     * @throws PrinterException
+     */
     public FilePrinter(String outputFileName, Charset charset) throws PrinterException {
         FileOutputStream fileOutputStream;
         try {
@@ -18,7 +27,7 @@ public class FilePrinter implements Printer, Closeable {
         } catch (FileNotFoundException e) {
             throw new PrinterException(e);
         }
-        logPrintWriter = new OutputStreamWriter(new BufferedOutputStream(fileOutputStream), charset);
+        logPrintWriter = new BufferedWriter(new OutputStreamWriter(fileOutputStream, charset));
     }
 
     @Override
@@ -26,7 +35,7 @@ public class FilePrinter implements Printer, Closeable {
         try {
             logPrintWriter.write(message + Logger.SEP);
             messageCount++;
-            if (messageCount == 50) {
+            if (messageCount >= 50) {
                 logPrintWriter.flush();
                 messageCount = 0;
             }
