@@ -32,7 +32,7 @@ public class ServerTest {
         Socket stubSocket = mock(Socket.class);
         stubFilePrinter = mock(FilePrinter.class);
         byteArrayOutputStream = new ByteArrayOutputStream();
-        byteArrayInputStream = new ByteArrayInputStream("/test_message/".getBytes());
+        byteArrayInputStream = new ByteArrayInputStream("/test_messa\\/ge/".getBytes());
 
         when(stubServerSocket.accept()).thenReturn(stubSocket).thenReturn(null);
         when(stubSocket.getOutputStream()).thenReturn(byteArrayOutputStream);
@@ -62,10 +62,10 @@ public class ServerTest {
     public void shouldCallFilePrinterWithSpecifiedString() throws Exception {
         try {
             server.startLogServer();
-        } catch (NullPointerException e) {
+        } catch (ServerException e) {
 
         }
-        verify(stubFilePrinter).print("test_message");
+        verify(stubFilePrinter).print("test_messa/ge");
     }
 
     @Test
@@ -74,7 +74,7 @@ public class ServerTest {
 
         try {
             server.startLogServer();
-        } catch (NullPointerException e) {
+        } catch (ServerException e) {
 
         }
         ByteArrayInputStream objectByteInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());

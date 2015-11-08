@@ -21,29 +21,37 @@ public class Server {
      * If exception arises in message processing procedure, then
      * exception will be serialized and sent back to the client.
      *
-     * @throws Exception
+     * @throws ServerException
      */
-    public void startLogServer() throws Exception {
+    public void startLogServer() throws ServerException {
         try (FilePrinter filePrinter = createFilePrinter();
              ServerSocket serverSocket = createSocket()) {
             serverSocket.setSoTimeout(15*1000);
             while (true) {
                 Socket socket = serverSocket.accept();
-                try (InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8);
-                     BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
-                    String message = "";
-                    String line;
-                    while ((line = bufferedReader.readLine()) == null) ; //wait for bytes
-                    do {
-                        message += line;
-                    } while ((line = bufferedReader.readLine()) != null);
-                    processMessage(filePrinter, message);
-                } catch (Exception e) {
-                    new ObjectOutputStream(socket.getOutputStream()).writeObject(new ServerException(e));
-                } finally {
-                    socket.close();
-                }
+                handleSocket(filePrinter, socket);
             }
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
+    }
+
+    private void handleSocket(FilePrinter filePrinter, Socket socket) throws IOException {
+        try (InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8);
+             BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+            String message = "";
+            String line;
+            while ((line = bufferedReader.readLine()) == null) ; //wait for bytes
+            do {
+                message += line;
+            } while ((line = bufferedReader.readLine()) != null);
+            processMessage(filePrinter, message);
+        } catch (Exception e) {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectOutputStream.writeObject(new ServerException(e));
+            objectOutputStream.close();
+        } finally {
+            socket.close();
         }
     }
 
@@ -68,7 +76,7 @@ public class Server {
             //remove all single slashes "/" that not escaped with backslash "\"
             singleMessage = singleMessage.replaceAll("(?<!\\\\)(\\/)", "");
             //remove all escaping slashes
-            singleMessage = singleMessage.replaceAll("(\\\\\\/)", "");
+            singleMessage = singleMessage.replaceAll("(\\\\/)", "/");
             //send message to FilePrinter
             filePrinter.print(singleMessage);
         }
