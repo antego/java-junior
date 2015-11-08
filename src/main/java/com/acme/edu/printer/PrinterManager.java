@@ -47,7 +47,7 @@ public class PrinterManager {
                 }
             }
         }
-        if (printerManagerException.getPrinterExceptions().size() > 0) {
+        if (!printerManagerException.getPrinterExceptions().isEmpty()) {
             throw printerManagerException;
         }
     }
