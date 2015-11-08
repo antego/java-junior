@@ -7,7 +7,7 @@ import java.util.List;
  * This exception is thrown by the PrinterManager and encapsulates exceptions from printers
  */
 public class PrinterManagerException extends Exception {
-    private final List<PrinterException> innerExceptions = new ArrayList<>();
+    private final transient List<PrinterException> innerExceptions = new ArrayList<>();
 
     /**
      * Default constructor.

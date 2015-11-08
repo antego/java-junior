@@ -38,7 +38,7 @@ public class StateManager {
      * @return new state.
      * @throws PrinterManagerException
      */
-    public State getWantedState(State currentState, Class wantedStateClass) throws PrinterManagerException {
+    public State getWantedState(State currentState, Class<? extends State> wantedStateClass) throws PrinterManagerException {
         //if current state is null then just return wanted state with specified printerManager
         if (currentState == null) {
             return instantiateWantedState(wantedStateClass);
@@ -55,9 +55,9 @@ public class StateManager {
         }
     }
 
-    private State instantiateWantedState(Class wantedStateClass) throws PrinterManagerException {
+    private State instantiateWantedState(Class<? extends State> wantedStateClass) throws PrinterManagerException {
         try {
-            State wantedState = (State) wantedStateClass.newInstance();
+            State wantedState = wantedStateClass.newInstance();
             wantedState.setPrinterManager(printerManager);
             return wantedState;
         } catch (Exception e) {
