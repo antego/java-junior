@@ -5,6 +5,10 @@ import com.acme.edu.server.ServerException;
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 public class RemotePrinter implements Printer, Closeable {
     private Socket socket;
@@ -12,7 +16,7 @@ public class RemotePrinter implements Printer, Closeable {
     private BufferedWriter bufferedWriter;
     private InputStream socketInputStream;
 
-    private int messageBufferSize;
+    private List<String> messageBuffer = new LinkedList<>();
 
     /**
      * Crates new instance of RemotePrinter.
@@ -48,12 +52,11 @@ public class RemotePrinter implements Printer, Closeable {
      */
     @Override
     public void print(String message) throws PrinterException {
-        messageBufferSize++;
+        messageBuffer.add(message);
         try {
-            bufferedWriter.write(formRequest(message));
-            if (messageBufferSize >= 50) {
+            if (messageBuffer.size() >= 50) {
+                flushLocalBuffer();
                 bufferedWriter.flush();
-                messageBufferSize = 0;
             }
             if (socketInputStream.available() > 0) {
                 try (ObjectInputStream serverExceptionInputStream = new ObjectInputStream(socketInputStream)) {
@@ -68,6 +71,7 @@ public class RemotePrinter implements Printer, Closeable {
     @Override
     public void close() throws PrinterException {
         try {
+            flushLocalBuffer();
             if (bufferedWriter != null) {
                 bufferedWriter.close();
             }
@@ -80,6 +84,14 @@ public class RemotePrinter implements Printer, Closeable {
         } catch (IOException e) {
             throw new PrinterException(e);
         }
+    }
+
+    private void flushLocalBuffer() throws IOException {
+        Collections.sort(messageBuffer, (s1, s2) -> s1.compareTo("ERROR") - s2.compareTo("ERROR"));
+        for (String singleMessage : messageBuffer) {
+            bufferedWriter.write(formRequest(singleMessage));
+        }
+        messageBuffer.clear();
     }
 
     private String formRequest(String message) {

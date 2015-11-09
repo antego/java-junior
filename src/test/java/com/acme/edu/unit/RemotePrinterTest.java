@@ -89,6 +89,17 @@ public class RemotePrinterTest {
     }
 
     @Test
+    public void shouldSortMessagesWithError() throws Exception {
+        testRemotePrinter.print("test message");
+        testRemotePrinter.print("ERROR message");
+        testRemotePrinter.close();
+
+        byte[] outputStreamContent = byteArrayOutputStream.toByteArray();
+        byte[] expectedContent = "/ERROR message//test message/".getBytes(StandardCharsets.UTF_8);
+        Assert.assertTrue(Arrays.equals(outputStreamContent, expectedContent));
+    }
+
+    @Test
     public void shouldFlushBufferAfterFiftyMessages() throws Exception {
         for (int i = 0; i < 50; i++) {
             testRemotePrinter.print("");

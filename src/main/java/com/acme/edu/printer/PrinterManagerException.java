@@ -1,6 +1,7 @@
 package com.acme.edu.printer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -59,7 +60,7 @@ public class PrinterManagerException extends Exception {
      * @return list of PrinterExceptions
      */
     public List<PrinterException> getPrinterExceptions() {
-        return innerExceptions;
+        return Collections.unmodifiableList(innerExceptions);
     }
 
 

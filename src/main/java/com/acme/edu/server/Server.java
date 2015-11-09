@@ -41,10 +41,9 @@ public class Server {
              BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
             String message = "";
             String line;
-            while ((line = bufferedReader.readLine()) == null) ; //wait for bytes
-            do {
+            while ((line = bufferedReader.readLine()) != null) {
                 message += line;
-            } while ((line = bufferedReader.readLine()) != null);
+            }
             processMessage(filePrinter, message);
         } catch (Exception e) {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
