@@ -44,10 +44,10 @@ public class StateManager {
             return instantiateWantedState(wantedStateClass);
         }
         //if current state is the same as the wanted state, then return same current state
-        if (currentState.getClass() == wantedStateClass) {
+        if (wantedStateClass.isInstance(currentState)) {
             return currentState;
         } else {
-            //if not, then flush current state if it flushable and return wanted state with specified printerManager
+            //if not, then flush current state if it flushable and return wanted state instance
             if (currentState instanceof Flushable) {
                 ((Flushable) currentState).flushBuffer();
             }

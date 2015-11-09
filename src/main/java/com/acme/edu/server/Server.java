@@ -65,13 +65,14 @@ public class Server {
         int messagesCount = messages.length;
         for (int i = 0; i < messagesCount; i++) {
             String singleMessage = messages[i];
-            if (singleMessage.isEmpty()) continue;
             //if messages received properly, then first and last character
-            // in first and last message should
+            //in first and last message should
             //be "/", if not, don't process first and/or last string
-            if (i == 0 && singleMessage.charAt(0) != '/') continue;
-            if (i == messagesCount - 1 && messages[messagesCount - 1].charAt(singleMessage.length() - 1) != '/')
+            if (singleMessage.isEmpty() ||
+                (i == 0 && singleMessage.charAt(0) != '/') ||
+                (i == messagesCount - 1 && messages[messagesCount - 1].charAt(singleMessage.length() - 1) != '/')) {
                 continue;
+            }
             //remove all single slashes "/" that not escaped with backslash "\"
             singleMessage = singleMessage.replaceAll("(?<!\\\\)(\\/)", "");
             //remove all escaping slashes

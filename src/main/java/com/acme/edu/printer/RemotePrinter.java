@@ -7,7 +7,6 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 public class RemotePrinter implements Printer, Closeable {
@@ -16,7 +15,10 @@ public class RemotePrinter implements Printer, Closeable {
     private BufferedWriter bufferedWriter;
     private InputStream socketInputStream;
 
-    private List<String> messageBuffer = new LinkedList<>();
+    //ArrayList is chosen because Collections.sort() calls method toArray()
+    //and works with array. Method toArray() in ArrayList relies on System.arraycopy().
+    //It's faster than creating new array and iterating through a LinkedList
+    private List<String> messageBuffer = new ArrayList<>();
 
     /**
      * Crates new instance of RemotePrinter.
