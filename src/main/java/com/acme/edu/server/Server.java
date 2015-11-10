@@ -16,6 +16,14 @@ import java.nio.charset.StandardCharsets;
  * Server that logs input messages and saves them with the FilePrinter into file.
  */
 public class Server {
+    FilePrinter filePrinter;
+    ServerSocket serverSocket;
+
+    public Server(FilePrinter filePrinter, ServerSocket serverSocket) {
+        this.filePrinter = filePrinter;
+        this.serverSocket = serverSocket;
+    }
+
     /**
      * Main loop. Will be ended after 15 seconds without input requests.
      * If exception arises in message processing procedure, then
@@ -24,8 +32,7 @@ public class Server {
      * @throws ServerException
      */
     public void startLogServer() throws ServerException {
-        try (FilePrinter filePrinter = createFilePrinter();
-             ServerSocket serverSocket = createSocket()) {
+        try {
             serverSocket.setSoTimeout(15*1000);
             while (true) {
                 Socket socket = serverSocket.accept();
@@ -33,6 +40,13 @@ public class Server {
             }
         } catch (Exception e) {
             throw new ServerException(e);
+        } finally {
+            try {
+                serverSocket.close();
+                filePrinter.close();
+            } catch (Exception e) {
+                throw new ServerException(e);
+            }
         }
     }
 
@@ -80,25 +94,5 @@ public class Server {
             //send message to FilePrinter
             filePrinter.print(singleMessage);
         }
-    }
-
-    /**
-     * Method that can be overridden for test purposes.
-     *
-     * @return FilePrinter in tests it will be stub.
-     * @throws IOException
-     */
-    protected ServerSocket createSocket() throws IOException {
-        return new ServerSocket(31337);
-    }
-
-    /**
-     * Method that can be overridden for test purposes.
-     *
-     * @return FilePrinter in tests it will be stub.
-     * @throws PrinterException
-     */
-    protected FilePrinter createFilePrinter() throws PrinterException {
-        return new FilePrinter("server_test_log", StandardCharsets.UTF_8);
     }
 }

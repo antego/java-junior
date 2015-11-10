@@ -25,25 +25,15 @@ public class RemotePrinter implements Printer, Closeable {
      *
      * @throws PrinterException
      */
-    public RemotePrinter() throws PrinterException {
+    public RemotePrinter(Socket socket) throws PrinterException {
         try {
-            socket = createSocket();
+            this.socket = socket;
             OutputStreamWriter dataOutputStream = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
             bufferedWriter = new BufferedWriter(dataOutputStream);
             socketInputStream = socket.getInputStream();
         } catch (Exception e) {
             throw new PrinterException(e);
         }
-    }
-
-    /**
-     * Method that can be overridden for test purposes
-     *
-     * @return instance of socket
-     * @throws IOException
-     */
-    protected Socket createSocket() throws IOException {
-        return new Socket("localhost", 31337);
     }
 
     /**

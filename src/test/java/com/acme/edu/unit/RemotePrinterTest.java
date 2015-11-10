@@ -40,12 +40,7 @@ public class RemotePrinterTest {
         when(testSocket.getOutputStream()).thenReturn(byteArrayOutputStream);
         when(testSocket.getInputStream()).thenReturn(byteArrayInputStream);
 
-        testRemotePrinter = new RemotePrinter() {
-            @Override
-            protected Socket createSocket() throws IOException {
-                return testSocket;
-            }
-        };
+        testRemotePrinter = new RemotePrinter(testSocket);
     }
 
     @Before
@@ -62,12 +57,7 @@ public class RemotePrinterTest {
         when(testSocketWithServerException.getOutputStream()).thenReturn(byteArrayOutputStream);
         when(testSocketWithServerException.getInputStream()).thenReturn(byteArrayInputStreamWithServerException);
 
-        testRemotePrinterThatThrowsServerException = new RemotePrinter() {
-            @Override
-            protected Socket createSocket() throws IOException {
-                return testSocketWithServerException;
-            }
-        };
+        testRemotePrinterThatThrowsServerException = new RemotePrinter(testSocketWithServerException);
     }
 
     @After
@@ -118,25 +108,10 @@ public class RemotePrinterTest {
     }
 
     @Test(expected = PrinterException.class)
-    public void shouldThrowExceptionInConstructor() throws Exception {
-        testRemotePrinter = new RemotePrinter() {
-            @Override
-            protected Socket createSocket() throws IOException {
-                throw new IOException();
-            }
-        };
-    }
-
-    @Test(expected = PrinterException.class)
     public void shouldThrowExceptionInClose() throws Exception {
         Socket faultySocket = mock(Socket.class);
         doThrow(IOException.class).when(faultySocket).close();
-        testRemotePrinter = new RemotePrinter() {
-            @Override
-            protected Socket createSocket() throws IOException {
-                return faultySocket;
-            }
-        };
+        testRemotePrinter = new RemotePrinter(faultySocket);
 
         testRemotePrinter.close();
     }

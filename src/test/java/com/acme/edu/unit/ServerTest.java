@@ -38,17 +38,7 @@ public class ServerTest {
         when(stubSocket.getOutputStream()).thenReturn(byteArrayOutputStream);
         when(stubSocket.getInputStream()).thenReturn(byteArrayInputStream);
 
-        server = new Server() {
-            @Override
-            protected ServerSocket createSocket() throws IOException {
-                return stubServerSocket;
-            }
-
-            @Override
-            protected FilePrinter createFilePrinter() throws PrinterException {
-                return stubFilePrinter;
-            }
-        };
+        server = new Server(stubFilePrinter, stubServerSocket);
     }
 
     @After
@@ -94,17 +84,7 @@ public class ServerTest {
         when(stubSocket.getOutputStream()).thenReturn(byteArrayOutputStream);
         when(stubSocket.getInputStream()).thenReturn(byteArrayInputStream);
 
-        server = new Server() {
-            @Override
-            protected ServerSocket createSocket() throws IOException {
-                return stubServerSocket;
-            }
-
-            @Override
-            protected FilePrinter createFilePrinter() throws PrinterException {
-                return stubFilePrinter;
-            }
-        };
+        server = new Server(stubFilePrinter, stubServerSocket);
 
         verifyZeroInteractions(stubFilePrinter);
     }
