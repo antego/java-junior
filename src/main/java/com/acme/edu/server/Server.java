@@ -48,8 +48,8 @@ public class Server {
     public void startLogServer() throws ServerException, InterruptedException {
         serverLoop = new Thread(() -> {
             try {
-                ExecutorService fileLoggers = Executors.newFixedThreadPool(5);
                 serverSocket.setSoTimeout(5_000);
+                ExecutorService fileLoggers = Executors.newFixedThreadPool(5);
                 while (!Thread.currentThread().isInterrupted()) {
                     try {
                         Socket socket = serverSocket.accept();
@@ -58,7 +58,7 @@ public class Server {
                     }
                 }
                 fileLoggers.shutdown();
-                fileLoggers.awaitTermination(5000, TimeUnit.MILLISECONDS);
+                fileLoggers.awaitTermination(5_000, TimeUnit.MILLISECONDS);
             } catch (Exception e) {
 //                throw new ServerException(e);
             } finally {
@@ -77,7 +77,7 @@ public class Server {
         serverLoop.interrupt();
     }
 
-    class SocketHandler implements Callable {
+    private class SocketHandler implements Callable {
         Socket socket;
         FilePrinter filePrinter;
 
@@ -109,33 +109,33 @@ public class Server {
                 socket.close();
             }
         }
-    }
 
-    private void processMessage(FilePrinter filePrinter, String messagePackage) throws PrinterException {
-        //IDEA adds one more slash for each escaping regexp slash!
-        //
-        //1. split different messages by two slashes
-        // "/message1//message2/" = "/message1/" + "/message2/"
-        //(?<!\\) - check that leading character not an escaping backslash
-        String[] messages = messagePackage.split("(?<!\\\\)(\\/\\/)");
+        private void processMessage(FilePrinter filePrinter, String messagePackage) throws PrinterException {
+            //IDEA adds one more slash for each escaping regexp slash!
+            //
+            //1. split different messages by two slashes
+            // "/message1//message2/" = "/message1/" + "/message2/"
+            //(?<!\\) - check that leading character not an escaping backslash
+            String[] messages = messagePackage.split("(?<!\\\\)(\\/\\/)");
 
-        int messagesCount = messages.length;
-        for (int i = 0; i < messagesCount; i++) {
-            String singleMessage = messages[i];
-            //if messages received properly, then first and last character
-            //in first and last message should
-            //be "/", if not, don't process first and/or last string
-            if (singleMessage.isEmpty() ||
-                    (i == 0 && singleMessage.charAt(0) != '/') ||
-                    (i == messagesCount - 1 && messages[messagesCount - 1].charAt(singleMessage.length() - 1) != '/')) {
-                continue;
+            int messagesCount = messages.length;
+            for (int i = 0; i < messagesCount; i++) {
+                String singleMessage = messages[i];
+                //if messages received properly, then first and last character
+                //in first and last message should
+                //be "/", if not, don't process first and/or last string
+                if (singleMessage.isEmpty() ||
+                        (i == 0 && singleMessage.charAt(0) != '/') ||
+                        (i == messagesCount - 1 && messages[messagesCount - 1].charAt(singleMessage.length() - 1) != '/')) {
+                    continue;
+                }
+                //remove all single slashes "/" that not escaped with backslash "\"
+                singleMessage = singleMessage.replaceAll("(?<!\\\\)(\\/)", "");
+                //remove all escaping slashes
+                singleMessage = singleMessage.replaceAll("(\\\\/)", "/");
+                //send message to FilePrinter
+                filePrinter.print(singleMessage);
             }
-            //remove all single slashes "/" that not escaped with backslash "\"
-            singleMessage = singleMessage.replaceAll("(?<!\\\\)(\\/)", "");
-            //remove all escaping slashes
-            singleMessage = singleMessage.replaceAll("(\\\\/)", "/");
-            //send message to FilePrinter
-            filePrinter.print(singleMessage);
         }
     }
 }

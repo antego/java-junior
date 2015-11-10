@@ -31,7 +31,7 @@ public class FilePrinter implements Printer, Closeable {
     }
 
     @Override
-    public void print(String message) throws PrinterException {
+    public synchronized void print(String message) throws PrinterException {
         try {
             logPrintWriter.write(message + Logger.SEP);
             messageCount++;
@@ -45,7 +45,7 @@ public class FilePrinter implements Printer, Closeable {
     }
 
     @Override
-    public void close() throws PrinterException {
+    public synchronized void close() throws PrinterException {
         try {
             if (logPrintWriter != null) {
                 logPrintWriter.close();
