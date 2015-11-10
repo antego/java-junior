@@ -20,12 +20,6 @@ public class RemotePrinter implements Printer, Closeable {
     //It's faster than creating new array and iterating through a LinkedList
     private List<String> messageBuffer = new ArrayList<>();
 
-    public static void main(String[] args) throws IOException, PrinterException {
-        RemotePrinter remotePrinter = new RemotePrinter(new Socket("127.0.0.1", 8887));
-        remotePrinter.print("test_message");
-        remotePrinter.close();
-    }
-
     /**
      * Crates new instance of RemotePrinter.
      *
@@ -40,6 +34,12 @@ public class RemotePrinter implements Printer, Closeable {
         } catch (Exception e) {
             throw new PrinterException(e);
         }
+    }
+
+    public static void main(String[] args) throws IOException, PrinterException {
+        RemotePrinter remotePrinter = new RemotePrinter(new Socket("127.0.0.1", 8887));
+        remotePrinter.print("test_message");
+        remotePrinter.close();
     }
 
     /**
@@ -66,6 +66,10 @@ public class RemotePrinter implements Printer, Closeable {
         }
     }
 
+    /**
+     * Method closes printer. Must be called for proper resource closing.
+     * @throws PrinterException
+     */
     @Override
     public void close() throws PrinterException {
         try {
