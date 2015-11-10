@@ -24,7 +24,7 @@ public class Server {
     FilePrinter filePrinter;
     ServerSocket serverSocket;
 
-    Thread serverLoop;
+    ExecutorService serverLoopExecutor;
 
     public static void main(String[] args) throws PrinterException, IOException, ServerException, InterruptedException {
         Server server = new Server(new FilePrinter("test_server_log", StandardCharsets.UTF_8), new ServerSocket(8887));
@@ -45,36 +45,41 @@ public class Server {
      *
      * @throws ServerException
      */
-    public void startLogServer() throws ServerException, InterruptedException {
-        serverLoop = new Thread(() -> {
-            try {
-                serverSocket.setSoTimeout(5_000);
-                ExecutorService fileLoggers = Executors.newFixedThreadPool(5);
-                while (!Thread.currentThread().isInterrupted()) {
+    public void startLogServer() throws ServerException {
+        serverLoopExecutor = Executors.newSingleThreadExecutor();
+        //Callable instead of Runnable because it can throw exceptions.
+        serverLoopExecutor.submit(new Callable<Object>() {
+            @Override
+            public Object call() throws Exception {
+                try {
+                    serverSocket.setSoTimeout(5_000);
+                    ExecutorService fileLoggers = Executors.newFixedThreadPool(5);
+                    while (!Thread.currentThread().isInterrupted()) {
+                        try {
+                            fileLoggers.submit(new SocketHandler(serverSocket.accept(), filePrinter));
+                        } catch (SocketTimeoutException e) {
+                        }
+                    }
+                    fileLoggers.shutdown();
+                    fileLoggers.awaitTermination(5, TimeUnit.SECONDS);
+                } catch (Exception e) {
+                    throw new ServerException(e);
+                } finally {
                     try {
-                        Socket socket = serverSocket.accept();
-                        fileLoggers.submit(new SocketHandler(socket, filePrinter));
-                    } catch (SocketTimeoutException e) {
+                        serverSocket.close();
+                        filePrinter.close();
+                    } catch (Exception e) {
+                        throw new ServerException(e);
                     }
                 }
-                fileLoggers.shutdown();
-                fileLoggers.awaitTermination(5_000, TimeUnit.MILLISECONDS);
-            } catch (Exception e) {
-//                throw new ServerException(e);
-            } finally {
-                try {
-                    serverSocket.close();
-                    filePrinter.close();
-                } catch (Exception e) {
-//                    throw new ServerException(e);
-                }
+                return null;
             }
         });
-        serverLoop.start();
     }
 
-    public void stopServer() {
-        serverLoop.interrupt();
+    public void stopServer() throws InterruptedException{
+        serverLoopExecutor.shutdownNow();
+        serverLoopExecutor.awaitTermination(5, TimeUnit.SECONDS);
     }
 
     private class SocketHandler implements Callable {
