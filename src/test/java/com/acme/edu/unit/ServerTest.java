@@ -43,6 +43,7 @@ public class ServerTest {
 
     @After
     public void tearDown() throws Exception {
+        server.stopServer();
         byteArrayInputStream.close();
         byteArrayOutputStream.close();
         stubFilePrinter.close();
@@ -52,6 +53,8 @@ public class ServerTest {
     public void shouldCallFilePrinterWithSpecifiedString() throws Exception {
         try {
             server.startLogServer();
+            Thread.sleep(1000);
+            server.stopServer();
         } catch (ServerException e) {
 
         }
@@ -64,6 +67,8 @@ public class ServerTest {
 
         try {
             server.startLogServer();
+            Thread.sleep(1000);
+            server.stopServer();
         } catch (ServerException e) {
 
         }
@@ -85,8 +90,11 @@ public class ServerTest {
         when(stubSocket.getInputStream()).thenReturn(byteArrayInputStream);
 
         server = new Server(stubFilePrinter, stubServerSocket);
+        server.startLogServer();
+        Thread.sleep(1000);
+        server.stopServer();
 
-        verifyZeroInteractions(stubFilePrinter);
+        verify(stubFilePrinter, never()).print(anyString());
     }
 
 }
